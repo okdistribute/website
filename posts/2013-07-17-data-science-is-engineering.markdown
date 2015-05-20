@@ -3,7 +3,6 @@ We expect students to write research papers as well as do statistics in R or STA
 I’d like to redefine Data Science: it is the act of gluing toolkits together to create a pipeline from raw data to information to knowledge.There are no innovations to be made in Data Science. The innovations to be made here are in Computer Science, Informatics, Statistics, Sociology, Visualization, Math, etc. — and they always will be.
 
 Data Science is just engineering.
-![](/images/blog/datascienceconstellation.jpeg)
 
 ### A Bit of Background
 
