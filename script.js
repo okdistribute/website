@@ -10,6 +10,13 @@ var posts = {
     "comments": true,
     "categories": ["academia", "programming", "education", "the future"],
     "text": fs.readFileSync("posts/2013-07-17-data-science-is-engineering.markdown").toString()
+  },
+  2: {
+    "title": "Don't forget to reply-all: E-mail is a terrible collaboration tool",
+    "date": "2013-06-13 16:24",
+    "comments": true,
+    "categories": ["collaboration", "technology"],
+    "text": fs.readFileSync("posts/2013-07-17-dont-forget-to-reply-all.markdown").toString()
   }
 }
 
@@ -22,6 +29,7 @@ var routes = [
       thing.text = thing.text
       cb(thing)
     },
+
     onrender: function (params) {
       var disqus_shortname = 'karissamck'; // required: replace example with your forum shortname
       (function() {
@@ -43,7 +51,8 @@ var routes = [
 ]
 
 Handlebars.registerHelper('overview', function(passedString) {
-    var theString = passedString.substring(0,75);
+    var theString = passedString.substring(0,300);
+    theString += "..."
     return new Handlebars.SafeString(marked(theString))
 });
 

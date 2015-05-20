@@ -1,10 +1,10 @@
 <div class="blog">
 {{#each posts}}
 <div class="row">
-  <div class="six columns">
-    <h3>{{title}}</h3>
-    <h6>{{categories}}</h6>
-    <p>{{overview text}}</p>
+  <div class="ten column">
+    <h2>{{title}}</h2>
+    <h6>by karissa on {{date}} in {{categories}}</h6>
+    <p>{{overview text}} <a href="/blog/{id}">[read more]</a></p>
     <hr>
   </div>
 </div>

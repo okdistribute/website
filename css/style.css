@@ -22,3 +22,14 @@ p {
   font-size: 20px;
   line-height: 1.5;
 }
+
+.easter-egg {
+  position: fixed;
+  right:0;
+  top:0;
+  font-size: .75em;
+}
+
+.easter-egg img {
+  width: 20px;
+}
