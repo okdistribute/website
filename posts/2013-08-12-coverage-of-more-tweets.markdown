@@ -1,15 +1,7 @@
----
-layout: post
-title: "Coverage of More Tweets, More Votes"
-date: 2013-08-12 16:14
-comments: true
-categories: news research
----
-
-Today we have received a lot of press for our paper: ["More Tweets, More Votes:
+We have received a lot of press for our paper: ["More Tweets, More Votes:
 Social Media as a Quantitative Indicator of Political
-Behavior."](http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2235423) 
-
+Behavior."](http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2235423)
+<!-- more -->
 * [NPR](http://www.npr.org/templates/story/story.php?storyId=211434274)
 * [Wall Street Journal](http://blogs.wsj.com/washwire/2013/08/12/researchers-find-tweets-and-votes-line-up/)
 * [C-SPAN](http://www.c-spanvideo.org/program/Roj)
@@ -37,7 +29,7 @@ This was a whirlwind response. I knew this was going to be big, but I didn't
 really expect this kind of attention and virality. There are some glaring
 mistakes in some of the reporting, as well as plenty of exagerations. This
 experience gives me more caution when submitting things to press releases, and
-to be careful about what you publish to make sure it is 100% correct.  
+to be careful about what you publish to make sure it is 100% correct.
 
 A few months ago, we tried to submit this paper to Science and Nature before
 PlosOne, but received desk rejections. I wonder if they'd want it now?

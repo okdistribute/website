@@ -2,11 +2,15 @@
 {{#each posts}}
 <div class="row">
   <div class="ten column">
-    <h2><a href="/post/{{id}}">{{title}}</a></h2>
-    <h6>by karissa on {{date}} in {{categories}}</h6>
-    <p>{{overview text}} <a href="/post/{{id}}">[read more]</a></p>
+    <h2 class="blog-title"><a href="/post/{{@index}}">{{title}}</a></h2>
+    <h6>by karissa at {{date}} in {{categories}}</h6>
+    <h6>{{overview text}} <a href="/post/{{@index}}">[read more]</a></h6>
     <hr>
   </div>
 </div>
 {{/each}}
+</div>
+
+<div class="row">
+<iframe id="twitter-widget-1" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/follow_button.50005fe33691ad15041f7199457ac3e0.en.html#_=1432142137799&amp;id=twitter-widget-1&amp;lang=en&amp;screen_name=karissamck&amp;show_count=true&amp;show_screen_name=true&amp;size=m" class="twitter-follow-button twitter-follow-button" title="Twitter Follow Button" data-twttr-rendered="true" style="position: static; visibility: visible; width: 249px; height: 30px;"></iframe>
 </div>

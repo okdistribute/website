@@ -3,48 +3,37 @@ var fs = require('fs')
 var marked = require('marked')
 var Handlebars = require('handlebars')
 
-var posts = {
-  1: {
-    id: 1,
-    "title": "Data Science is Engineering",
-    "date": "2013-07-07 16:18",
-    "comments": true,
-    "categories": ["academia", "programming", "education", "the future"],
-    "text": fs.readFileSync("posts/2013-07-17-data-science-is-engineering.markdown").toString()
-  },
-  2: {
-    id: 2,
-    "title": "Don't forget to reply-all: E-mail is a terrible collaboration tool",
-    "date": "2013-06-13 16:24",
-    "comments": true,
-    "categories": ["collaboration", "technology"],
-    "text": fs.readFileSync("posts/2013-07-17-dont-forget-to-reply-all.markdown").toString()
-  },
-  3: {
-    id: 3,
-    "title": "Expanded Best Practices when Learning to Code",
-    "date": "2013-06-01 00:43",
-    "comments": true,
-    "categories": ["tutorials", "programming", "education"],
-    "text": fs.readFileSync("posts/2013-07-30-expanded-best-practices.markdown").toString()
-  }
-}
+var posts = require('./posts.js')
+
 var routes = [
   {
     url: '/post/:id',
     template: fs.readFileSync('templates/post.html').toString(),
     data: function (params, cb) {
-      var thing = posts[params.id]
-      thing.text = thing.text
-      cb(thing)
+      var post = posts[params.id]
+      post.disqus = post.disqus || '/post/' + post.id
+      post.text = post.text
+      cb(post)
     },
-    onrender: function (params) {
-      var disqus_shortname = 'karissamck'; // required: replace example with your forum shortname
-      (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
+    onrender: function (params, data) {
+      if (typeof DISQUS === 'undefined') {
+        var disqus_shortname = 'karissamck';
+        window.disqus_identifier = data.disqus;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript';
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      } else {
+        var shortname = data.disqus || 'post/' + data.id
+        DISQUS.reset({
+          reload: true,
+          config: function () {
+            this.page.identifier = shortname;
+            this.page.url = "http://karissamck.com/" + shortname;
+          }
+        });
+      }
     }
   },
   {
@@ -59,9 +48,11 @@ var routes = [
 ]
 
 Handlebars.registerHelper('overview', function(passedString) {
-    var theString = passedString.substring(0,300);
-    theString += "..."
-    return new Handlebars.SafeString(marked(theString))
+  var endIndex = passedString.indexOf('<!-- more -->')
+  if (endIndex === -1) endIndex = 300
+  var theString = passedString.substring(0, endIndex);
+  theString += "..."
+  return new Handlebars.SafeString(marked(theString))
 });
 
 Handlebars.registerHelper('markdown', function(string) {

@@ -1,10 +1,3 @@
----
-layout: post
-title: "Widespread Apathy and the NSA"
-date: 2013-06-13 00:37
-comments: true
-categories: politics technology opinion
----
 “They are such powerful adversaries that no one can meaningfully oppose them.
 If they want to get you, they’ll get you in time. You don’t have to have done
 anything wrong, you just have to be eventually under suspicion. Then they can
@@ -14,7 +7,6 @@ anyone in the context of a wrongdoer.” - [Edward Snowden](http://www.guardian.
 The individual responsible for the NSA leaks has come forward with a powerful
 video explaining the reason for the leak, his motives, and describes the system
 more in detail. His greatest worry is that nothing will change from this.
-<!-- more -->
 
 I worry about that as well. The United States Military and it’s various
 intelligence agencies have more surveillance power than has ever been possible

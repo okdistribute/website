@@ -23,6 +23,10 @@ h1,h2,h3,h4,h5,h6 {
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.blog-title {
+  margin-bottom: 0em;
+}
+
 blockquote p {
   font-size: .95em;
   font-style: italic;

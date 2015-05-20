@@ -1,4 +1,5 @@
 How many times have you written an e-mail to a group of people, and someone forgets to reply-all?
+<!-- more -->
 
 Most of the time, we’d like to have everyone respond to everyone else, particularly in collaboration scenarios such as work, school, or side projects. It’s nice when people are least signaling that they have received the message, let alone putting forth valuable insight related to the topic. At the very least, we expect, and hope, that everyone involved will “reply-all” when they respond with something that concerns the entire group.
 
