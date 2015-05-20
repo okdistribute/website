@@ -12597,7 +12597,7 @@ var posts = {
 var routes = [
   {
     url: '/post/:id',
-    template: Buffer("PGEgaHJlZj0iLyI+YmFjazwvYT4KPGgxPnt7dGl0bGV9fTwvaDE+CjxoNj5ieSBLYXJpc3NhIE1jS2VsdmV5IGF0IHt7ZGF0ZX19IDxhIGhyZWY9IiNkaXNxdXNfdGhyZWFkIj4gY29tbWVudHM8L2E+PC9oNj4Ke3ttYXJrZG93biB0ZXh0fX0KCnt7I2lmIGNvbW1lbnRzfX0KICAgIDxkaXYgaWQ9ImRpc3F1c190aHJlYWQiPjwvZGl2PgogICAgPGEgaHJlZj0iaHR0cDovL2Rpc3F1cy5jb20iIGNsYXNzPSJkc3EtYnJsaW5rIj5jb21tZW50cyBwb3dlcmVkIGJ5IDxzcGFuIGNsYXNzPSJsb2dvLWRpc3F1cyI+RGlzcXVzPC9zcGFuPjwvYT4Ke3svaWZ9fQ==","base64").toString(),
+    template: Buffer("PGg2PjxhIGhyZWY9Ii8iPmJhY2s8L2E+PC9oNj4KPGgxPnt7dGl0bGV9fTwvaDE+CjxoNj5ieSBLYXJpc3NhIE1jS2VsdmV5IGF0IHt7ZGF0ZX19IDxhIGhyZWY9IiNkaXNxdXNfdGhyZWFkIj4gY29tbWVudHM8L2E+PC9oNj4Ke3ttYXJrZG93biB0ZXh0fX0KCnt7I2lmIGNvbW1lbnRzfX0KICAgIDxkaXYgaWQ9ImRpc3F1c190aHJlYWQiPjwvZGl2PgogICAgPGEgaHJlZj0iaHR0cDovL2Rpc3F1cy5jb20iIGNsYXNzPSJkc3EtYnJsaW5rIj5jb21tZW50cyBwb3dlcmVkIGJ5IDxzcGFuIGNsYXNzPSJsb2dvLWRpc3F1cyI+RGlzcXVzPC9zcGFuPjwvYT4Ke3svaWZ9fQ==","base64").toString(),
     data: function (params, cb) {
       var thing = posts[params.id]
       thing.text = thing.text
