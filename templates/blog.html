@@ -2,9 +2,9 @@
 {{#each posts}}
 <div class="row">
   <div class="ten column">
-    <h2>{{title}}</h2>
+    <h2><a href="/post/{{id}}">{{title}}</a></h2>
     <h6>by karissa on {{date}} in {{categories}}</h6>
-    <p>{{overview text}} <a href="/blog/{id}">[read more]</a></p>
+    <p>{{overview text}} <a href="/post/{{id}}">[read more]</a></p>
     <hr>
   </div>
 </div>

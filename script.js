@@ -5,6 +5,7 @@ var Handlebars = require('handlebars')
 
 var posts = {
   1: {
+    id: 1,
     "title": "Data Science is Engineering",
     "date": "2013-07-07 16:18",
     "comments": true,
@@ -12,14 +13,22 @@ var posts = {
     "text": fs.readFileSync("posts/2013-07-17-data-science-is-engineering.markdown").toString()
   },
   2: {
+    id: 2,
     "title": "Don't forget to reply-all: E-mail is a terrible collaboration tool",
     "date": "2013-06-13 16:24",
     "comments": true,
     "categories": ["collaboration", "technology"],
     "text": fs.readFileSync("posts/2013-07-17-dont-forget-to-reply-all.markdown").toString()
+  },
+  3: {
+    id: 3,
+    "title": "Expanded Best Practices when Learning to Code",
+    "date": "2013-06-01 00:43",
+    "comments": true,
+    "categories": ["tutorials", "programming", "education"],
+    "text": fs.readFileSync("posts/2013-07-30-expanded-best-practices.markdown").toString()
   }
 }
-
 var routes = [
   {
     url: '/post/:id',
@@ -29,14 +38,7 @@ var routes = [
       thing.text = thing.text
       cb(thing)
     },
-
     onrender: function (params) {
-      var disqus_shortname = 'karissamck'; // required: replace example with your forum shortname
-      (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
     }
   },
   {

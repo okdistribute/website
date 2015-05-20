@@ -6,7 +6,7 @@ var mustache = require('mustache').render
 module.exports = templater
 
 function templater (contentSelector, routes, renderer) {
-  if (!renderer) renderer = musatche
+  if (!renderer) renderer = mustache
   if (!contentSelector) throw new Error('contentSelector required')
   if (!routes || !routes.length) throw new Error('routes should be a list of route objects')
 
@@ -52,7 +52,7 @@ function makePage(route, cb) {
   cb()
 }
 
-},{"dom":2,"mustache":51,"page":10}],2:[function(require,module,exports){
+},{"dom":2,"mustache":10,"page":11}],2:[function(require,module,exports){
 
 var domify = require('./lib/domify');
 var classes = require('./lib/classes');
@@ -1252,6 +1252,609 @@ module.exports={
 }
 
 },{}],10:[function(require,module,exports){
+/*!
+ * mustache.js - Logic-less {{mustache}} templates with JavaScript
+ * http://github.com/janl/mustache.js
+ */
+
+/*global define: false*/
+
+(function (global, factory) {
+  if (typeof exports === "object" && exports) {
+    factory(exports); // CommonJS
+  } else if (typeof define === "function" && define.amd) {
+    define(['exports'], factory); // AMD
+  } else {
+    factory(global.Mustache = {}); // <script>
+  }
+}(this, function (mustache) {
+
+  var Object_toString = Object.prototype.toString;
+  var isArray = Array.isArray || function (object) {
+    return Object_toString.call(object) === '[object Array]';
+  };
+
+  function isFunction(object) {
+    return typeof object === 'function';
+  }
+
+  function escapeRegExp(string) {
+    return string.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
+  }
+
+  // Workaround for https://issues.apache.org/jira/browse/COUCHDB-577
+  // See https://github.com/janl/mustache.js/issues/189
+  var RegExp_test = RegExp.prototype.test;
+  function testRegExp(re, string) {
+    return RegExp_test.call(re, string);
+  }
+
+  var nonSpaceRe = /\S/;
+  function isWhitespace(string) {
+    return !testRegExp(nonSpaceRe, string);
+  }
+
+  var entityMap = {
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': '&quot;',
+    "'": '&#39;',
+    "/": '&#x2F;'
+  };
+
+  function escapeHtml(string) {
+    return String(string).replace(/[&<>"'\/]/g, function (s) {
+      return entityMap[s];
+    });
+  }
+
+  var whiteRe = /\s*/;
+  var spaceRe = /\s+/;
+  var equalsRe = /\s*=/;
+  var curlyRe = /\s*\}/;
+  var tagRe = /#|\^|\/|>|\{|&|=|!/;
+
+  /**
+   * Breaks up the given `template` string into a tree of tokens. If the `tags`
+   * argument is given here it must be an array with two string values: the
+   * opening and closing tags used in the template (e.g. [ "<%", "%>" ]). Of
+   * course, the default is to use mustaches (i.e. mustache.tags).
+   *
+   * A token is an array with at least 4 elements. The first element is the
+   * mustache symbol that was used inside the tag, e.g. "#" or "&". If the tag
+   * did not contain a symbol (i.e. {{myValue}}) this element is "name". For
+   * all text that appears outside a symbol this element is "text".
+   *
+   * The second element of a token is its "value". For mustache tags this is
+   * whatever else was inside the tag besides the opening symbol. For text tokens
+   * this is the text itself.
+   *
+   * The third and fourth elements of the token are the start and end indices,
+   * respectively, of the token in the original template.
+   *
+   * Tokens that are the root node of a subtree contain two more elements: 1) an
+   * array of tokens in the subtree and 2) the index in the original template at
+   * which the closing tag for that section begins.
+   */
+  function parseTemplate(template, tags) {
+    if (!template)
+      return [];
+
+    var sections = [];     // Stack to hold section tokens
+    var tokens = [];       // Buffer to hold the tokens
+    var spaces = [];       // Indices of whitespace tokens on the current line
+    var hasTag = false;    // Is there a {{tag}} on the current line?
+    var nonSpace = false;  // Is there a non-space char on the current line?
+
+    // Strips all whitespace tokens array for the current line
+    // if there was a {{#tag}} on it and otherwise only space.
+    function stripSpace() {
+      if (hasTag && !nonSpace) {
+        while (spaces.length)
+          delete tokens[spaces.pop()];
+      } else {
+        spaces = [];
+      }
+
+      hasTag = false;
+      nonSpace = false;
+    }
+
+    var openingTagRe, closingTagRe, closingCurlyRe;
+    function compileTags(tags) {
+      if (typeof tags === 'string')
+        tags = tags.split(spaceRe, 2);
+
+      if (!isArray(tags) || tags.length !== 2)
+        throw new Error('Invalid tags: ' + tags);
+
+      openingTagRe = new RegExp(escapeRegExp(tags[0]) + '\\s*');
+      closingTagRe = new RegExp('\\s*' + escapeRegExp(tags[1]));
+      closingCurlyRe = new RegExp('\\s*' + escapeRegExp('}' + tags[1]));
+    }
+
+    compileTags(tags || mustache.tags);
+
+    var scanner = new Scanner(template);
+
+    var start, type, value, chr, token, openSection;
+    while (!scanner.eos()) {
+      start = scanner.pos;
+
+      // Match any text between tags.
+      value = scanner.scanUntil(openingTagRe);
+
+      if (value) {
+        for (var i = 0, valueLength = value.length; i < valueLength; ++i) {
+          chr = value.charAt(i);
+
+          if (isWhitespace(chr)) {
+            spaces.push(tokens.length);
+          } else {
+            nonSpace = true;
+          }
+
+          tokens.push([ 'text', chr, start, start + 1 ]);
+          start += 1;
+
+          // Check for whitespace on the current line.
+          if (chr === '\n')
+            stripSpace();
+        }
+      }
+
+      // Match the opening tag.
+      if (!scanner.scan(openingTagRe))
+        break;
+
+      hasTag = true;
+
+      // Get the tag type.
+      type = scanner.scan(tagRe) || 'name';
+      scanner.scan(whiteRe);
+
+      // Get the tag value.
+      if (type === '=') {
+        value = scanner.scanUntil(equalsRe);
+        scanner.scan(equalsRe);
+        scanner.scanUntil(closingTagRe);
+      } else if (type === '{') {
+        value = scanner.scanUntil(closingCurlyRe);
+        scanner.scan(curlyRe);
+        scanner.scanUntil(closingTagRe);
+        type = '&';
+      } else {
+        value = scanner.scanUntil(closingTagRe);
+      }
+
+      // Match the closing tag.
+      if (!scanner.scan(closingTagRe))
+        throw new Error('Unclosed tag at ' + scanner.pos);
+
+      token = [ type, value, start, scanner.pos ];
+      tokens.push(token);
+
+      if (type === '#' || type === '^') {
+        sections.push(token);
+      } else if (type === '/') {
+        // Check section nesting.
+        openSection = sections.pop();
+
+        if (!openSection)
+          throw new Error('Unopened section "' + value + '" at ' + start);
+
+        if (openSection[1] !== value)
+          throw new Error('Unclosed section "' + openSection[1] + '" at ' + start);
+      } else if (type === 'name' || type === '{' || type === '&') {
+        nonSpace = true;
+      } else if (type === '=') {
+        // Set the tags for the next time around.
+        compileTags(value);
+      }
+    }
+
+    // Make sure there are no open sections when we're done.
+    openSection = sections.pop();
+
+    if (openSection)
+      throw new Error('Unclosed section "' + openSection[1] + '" at ' + scanner.pos);
+
+    return nestTokens(squashTokens(tokens));
+  }
+
+  /**
+   * Combines the values of consecutive text tokens in the given `tokens` array
+   * to a single token.
+   */
+  function squashTokens(tokens) {
+    var squashedTokens = [];
+
+    var token, lastToken;
+    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
+      token = tokens[i];
+
+      if (token) {
+        if (token[0] === 'text' && lastToken && lastToken[0] === 'text') {
+          lastToken[1] += token[1];
+          lastToken[3] = token[3];
+        } else {
+          squashedTokens.push(token);
+          lastToken = token;
+        }
+      }
+    }
+
+    return squashedTokens;
+  }
+
+  /**
+   * Forms the given array of `tokens` into a nested tree structure where
+   * tokens that represent a section have two additional items: 1) an array of
+   * all tokens that appear in that section and 2) the index in the original
+   * template that represents the end of that section.
+   */
+  function nestTokens(tokens) {
+    var nestedTokens = [];
+    var collector = nestedTokens;
+    var sections = [];
+
+    var token, section;
+    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
+      token = tokens[i];
+
+      switch (token[0]) {
+      case '#':
+      case '^':
+        collector.push(token);
+        sections.push(token);
+        collector = token[4] = [];
+        break;
+      case '/':
+        section = sections.pop();
+        section[5] = token[2];
+        collector = sections.length > 0 ? sections[sections.length - 1][4] : nestedTokens;
+        break;
+      default:
+        collector.push(token);
+      }
+    }
+
+    return nestedTokens;
+  }
+
+  /**
+   * A simple string scanner that is used by the template parser to find
+   * tokens in template strings.
+   */
+  function Scanner(string) {
+    this.string = string;
+    this.tail = string;
+    this.pos = 0;
+  }
+
+  /**
+   * Returns `true` if the tail is empty (end of string).
+   */
+  Scanner.prototype.eos = function () {
+    return this.tail === "";
+  };
+
+  /**
+   * Tries to match the given regular expression at the current position.
+   * Returns the matched text if it can match, the empty string otherwise.
+   */
+  Scanner.prototype.scan = function (re) {
+    var match = this.tail.match(re);
+
+    if (!match || match.index !== 0)
+      return '';
+
+    var string = match[0];
+
+    this.tail = this.tail.substring(string.length);
+    this.pos += string.length;
+
+    return string;
+  };
+
+  /**
+   * Skips all text until the given regular expression can be matched. Returns
+   * the skipped string, which is the entire tail if no match can be made.
+   */
+  Scanner.prototype.scanUntil = function (re) {
+    var index = this.tail.search(re), match;
+
+    switch (index) {
+    case -1:
+      match = this.tail;
+      this.tail = "";
+      break;
+    case 0:
+      match = "";
+      break;
+    default:
+      match = this.tail.substring(0, index);
+      this.tail = this.tail.substring(index);
+    }
+
+    this.pos += match.length;
+
+    return match;
+  };
+
+  /**
+   * Represents a rendering context by wrapping a view object and
+   * maintaining a reference to the parent context.
+   */
+  function Context(view, parentContext) {
+    this.view = view;
+    this.cache = { '.': this.view };
+    this.parent = parentContext;
+  }
+
+  /**
+   * Creates a new context using the given view with this context
+   * as the parent.
+   */
+  Context.prototype.push = function (view) {
+    return new Context(view, this);
+  };
+
+  /**
+   * Returns the value of the given name in this context, traversing
+   * up the context hierarchy if the value is absent in this context's view.
+   */
+  Context.prototype.lookup = function (name) {
+    var cache = this.cache;
+
+    var value;
+    if (name in cache) {
+      value = cache[name];
+    } else {
+      var context = this, names, index, lookupHit = false;
+
+      while (context) {
+        if (name.indexOf('.') > 0) {
+          value = context.view;
+          names = name.split('.');
+          index = 0;
+
+          /**
+           * Using the dot notion path in `name`, we descend through the
+           * nested objects.
+           *
+           * To be certain that the lookup has been successful, we have to
+           * check if the last object in the path actually has the property
+           * we are looking for. We store the result in `lookupHit`.
+           *
+           * This is specially necessary for when the value has been set to
+           * `undefined` and we want to avoid looking up parent contexts.
+           **/
+          while (value != null && index < names.length) {
+            if (index === names.length - 1 && value != null)
+              lookupHit = (typeof value === 'object') &&
+                value.hasOwnProperty(names[index]);
+            value = value[names[index++]];
+          }
+        } else if (context.view != null && typeof context.view === 'object') {
+          value = context.view[name];
+          lookupHit = context.view.hasOwnProperty(name);
+        }
+
+        if (lookupHit)
+          break;
+
+        context = context.parent;
+      }
+
+      cache[name] = value;
+    }
+
+    if (isFunction(value))
+      value = value.call(this.view);
+
+    return value;
+  };
+
+  /**
+   * A Writer knows how to take a stream of tokens and render them to a
+   * string, given a context. It also maintains a cache of templates to
+   * avoid the need to parse the same template twice.
+   */
+  function Writer() {
+    this.cache = {};
+  }
+
+  /**
+   * Clears all cached templates in this writer.
+   */
+  Writer.prototype.clearCache = function () {
+    this.cache = {};
+  };
+
+  /**
+   * Parses and caches the given `template` and returns the array of tokens
+   * that is generated from the parse.
+   */
+  Writer.prototype.parse = function (template, tags) {
+    var cache = this.cache;
+    var tokens = cache[template];
+
+    if (tokens == null)
+      tokens = cache[template] = parseTemplate(template, tags);
+
+    return tokens;
+  };
+
+  /**
+   * High-level method that is used to render the given `template` with
+   * the given `view`.
+   *
+   * The optional `partials` argument may be an object that contains the
+   * names and templates of partials that are used in the template. It may
+   * also be a function that is used to load partial templates on the fly
+   * that takes a single argument: the name of the partial.
+   */
+  Writer.prototype.render = function (template, view, partials) {
+    var tokens = this.parse(template);
+    var context = (view instanceof Context) ? view : new Context(view);
+    return this.renderTokens(tokens, context, partials, template);
+  };
+
+  /**
+   * Low-level method that renders the given array of `tokens` using
+   * the given `context` and `partials`.
+   *
+   * Note: The `originalTemplate` is only ever used to extract the portion
+   * of the original template that was contained in a higher-order section.
+   * If the template doesn't use higher-order sections, this argument may
+   * be omitted.
+   */
+  Writer.prototype.renderTokens = function (tokens, context, partials, originalTemplate) {
+    var buffer = '';
+
+    var token, symbol, value;
+    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
+      value = undefined;
+      token = tokens[i];
+      symbol = token[0];
+
+      if (symbol === '#') value = this._renderSection(token, context, partials, originalTemplate);
+      else if (symbol === '^') value = this._renderInverted(token, context, partials, originalTemplate);
+      else if (symbol === '>') value = this._renderPartial(token, context, partials, originalTemplate);
+      else if (symbol === '&') value = this._unescapedValue(token, context);
+      else if (symbol === 'name') value = this._escapedValue(token, context);
+      else if (symbol === 'text') value = this._rawValue(token);
+
+      if (value !== undefined)
+        buffer += value;
+    }
+
+    return buffer;
+  };
+
+  Writer.prototype._renderSection = function (token, context, partials, originalTemplate) {
+    var self = this;
+    var buffer = '';
+    var value = context.lookup(token[1]);
+
+    // This function is used to render an arbitrary template
+    // in the current context by higher-order sections.
+    function subRender(template) {
+      return self.render(template, context, partials);
+    }
+
+    if (!value) return;
+
+    if (isArray(value)) {
+      for (var j = 0, valueLength = value.length; j < valueLength; ++j) {
+        buffer += this.renderTokens(token[4], context.push(value[j]), partials, originalTemplate);
+      }
+    } else if (typeof value === 'object' || typeof value === 'string' || typeof value === 'number') {
+      buffer += this.renderTokens(token[4], context.push(value), partials, originalTemplate);
+    } else if (isFunction(value)) {
+      if (typeof originalTemplate !== 'string')
+        throw new Error('Cannot use higher-order sections without the original template');
+
+      // Extract the portion of the original template that the section contains.
+      value = value.call(context.view, originalTemplate.slice(token[3], token[5]), subRender);
+
+      if (value != null)
+        buffer += value;
+    } else {
+      buffer += this.renderTokens(token[4], context, partials, originalTemplate);
+    }
+    return buffer;
+  };
+
+  Writer.prototype._renderInverted = function(token, context, partials, originalTemplate) {
+    var value = context.lookup(token[1]);
+
+    // Use JavaScript's definition of falsy. Include empty arrays.
+    // See https://github.com/janl/mustache.js/issues/186
+    if (!value || (isArray(value) && value.length === 0))
+      return this.renderTokens(token[4], context, partials, originalTemplate);
+  };
+
+  Writer.prototype._renderPartial = function(token, context, partials) {
+    if (!partials) return;
+
+    var value = isFunction(partials) ? partials(token[1]) : partials[token[1]];
+    if (value != null)
+      return this.renderTokens(this.parse(value), context, partials, value);
+  };
+
+  Writer.prototype._unescapedValue = function(token, context) {
+    var value = context.lookup(token[1]);
+    if (value != null)
+      return value;
+  };
+
+  Writer.prototype._escapedValue = function(token, context) {
+    var value = context.lookup(token[1]);
+    if (value != null)
+      return mustache.escape(value);
+  };
+
+  Writer.prototype._rawValue = function(token) {
+    return token[1];
+  };
+
+  mustache.name = "mustache.js";
+  mustache.version = "2.0.0";
+  mustache.tags = [ "{{", "}}" ];
+
+  // All high-level mustache.* functions use this writer.
+  var defaultWriter = new Writer();
+
+  /**
+   * Clears all cached templates in the default writer.
+   */
+  mustache.clearCache = function () {
+    return defaultWriter.clearCache();
+  };
+
+  /**
+   * Parses and caches the given template in the default writer and returns the
+   * array of tokens it contains. Doing this ahead of time avoids the need to
+   * parse templates on the fly as they are rendered.
+   */
+  mustache.parse = function (template, tags) {
+    return defaultWriter.parse(template, tags);
+  };
+
+  /**
+   * Renders the `template` with the given `view` and `partials` using the
+   * default writer.
+   */
+  mustache.render = function (template, view, partials) {
+    return defaultWriter.render(template, view, partials);
+  };
+
+  // This is here for backwards compatibility with 0.4.x.
+  mustache.to_html = function (template, view, partials, send) {
+    var result = mustache.render(template, view, partials);
+
+    if (isFunction(send)) {
+      send(result);
+    } else {
+      return result;
+    }
+  };
+
+  // Export the escaping function so that the user may override it.
+  // See https://github.com/janl/mustache.js/issues/244
+  mustache.escape = escapeHtml;
+
+  // Export these mainly for testing, but also for advanced usage.
+  mustache.Scanner = Scanner;
+  mustache.Context = Context;
+  mustache.Writer = Writer;
+
+}));
+
+},{}],11:[function(require,module,exports){
 (function (process){
   /* globals require, module */
 
@@ -1874,7 +2477,7 @@ module.exports={
   page.sameOrigin = sameOrigin;
 
 }).call(this,require('_process'))
-},{"_process":19,"path-to-regexp":11}],11:[function(require,module,exports){
+},{"_process":20,"path-to-regexp":12}],12:[function(require,module,exports){
 var isArray = require('isarray');
 
 /**
@@ -2078,14 +2681,14 @@ function pathToRegexp (path, keys, options) {
   return attachKeys(new RegExp('^' + route, flags(options)), keys);
 }
 
-},{"isarray":12}],12:[function(require,module,exports){
+},{"isarray":13}],13:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],13:[function(require,module,exports){
-
 },{}],14:[function(require,module,exports){
+
+},{}],15:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -3501,7 +4104,7 @@ function decodeUtf8Char (str) {
   }
 }
 
-},{"base64-js":15,"ieee754":16,"is-array":17}],15:[function(require,module,exports){
+},{"base64-js":16,"ieee754":17,"is-array":18}],16:[function(require,module,exports){
 var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 ;(function (exports) {
@@ -3627,7 +4230,7 @@ var lookup = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 	exports.fromByteArray = uint8ToBase64
 }(typeof exports === 'undefined' ? (this.base64js = {}) : exports))
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m,
       eLen = nBytes * 8 - mLen - 1,
@@ -3713,7 +4316,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 
 /**
  * isArray
@@ -3748,7 +4351,7 @@ module.exports = isArray || function (val) {
   return !! val && '[object Array]' == str.call(val);
 };
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 (function (process){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -3976,7 +4579,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":19}],19:[function(require,module,exports){
+},{"_process":20}],20:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -4068,7 +4671,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -4132,7 +4735,7 @@ inst['default'] = inst;
 
 exports['default'] = inst;
 module.exports = exports['default'];
-},{"./handlebars.runtime":21,"./handlebars/compiler/ast":23,"./handlebars/compiler/base":24,"./handlebars/compiler/compiler":26,"./handlebars/compiler/javascript-compiler":28,"./handlebars/compiler/visitor":31,"./handlebars/no-conflict":34}],21:[function(require,module,exports){
+},{"./handlebars.runtime":22,"./handlebars/compiler/ast":24,"./handlebars/compiler/base":25,"./handlebars/compiler/compiler":27,"./handlebars/compiler/javascript-compiler":29,"./handlebars/compiler/visitor":32,"./handlebars/no-conflict":35}],22:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -4193,7 +4796,7 @@ inst['default'] = inst;
 
 exports['default'] = inst;
 module.exports = exports['default'];
-},{"./handlebars/base":22,"./handlebars/exception":33,"./handlebars/no-conflict":34,"./handlebars/runtime":35,"./handlebars/safe-string":36,"./handlebars/utils":37}],22:[function(require,module,exports){
+},{"./handlebars/base":23,"./handlebars/exception":34,"./handlebars/no-conflict":35,"./handlebars/runtime":36,"./handlebars/safe-string":37,"./handlebars/utils":38}],23:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -4467,7 +5070,7 @@ function createFrame(object) {
 }
 
 /* [args, ]options */
-},{"./exception":33,"./utils":37}],23:[function(require,module,exports){
+},{"./exception":34,"./utils":38}],24:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4620,7 +5223,7 @@ var AST = {
 // must modify the object to operate properly.
 exports['default'] = AST;
 module.exports = exports['default'];
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -4667,7 +5270,7 @@ function parse(input, options) {
   var strip = new _WhitespaceControl2['default']();
   return strip.accept(_parser2['default'].parse(input));
 }
-},{"../utils":37,"./ast":23,"./helpers":27,"./parser":29,"./whitespace-control":32}],25:[function(require,module,exports){
+},{"../utils":38,"./ast":24,"./helpers":28,"./parser":30,"./whitespace-control":33}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -4832,7 +5435,7 @@ exports['default'] = CodeGen;
 module.exports = exports['default'];
 
 /* NOP */
-},{"../utils":37,"source-map":39}],26:[function(require,module,exports){
+},{"../utils":38,"source-map":40}],27:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -5360,7 +5963,7 @@ function transformLiteralToPath(sexpr) {
     sexpr.path = new _AST2['default'].PathExpression(false, 0, [literal.original + ''], literal.original + '', literal.loc);
   }
 }
-},{"../exception":33,"../utils":37,"./ast":23}],27:[function(require,module,exports){
+},{"../exception":34,"../utils":38,"./ast":24}],28:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -5492,7 +6095,7 @@ function prepareBlock(openBlock, program, inverseAndProgram, close, inverted, lo
 
   return new this.BlockStatement(openBlock.path, openBlock.params, openBlock.hash, program, inverse, openBlock.strip, inverseStrip, close && close.strip, this.locInfo(locInfo));
 }
-},{"../exception":33}],28:[function(require,module,exports){
+},{"../exception":34}],29:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -6555,7 +7158,7 @@ function strictLookup(requireTerminal, compiler, parts, type) {
 
 exports['default'] = JavaScriptCompiler;
 module.exports = exports['default'];
-},{"../base":22,"../exception":33,"../utils":37,"./code-gen":25}],29:[function(require,module,exports){
+},{"../base":23,"../exception":34,"../utils":38,"./code-gen":26}],30:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -7234,7 +7837,7 @@ var handlebars = (function () {
     return new Parser();
 })();exports["default"] = handlebars;
 module.exports = exports["default"];
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -7400,7 +8003,7 @@ PrintVisitor.prototype.HashPair = function (pair) {
   return pair.key + '=' + this.accept(pair.value);
 };
 /*eslint-enable new-cap */
-},{"./visitor":31}],31:[function(require,module,exports){
+},{"./visitor":32}],32:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -7533,7 +8136,7 @@ Visitor.prototype = {
 exports['default'] = Visitor;
 module.exports = exports['default'];
 /* content */ /* comment */ /* path */ /* string */ /* number */ /* bool */ /* literal */ /* literal */
-},{"../exception":33,"./ast":23}],32:[function(require,module,exports){
+},{"../exception":34,"./ast":24}],33:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -7746,7 +8349,7 @@ function omitLeft(body, i, multiple) {
 
 exports['default'] = WhitespaceControl;
 module.exports = exports['default'];
-},{"./visitor":31}],33:[function(require,module,exports){
+},{"./visitor":32}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7785,7 +8388,7 @@ Exception.prototype = new Error();
 
 exports['default'] = Exception;
 module.exports = exports['default'];
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -7806,7 +8409,7 @@ exports['default'] = function (Handlebars) {
 
 module.exports = exports['default'];
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 'use strict';
 
 var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { 'default': obj }; };
@@ -8039,7 +8642,7 @@ function initData(context, data) {
   }
   return data;
 }
-},{"./base":22,"./exception":33,"./utils":37}],36:[function(require,module,exports){
+},{"./base":23,"./exception":34,"./utils":38}],37:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8054,7 +8657,7 @@ SafeString.prototype.toString = SafeString.prototype.toHTML = function () {
 
 exports['default'] = SafeString;
 module.exports = exports['default'];
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -8169,7 +8772,7 @@ function blockParams(params, ids) {
 function appendContextPath(contextPath, id) {
   return (contextPath ? contextPath + '.' : '') + id;
 }
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 // USAGE:
 // var handlebars = require('handlebars');
 /* eslint-disable no-var */
@@ -8196,7 +8799,7 @@ if (typeof require !== 'undefined' && require.extensions) {
   require.extensions['.hbs'] = extension;
 }
 
-},{"../dist/cjs/handlebars":20,"../dist/cjs/handlebars/compiler/printer":30,"fs":13}],39:[function(require,module,exports){
+},{"../dist/cjs/handlebars":21,"../dist/cjs/handlebars/compiler/printer":31,"fs":14}],40:[function(require,module,exports){
 /*
  * Copyright 2009-2011 Mozilla Foundation and contributors
  * Licensed under the New BSD license. See LICENSE.txt or:
@@ -8206,7 +8809,7 @@ exports.SourceMapGenerator = require('./source-map/source-map-generator').Source
 exports.SourceMapConsumer = require('./source-map/source-map-consumer').SourceMapConsumer;
 exports.SourceNode = require('./source-map/source-node').SourceNode;
 
-},{"./source-map/source-map-consumer":45,"./source-map/source-map-generator":46,"./source-map/source-node":47}],40:[function(require,module,exports){
+},{"./source-map/source-map-consumer":46,"./source-map/source-map-generator":47,"./source-map/source-node":48}],41:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -8305,7 +8908,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":48,"amdefine":49}],41:[function(require,module,exports){
+},{"./util":49,"amdefine":50}],42:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -8449,7 +9052,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./base64":42,"amdefine":49}],42:[function(require,module,exports){
+},{"./base64":43,"amdefine":50}],43:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -8493,7 +9096,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":49}],43:[function(require,module,exports){
+},{"amdefine":50}],44:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -8575,7 +9178,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":49}],44:[function(require,module,exports){
+},{"amdefine":50}],45:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2014 Mozilla Foundation and contributors
@@ -8663,7 +9266,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./util":48,"amdefine":49}],45:[function(require,module,exports){
+},{"./util":49,"amdefine":50}],46:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9240,7 +9843,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":40,"./base64-vlq":41,"./binary-search":43,"./util":48,"amdefine":49}],46:[function(require,module,exports){
+},{"./array-set":41,"./base64-vlq":42,"./binary-search":44,"./util":49,"amdefine":50}],47:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -9642,7 +10245,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./array-set":40,"./base64-vlq":41,"./mapping-list":44,"./util":48,"amdefine":49}],47:[function(require,module,exports){
+},{"./array-set":41,"./base64-vlq":42,"./mapping-list":45,"./util":49,"amdefine":50}],48:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -10058,7 +10661,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"./source-map-generator":46,"./util":48,"amdefine":49}],48:[function(require,module,exports){
+},{"./source-map-generator":47,"./util":49,"amdefine":50}],49:[function(require,module,exports){
 /* -*- Mode: js; js-indent-level: 2; -*- */
 /*
  * Copyright 2011 Mozilla Foundation and contributors
@@ -10379,7 +10982,7 @@ define(function (require, exports, module) {
 
 });
 
-},{"amdefine":49}],49:[function(require,module,exports){
+},{"amdefine":50}],50:[function(require,module,exports){
 (function (process,__filename){
 /** vim: et:ts=4:sw=4:sts=4
  * @license amdefine 0.1.0 Copyright (c) 2011, The Dojo Foundation All Rights Reserved.
@@ -10682,7 +11285,7 @@ function amdefine(module, requireFn) {
 module.exports = amdefine;
 
 }).call(this,require('_process'),"/node_modules/handlebars/node_modules/source-map/node_modules/amdefine/amdefine.js")
-},{"_process":19,"path":18}],50:[function(require,module,exports){
+},{"_process":20,"path":19}],51:[function(require,module,exports){
 (function (global){
 /**
  * marked - a markdown parser
@@ -11958,609 +12561,6 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 }());
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],51:[function(require,module,exports){
-/*!
- * mustache.js - Logic-less {{mustache}} templates with JavaScript
- * http://github.com/janl/mustache.js
- */
-
-/*global define: false*/
-
-(function (global, factory) {
-  if (typeof exports === "object" && exports) {
-    factory(exports); // CommonJS
-  } else if (typeof define === "function" && define.amd) {
-    define(['exports'], factory); // AMD
-  } else {
-    factory(global.Mustache = {}); // <script>
-  }
-}(this, function (mustache) {
-
-  var Object_toString = Object.prototype.toString;
-  var isArray = Array.isArray || function (object) {
-    return Object_toString.call(object) === '[object Array]';
-  };
-
-  function isFunction(object) {
-    return typeof object === 'function';
-  }
-
-  function escapeRegExp(string) {
-    return string.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, "\\$&");
-  }
-
-  // Workaround for https://issues.apache.org/jira/browse/COUCHDB-577
-  // See https://github.com/janl/mustache.js/issues/189
-  var RegExp_test = RegExp.prototype.test;
-  function testRegExp(re, string) {
-    return RegExp_test.call(re, string);
-  }
-
-  var nonSpaceRe = /\S/;
-  function isWhitespace(string) {
-    return !testRegExp(nonSpaceRe, string);
-  }
-
-  var entityMap = {
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': '&quot;',
-    "'": '&#39;',
-    "/": '&#x2F;'
-  };
-
-  function escapeHtml(string) {
-    return String(string).replace(/[&<>"'\/]/g, function (s) {
-      return entityMap[s];
-    });
-  }
-
-  var whiteRe = /\s*/;
-  var spaceRe = /\s+/;
-  var equalsRe = /\s*=/;
-  var curlyRe = /\s*\}/;
-  var tagRe = /#|\^|\/|>|\{|&|=|!/;
-
-  /**
-   * Breaks up the given `template` string into a tree of tokens. If the `tags`
-   * argument is given here it must be an array with two string values: the
-   * opening and closing tags used in the template (e.g. [ "<%", "%>" ]). Of
-   * course, the default is to use mustaches (i.e. mustache.tags).
-   *
-   * A token is an array with at least 4 elements. The first element is the
-   * mustache symbol that was used inside the tag, e.g. "#" or "&". If the tag
-   * did not contain a symbol (i.e. {{myValue}}) this element is "name". For
-   * all text that appears outside a symbol this element is "text".
-   *
-   * The second element of a token is its "value". For mustache tags this is
-   * whatever else was inside the tag besides the opening symbol. For text tokens
-   * this is the text itself.
-   *
-   * The third and fourth elements of the token are the start and end indices,
-   * respectively, of the token in the original template.
-   *
-   * Tokens that are the root node of a subtree contain two more elements: 1) an
-   * array of tokens in the subtree and 2) the index in the original template at
-   * which the closing tag for that section begins.
-   */
-  function parseTemplate(template, tags) {
-    if (!template)
-      return [];
-
-    var sections = [];     // Stack to hold section tokens
-    var tokens = [];       // Buffer to hold the tokens
-    var spaces = [];       // Indices of whitespace tokens on the current line
-    var hasTag = false;    // Is there a {{tag}} on the current line?
-    var nonSpace = false;  // Is there a non-space char on the current line?
-
-    // Strips all whitespace tokens array for the current line
-    // if there was a {{#tag}} on it and otherwise only space.
-    function stripSpace() {
-      if (hasTag && !nonSpace) {
-        while (spaces.length)
-          delete tokens[spaces.pop()];
-      } else {
-        spaces = [];
-      }
-
-      hasTag = false;
-      nonSpace = false;
-    }
-
-    var openingTagRe, closingTagRe, closingCurlyRe;
-    function compileTags(tags) {
-      if (typeof tags === 'string')
-        tags = tags.split(spaceRe, 2);
-
-      if (!isArray(tags) || tags.length !== 2)
-        throw new Error('Invalid tags: ' + tags);
-
-      openingTagRe = new RegExp(escapeRegExp(tags[0]) + '\\s*');
-      closingTagRe = new RegExp('\\s*' + escapeRegExp(tags[1]));
-      closingCurlyRe = new RegExp('\\s*' + escapeRegExp('}' + tags[1]));
-    }
-
-    compileTags(tags || mustache.tags);
-
-    var scanner = new Scanner(template);
-
-    var start, type, value, chr, token, openSection;
-    while (!scanner.eos()) {
-      start = scanner.pos;
-
-      // Match any text between tags.
-      value = scanner.scanUntil(openingTagRe);
-
-      if (value) {
-        for (var i = 0, valueLength = value.length; i < valueLength; ++i) {
-          chr = value.charAt(i);
-
-          if (isWhitespace(chr)) {
-            spaces.push(tokens.length);
-          } else {
-            nonSpace = true;
-          }
-
-          tokens.push([ 'text', chr, start, start + 1 ]);
-          start += 1;
-
-          // Check for whitespace on the current line.
-          if (chr === '\n')
-            stripSpace();
-        }
-      }
-
-      // Match the opening tag.
-      if (!scanner.scan(openingTagRe))
-        break;
-
-      hasTag = true;
-
-      // Get the tag type.
-      type = scanner.scan(tagRe) || 'name';
-      scanner.scan(whiteRe);
-
-      // Get the tag value.
-      if (type === '=') {
-        value = scanner.scanUntil(equalsRe);
-        scanner.scan(equalsRe);
-        scanner.scanUntil(closingTagRe);
-      } else if (type === '{') {
-        value = scanner.scanUntil(closingCurlyRe);
-        scanner.scan(curlyRe);
-        scanner.scanUntil(closingTagRe);
-        type = '&';
-      } else {
-        value = scanner.scanUntil(closingTagRe);
-      }
-
-      // Match the closing tag.
-      if (!scanner.scan(closingTagRe))
-        throw new Error('Unclosed tag at ' + scanner.pos);
-
-      token = [ type, value, start, scanner.pos ];
-      tokens.push(token);
-
-      if (type === '#' || type === '^') {
-        sections.push(token);
-      } else if (type === '/') {
-        // Check section nesting.
-        openSection = sections.pop();
-
-        if (!openSection)
-          throw new Error('Unopened section "' + value + '" at ' + start);
-
-        if (openSection[1] !== value)
-          throw new Error('Unclosed section "' + openSection[1] + '" at ' + start);
-      } else if (type === 'name' || type === '{' || type === '&') {
-        nonSpace = true;
-      } else if (type === '=') {
-        // Set the tags for the next time around.
-        compileTags(value);
-      }
-    }
-
-    // Make sure there are no open sections when we're done.
-    openSection = sections.pop();
-
-    if (openSection)
-      throw new Error('Unclosed section "' + openSection[1] + '" at ' + scanner.pos);
-
-    return nestTokens(squashTokens(tokens));
-  }
-
-  /**
-   * Combines the values of consecutive text tokens in the given `tokens` array
-   * to a single token.
-   */
-  function squashTokens(tokens) {
-    var squashedTokens = [];
-
-    var token, lastToken;
-    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
-      token = tokens[i];
-
-      if (token) {
-        if (token[0] === 'text' && lastToken && lastToken[0] === 'text') {
-          lastToken[1] += token[1];
-          lastToken[3] = token[3];
-        } else {
-          squashedTokens.push(token);
-          lastToken = token;
-        }
-      }
-    }
-
-    return squashedTokens;
-  }
-
-  /**
-   * Forms the given array of `tokens` into a nested tree structure where
-   * tokens that represent a section have two additional items: 1) an array of
-   * all tokens that appear in that section and 2) the index in the original
-   * template that represents the end of that section.
-   */
-  function nestTokens(tokens) {
-    var nestedTokens = [];
-    var collector = nestedTokens;
-    var sections = [];
-
-    var token, section;
-    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
-      token = tokens[i];
-
-      switch (token[0]) {
-      case '#':
-      case '^':
-        collector.push(token);
-        sections.push(token);
-        collector = token[4] = [];
-        break;
-      case '/':
-        section = sections.pop();
-        section[5] = token[2];
-        collector = sections.length > 0 ? sections[sections.length - 1][4] : nestedTokens;
-        break;
-      default:
-        collector.push(token);
-      }
-    }
-
-    return nestedTokens;
-  }
-
-  /**
-   * A simple string scanner that is used by the template parser to find
-   * tokens in template strings.
-   */
-  function Scanner(string) {
-    this.string = string;
-    this.tail = string;
-    this.pos = 0;
-  }
-
-  /**
-   * Returns `true` if the tail is empty (end of string).
-   */
-  Scanner.prototype.eos = function () {
-    return this.tail === "";
-  };
-
-  /**
-   * Tries to match the given regular expression at the current position.
-   * Returns the matched text if it can match, the empty string otherwise.
-   */
-  Scanner.prototype.scan = function (re) {
-    var match = this.tail.match(re);
-
-    if (!match || match.index !== 0)
-      return '';
-
-    var string = match[0];
-
-    this.tail = this.tail.substring(string.length);
-    this.pos += string.length;
-
-    return string;
-  };
-
-  /**
-   * Skips all text until the given regular expression can be matched. Returns
-   * the skipped string, which is the entire tail if no match can be made.
-   */
-  Scanner.prototype.scanUntil = function (re) {
-    var index = this.tail.search(re), match;
-
-    switch (index) {
-    case -1:
-      match = this.tail;
-      this.tail = "";
-      break;
-    case 0:
-      match = "";
-      break;
-    default:
-      match = this.tail.substring(0, index);
-      this.tail = this.tail.substring(index);
-    }
-
-    this.pos += match.length;
-
-    return match;
-  };
-
-  /**
-   * Represents a rendering context by wrapping a view object and
-   * maintaining a reference to the parent context.
-   */
-  function Context(view, parentContext) {
-    this.view = view;
-    this.cache = { '.': this.view };
-    this.parent = parentContext;
-  }
-
-  /**
-   * Creates a new context using the given view with this context
-   * as the parent.
-   */
-  Context.prototype.push = function (view) {
-    return new Context(view, this);
-  };
-
-  /**
-   * Returns the value of the given name in this context, traversing
-   * up the context hierarchy if the value is absent in this context's view.
-   */
-  Context.prototype.lookup = function (name) {
-    var cache = this.cache;
-
-    var value;
-    if (name in cache) {
-      value = cache[name];
-    } else {
-      var context = this, names, index, lookupHit = false;
-
-      while (context) {
-        if (name.indexOf('.') > 0) {
-          value = context.view;
-          names = name.split('.');
-          index = 0;
-
-          /**
-           * Using the dot notion path in `name`, we descend through the
-           * nested objects.
-           *
-           * To be certain that the lookup has been successful, we have to
-           * check if the last object in the path actually has the property
-           * we are looking for. We store the result in `lookupHit`.
-           *
-           * This is specially necessary for when the value has been set to
-           * `undefined` and we want to avoid looking up parent contexts.
-           **/
-          while (value != null && index < names.length) {
-            if (index === names.length - 1 && value != null)
-              lookupHit = (typeof value === 'object') &&
-                value.hasOwnProperty(names[index]);
-            value = value[names[index++]];
-          }
-        } else if (context.view != null && typeof context.view === 'object') {
-          value = context.view[name];
-          lookupHit = context.view.hasOwnProperty(name);
-        }
-
-        if (lookupHit)
-          break;
-
-        context = context.parent;
-      }
-
-      cache[name] = value;
-    }
-
-    if (isFunction(value))
-      value = value.call(this.view);
-
-    return value;
-  };
-
-  /**
-   * A Writer knows how to take a stream of tokens and render them to a
-   * string, given a context. It also maintains a cache of templates to
-   * avoid the need to parse the same template twice.
-   */
-  function Writer() {
-    this.cache = {};
-  }
-
-  /**
-   * Clears all cached templates in this writer.
-   */
-  Writer.prototype.clearCache = function () {
-    this.cache = {};
-  };
-
-  /**
-   * Parses and caches the given `template` and returns the array of tokens
-   * that is generated from the parse.
-   */
-  Writer.prototype.parse = function (template, tags) {
-    var cache = this.cache;
-    var tokens = cache[template];
-
-    if (tokens == null)
-      tokens = cache[template] = parseTemplate(template, tags);
-
-    return tokens;
-  };
-
-  /**
-   * High-level method that is used to render the given `template` with
-   * the given `view`.
-   *
-   * The optional `partials` argument may be an object that contains the
-   * names and templates of partials that are used in the template. It may
-   * also be a function that is used to load partial templates on the fly
-   * that takes a single argument: the name of the partial.
-   */
-  Writer.prototype.render = function (template, view, partials) {
-    var tokens = this.parse(template);
-    var context = (view instanceof Context) ? view : new Context(view);
-    return this.renderTokens(tokens, context, partials, template);
-  };
-
-  /**
-   * Low-level method that renders the given array of `tokens` using
-   * the given `context` and `partials`.
-   *
-   * Note: The `originalTemplate` is only ever used to extract the portion
-   * of the original template that was contained in a higher-order section.
-   * If the template doesn't use higher-order sections, this argument may
-   * be omitted.
-   */
-  Writer.prototype.renderTokens = function (tokens, context, partials, originalTemplate) {
-    var buffer = '';
-
-    var token, symbol, value;
-    for (var i = 0, numTokens = tokens.length; i < numTokens; ++i) {
-      value = undefined;
-      token = tokens[i];
-      symbol = token[0];
-
-      if (symbol === '#') value = this._renderSection(token, context, partials, originalTemplate);
-      else if (symbol === '^') value = this._renderInverted(token, context, partials, originalTemplate);
-      else if (symbol === '>') value = this._renderPartial(token, context, partials, originalTemplate);
-      else if (symbol === '&') value = this._unescapedValue(token, context);
-      else if (symbol === 'name') value = this._escapedValue(token, context);
-      else if (symbol === 'text') value = this._rawValue(token);
-
-      if (value !== undefined)
-        buffer += value;
-    }
-
-    return buffer;
-  };
-
-  Writer.prototype._renderSection = function (token, context, partials, originalTemplate) {
-    var self = this;
-    var buffer = '';
-    var value = context.lookup(token[1]);
-
-    // This function is used to render an arbitrary template
-    // in the current context by higher-order sections.
-    function subRender(template) {
-      return self.render(template, context, partials);
-    }
-
-    if (!value) return;
-
-    if (isArray(value)) {
-      for (var j = 0, valueLength = value.length; j < valueLength; ++j) {
-        buffer += this.renderTokens(token[4], context.push(value[j]), partials, originalTemplate);
-      }
-    } else if (typeof value === 'object' || typeof value === 'string' || typeof value === 'number') {
-      buffer += this.renderTokens(token[4], context.push(value), partials, originalTemplate);
-    } else if (isFunction(value)) {
-      if (typeof originalTemplate !== 'string')
-        throw new Error('Cannot use higher-order sections without the original template');
-
-      // Extract the portion of the original template that the section contains.
-      value = value.call(context.view, originalTemplate.slice(token[3], token[5]), subRender);
-
-      if (value != null)
-        buffer += value;
-    } else {
-      buffer += this.renderTokens(token[4], context, partials, originalTemplate);
-    }
-    return buffer;
-  };
-
-  Writer.prototype._renderInverted = function(token, context, partials, originalTemplate) {
-    var value = context.lookup(token[1]);
-
-    // Use JavaScript's definition of falsy. Include empty arrays.
-    // See https://github.com/janl/mustache.js/issues/186
-    if (!value || (isArray(value) && value.length === 0))
-      return this.renderTokens(token[4], context, partials, originalTemplate);
-  };
-
-  Writer.prototype._renderPartial = function(token, context, partials) {
-    if (!partials) return;
-
-    var value = isFunction(partials) ? partials(token[1]) : partials[token[1]];
-    if (value != null)
-      return this.renderTokens(this.parse(value), context, partials, value);
-  };
-
-  Writer.prototype._unescapedValue = function(token, context) {
-    var value = context.lookup(token[1]);
-    if (value != null)
-      return value;
-  };
-
-  Writer.prototype._escapedValue = function(token, context) {
-    var value = context.lookup(token[1]);
-    if (value != null)
-      return mustache.escape(value);
-  };
-
-  Writer.prototype._rawValue = function(token) {
-    return token[1];
-  };
-
-  mustache.name = "mustache.js";
-  mustache.version = "2.0.0";
-  mustache.tags = [ "{{", "}}" ];
-
-  // All high-level mustache.* functions use this writer.
-  var defaultWriter = new Writer();
-
-  /**
-   * Clears all cached templates in the default writer.
-   */
-  mustache.clearCache = function () {
-    return defaultWriter.clearCache();
-  };
-
-  /**
-   * Parses and caches the given template in the default writer and returns the
-   * array of tokens it contains. Doing this ahead of time avoids the need to
-   * parse templates on the fly as they are rendered.
-   */
-  mustache.parse = function (template, tags) {
-    return defaultWriter.parse(template, tags);
-  };
-
-  /**
-   * Renders the `template` with the given `view` and `partials` using the
-   * default writer.
-   */
-  mustache.render = function (template, view, partials) {
-    return defaultWriter.render(template, view, partials);
-  };
-
-  // This is here for backwards compatibility with 0.4.x.
-  mustache.to_html = function (template, view, partials, send) {
-    var result = mustache.render(template, view, partials);
-
-    if (isFunction(send)) {
-      send(result);
-    } else {
-      return result;
-    }
-  };
-
-  // Export the escaping function so that the user may override it.
-  // See https://github.com/janl/mustache.js/issues/244
-  mustache.escape = escapeHtml;
-
-  // Export these mainly for testing, but also for advanced usage.
-  mustache.Scanner = Scanner;
-  mustache.Context = Context;
-  mustache.Writer = Writer;
-
-}));
-
 },{}],52:[function(require,module,exports){
 (function (Buffer){
 var templater = require('a-simple-templater')
@@ -12570,6 +12570,7 @@ var Handlebars = require('handlebars')
 
 var posts = {
   1: {
+    id: 1,
     "title": "Data Science is Engineering",
     "date": "2013-07-07 16:18",
     "comments": true,
@@ -12577,36 +12578,37 @@ var posts = {
     "text": Buffer("V2UgZXhwZWN0IHN0dWRlbnRzIHRvIHdyaXRlIHJlc2VhcmNoIHBhcGVycyBhcyB3ZWxsIGFzIGRvIHN0YXRpc3RpY3MgaW4gUiBvciBTVEFUQSBvciBNYXRsYWIgb24gc21hbGwgZGF0YXNldHMuIFdoeSBkb27igJl0IHdlIGV4cGVjdCB0aGVtIHRvIGRlYWwgd2l0aCB2ZXJ5IHZlcnkgbGFyZ2UgZGF0YXNldHM/IFdlIGFyZSB0b2xkIHRoYXQg4oCcRGF0YSBTY2llbmNl4oCdIGlzIHRoZSBhbnN3ZXIgdG8gdGhpcyDigJxCaWcgRGF0YeKAnSBwcm9ibGVtLgoKSeKAmWQgbGlrZSB0byByZWRlZmluZSBEYXRhIFNjaWVuY2U6IGl0IGlzIHRoZSBhY3Qgb2YgZ2x1aW5nIHRvb2xraXRzIHRvZ2V0aGVyIHRvIGNyZWF0ZSBhIHBpcGVsaW5lIGZyb20gcmF3IGRhdGEgdG8gaW5mb3JtYXRpb24gdG8ga25vd2xlZGdlLlRoZXJlIGFyZSBubyBpbm5vdmF0aW9ucyB0byBiZSBtYWRlIGluIERhdGEgU2NpZW5jZS4gVGhlIGlubm92YXRpb25zIHRvIGJlIG1hZGUgaGVyZSBhcmUgaW4gQ29tcHV0ZXIgU2NpZW5jZSwgSW5mb3JtYXRpY3MsIFN0YXRpc3RpY3MsIFNvY2lvbG9neSwgVmlzdWFsaXphdGlvbiwgTWF0aCwgZXRjLiDigJQgYW5kIHRoZXkgYWx3YXlzIHdpbGwgYmUuCgpEYXRhIFNjaWVuY2UgaXMganVzdCBlbmdpbmVlcmluZy4KIVtdKC9pbWFnZXMvYmxvZy9kYXRhc2NpZW5jZWNvbnN0ZWxsYXRpb24uanBlZykKCiMjIyBBIEJpdCBvZiBCYWNrZ3JvdW5kCgpSZWNlbnRseSBuYW1lZCB0aGUgU2V4aWVzdCBKb2IgaW4gdGhlIDIxc3QgQ2VudHVyeSBieSBIYXJ2YXJkIEJ1c2luZXNzIFJldmlldywgRGF0YSBTY2llbmNlIGhhcyBlbWVyZ2VkIGFzIGEgbmV3IGRpc2NpcGxpbmUsIHdpdGggc2tpbGxzZXRzIGFwcGxpY2FibGUgdG8gaGFuZGxpbmcgbGFyZ2UgZGF0YXNldHMgZnJvbSBzb2NpYWwgbWVkaWEsIG1vYmlsZSBwaG9uZXMsIG9ubGluZSBwdXJjaGFzZXMsIGdlbm9tZXMsIGFuZCBvdGhlciBkYXRhc2V0cy4KCkZyb20gV2lraXBlZGlhOgo+4oCcRGF0YSBzY2llbmNlIGluY29ycG9yYXRlcyB2YXJ5aW5nIGVsZW1lbnRzIGFuZCBidWlsZHMgb24gdGVjaG5pcXVlcyBhbmQgdGhlb3JpZXMgZnJvbSBtYW55IGZpZWxkcywgaW5jbHVkaW5nIG1hdGgsIHN0YXRpc3RpY3MsIGRhdGEgZW5naW5lZXJpbmcsIHBhdHRlcm4gcmVjb2duaXRpb24gYW5kIGxlYXJuaW5nLCBhZHZhbmNlZCBjb21wdXRpbmcsIHZpc3VhbGl6YXRpb24sIHVuY2VydGFpbnR5IG1vZGVsaW5nLCBkYXRhIHdhcmVob3VzaW5nLCBhbmQgaGlnaCBwZXJmb3JtYW5jZSBjb21wdXRpbmcgd2l0aCB0aGUgZ29hbCBvZiBleHRyYWN0aW5nIG1lYW5pbmcgZnJvbSBkYXRhIGFuZCBjcmVhdGluZyBkYXRhIHByb2R1Y3RzLuKAnQoKVGhlIGRlc2NyaXB0aW9uIGdvZXMgb24gdG8gcmVpbmZvcmNlIHRoZSBwZXJjZXB0aW9uIHRoYXQgZGF0YSBzY2llbmNlIGlzIHZlcnkgZGlmZmljdWx0LCBieSBzdGF0aW5nIHRoYXQg4oCcdGhlcmUgaXMgcHJvYmFibHkgbm8gbGl2aW5nIHBlcnNvbiB3aG8gaXMgYW4gZXhwZXJ0IGluIGFsbCBvZiB0aGVzZSBkaXNjaXBsaW5lcy7igJ0gT2YgY291cnNlIHRoZXJlIGlzbuKAmXQuIERhdGEgc2NpZW5jZSBpcyB1c3VhbGx5IGhhbmRsZWQgYnkgdGVhbXMgb2YgY29tcGV0ZW50IGluZGl2aWR1YWxzIHdpdGggdmFyaWVkIGJhY2tncm91bmRzIHRoYXQgY2FuIGNvdmVyIG1vc3Qgb2YgdGhlc2UgYXJlYXMuCgpUaGUgdHJ1dGg6IG9ubHkgMSBvZiB0aGUgOSBhYm92ZSBkaXNjaXBsaW5lcyBhcmUgdGF1Z2h0IGluIHByaW1hcnkgYW5kIHNlY29uZGFyeSBzY2hvb2xzIGluIHRoZSBVbml0ZWQgU3RhdGVzLiBTdHVkZW50cyBhcmUgbHVja3kgdG8gaGF2ZSBhIENvbXB1dGVyIFNjaWVuY2UgQVAgY291cnNlIGluIGhpZ2ggc2Nob29sLCBhbmQgdGhleSBhcmUgc3ViLXBhciB0byBwcmVwYXJlIHlvdSBmb3IgdGhlIHJlYWwgd29ybGQgb2YgY29tcHV0aW5nLgoKVGh1cywgd2UgYXJlIGhpdHRpbmcgYW4gaW1wYXNzZSwgd2hlcmVpbiB0aGUgY29tcHV0YXRpb25hbCBhYmlsaXRpZXMgcmVxdWlyZWQgdG8gaGFuZGxlIG91ciBkYXRhIG91dHB1dCBhcmUgZmFyIG91dHBhY2luZyBvdXIgYWJpbGl0aWVzIG9yIHdvcmtmb3JjZSBzaXplLiBJIGFyZ3VlIHRoYXQgRGF0YSBTY2llbmNlIGhhcyBzaW1wbHkgZW1lcmdlZCBmcm9tIHRoZSBpbmFiaWxpdHkgdG8gdGVhY2ggYSBnZW5lcmF0aW9uIOKAlCBteSBnZW5lcmF0aW9uIOKAlCBhYm91dCBzb2Z0d2FyZSBlbmdpbmVlcmluZy4KCiMjIyBXaHkgZG8gd2UgdHJ1c3QgeW91LCBLYXJpc3NhPwpJIGhhdmUgYmVlbiBhIHJlc2VhcmNoIGFzc2lzdGFudCBhdCBJbmRpYW5hIFVuaXZlcnNpdHkgZm9yIHRoZSBwYXN0IHllYXIuIEJ5IHVzaW5nIG15IGNvbXB1dGVyIHNjaWVuY2Ugc2tpbGxzIGluIGNvbmp1bmN0aW9uIHdpdGggc29tZSBzb2NpYWwgc2NpZW5jZSBjb2xsYWJvcmF0b3JzIHdpdGggZ29vZCBxdWVzdGlvbnMsIEnigJl2ZSBiZWVuIGFibGUgdG8gcHV0IG15c2VsZiBpbiBhIHBvc2l0aW9uIHRoYXQgbW9zdCBwZW9wbGUgZG9u4oCZdCBmaW5kIHRoZW1zZWx2ZXMgc28gZWFybHkgaW4gdGhlaXIgYWNhZGVtaWMgY2FyZWVyLiBUaGUgc29jaWFsIHNjaWVuY2VzIGFyZSBsb3Zpbmcgc3R1ZGllcyB0aGF0IHVzZSB0aGVzZSDigJxCaWcgRGF0YeKAnS1zZXRzLCBhcyB3ZSBhcmUgYWJsZSB0byBjb21wdXRlIHRoaW5ncyBhYm91dCBodW1hbnMgb24gYSBsYXJnZXIgc2NhbGUgdGhhbiBldmVyIHBvc3NpYmxlIGJlZm9yZSBpbiBodW1hbiBoaXN0b3J5LiBUaGUgZmllbGQgaXMgd2lkZSBvcGVuLiBZb3UgY2FuIGVhc2lseSBiZWNvbWUgYSB3aXphcmQg4oCmIG9yIGF0IGxlYXN0IG1ha2UgdGhlbSB0aGluayB5b3UgYXJlLgoKUnVuIHRocm91Z2ggNDAwIG1pbGxpb24gc29jaWFsIG1lZGlhIHBvc3RzPyBHZXQgYWNjZXNzIHRvIGEgYmlnIGVub3VnaCBjb21wdXRlciBhbmQga25vdyB0aGUgbGlicmFyeSB0byB1c2UsIGFuZCBldmVyeXRoaW5nIGlzIHByYWN0aWNhbGx5IGRvbmUgZm9yIHlvdS4gTm93YWRheXMsIHNvbWV0aGluZyB0aGF0IHVzZWQgdG8gdGFrZSBhIGNvdXBsZSBodW5kcmVkIGxpbmVzIG9mIGNvZGUganVzdCBhIGZldyB5ZWFycyBhZ28gY2FuIG5vdyBiZSBkb25lIGxpa2UgdGhpczoKCglyZXMgPSBkYi5leGVjdXRlKG1hcF9mdW4sIHJlZHVjZV9mdW4pCgpUaGUgdHJ1dGggaXMsIHNvbWVvbmUgZXF1aXBwZWQgd2l0aCBhIGNvdXBsZSB5ZWFycyBvZiBjb21wdXRlciBzY2llbmNlIHRyYWluaW5nIGNhbiBjb21wbGV0ZSB0aGVzZSB0YXNrcyAoSSBkaWQhKS4gVGhleSBhcmUgbm90IHNvIGRpZmZpY3VsdC4gVGhlIGluY2VudGl2ZXMgdG8gcGFzcyB0aGVzZSBza2lsbHMgb24sIGhvd2V2ZXIsIGFyZSBub3QgaW5zdGl0dXRpb25hbGl6ZWQuIEFzIGRlbWFuZCBpbmNyZWFzZXMsIG15IHNhbGFyeSBvbmx5IGdvZXMgdXAuLi4gZXNwZWNpYWxseSBpZiB0aGUg4oCcZGF0YSBzY2llbnRpc3TigJ0gc3VwcGx5IGlzIHN0YWduYXRpbmcuCgojIyMgVGhlIEFjYWRlbXkKU28sIHdoYXQgZG9lcyB0aGlzIG1lYW4gZm9yIHRoZSBhY2FkZW15PyBUaGUgcGljdHVyZSBhdCB0aGUgdG9wIG9mIHRoaXMgYmxvZyBwb3N0IHNob3dzIGhvdyBtYW55IHNjaG9vbHMgaGF2ZSBwb3VuY2VkIG9uIHRoZSBpZGVhIG9mIGEgRGF0YSBTY2llbmNlIHByb2dyYW0sIGZlbGxvd3NoaXAsIG1hc3RlcnMsIG9yIFBoRC4gQnV0IHdoYXQgaXMgYWN0dWFsbHkgaGFwcGVuaW5nLCBoZXJlPyBXZSBhcmUgZnVubmVsaW5nIHBlb3BsZSBpbnRvIOKAnERhdGEgU2NpZW5jZeKAnSB3aG8gd291bGQgb3RoZXJ3aXNlIGJlIHN0dWR5aW5nIEJpb2xvZ3ksIFBoeXNpY3MsIFNvY2lvbG9neSwgUG9saXRpY2FsIFNjaWVuY2UsIG9yIG90aGVyIGZpZWxkcy4KCiFbQWx0IHRleHRdKC9pbWFnZXMvYmxvZy9kYXRhc2NpZW5jZWRvb2RsZS5qcGVnKQoKX0hlcmUgd2Ugc2VlIHRoZSB0cmFuc2Zvcm1hdGlvbiBvZiBhY2FkZW1pYS4gU3R1ZGVudHMgYXJlIGZ1bm5lbGVkIGZyb20gdmFyaW91cyBkaXNjaXBsaW5lcyB0byB0aGlzIGVwaGVyZW1hbCDigJxEYXRhIFNjaWVuY2Us4oCdIHdoZXJlIHRoZXkgbGVhcm4gcGFyYWxsZWwgY29tcHV0aW5nLCBtYWNoaW5lIGxlYXJuaW5nLCBhbmQgb3RoZXIgYXBwbGljYWJsZSBza2lsbHMgZnJvbSBDb21wdXRlciBTY2llbmNlIGFuZCBJbmZvcm1hdGljcy4gQXMgcHJvZ3JhbW1pbmcgaXMgYWRvcHRlZCBhcyB0aGUg4oCcZm91cnRoIFLigJ0gYWxvbmdzaWRlIHJlYWRpbmcsIHdyaXRpbmcsIGFuZCBhcml0aG1ldGljLCB3ZSBzZWUgdGhlIGRpc2NpcGxpbmVzIHNlcGFyYXRlIGFuZCBkYXRhIHNjaWVuY2UgZGlzYXBwZWFyLl8KCldoYXQgaWYgc29jaW9sb2dpc3RzIGRpZG7igJl0IGhhdmUgdG8gaGlyZSBhIGRhdGEgc2NpZW50aXN0LCBvciBiZWNvbWUgZGF0YSBzY2llbnRpc3RzOyB3aGF0IGlmIHBvbGl0aWNhbCBzY2llbnRpc3RzIGRpZG7igJl0IGhhdmUgdG8gZ2V0IGEgTVMgaW4gY29tcHV0ZXIgc2NpZW5jZTsgd2hhdCBpZuKApiB3aGF0IGlm4oCmIHdlIHNhdyBwcm9ncmFtbWluZyBhcyBhIGZ1bmRhbWVudGFsIGxpZmUgc2tpbGw/IFdoYXQgaWYgaW5zdGVhZCBvZiBmb2N1c2luZyBvbiBsZWFybmluZyBjb21wdXRhdGlvbmFsIGluZnJhc3RydWN0dXJlIGluIGEgcHJvZ3JhbSBsaWtlIERhdGEgU2NpZW5jZSwgc3R1ZGVudHMgY291bGQganVzdCBkaXZlIGludG8gdGhlaXIgZmllbGQgb2YgaW50ZXJlc3QsIHVzaW5nIGNvbXB1dGF0aW9uYWwgdG9vbHM/CgpXaGF0IGlmIGFsb25nIHdpdGggUmVhZGluZywgd1JpdGluZywgYW5kIGFSaXRobWV0aWMsIHRoZXJlIHdhcyBwUm9ncmFtbWluZz8gVGhlIOKAnGZvdXJ0aCBS4oCdIChvciDigJhyaXRobXMgZm9yIOKAnGFsZ29yaXRobXPigJ0gaXQgaGFzIGJlZW4gY2FsbGVkIGluIHRoZSBwYXN0KSBoYXMgYmVlbiB0b3V0ZWQgYXMgdGhlIDIxc3QtY2VudHVyeSBsaXRlcmFjeS4gT25jZSB0aGUgYWNhZGVteSBidWlsZHMgcHJvZ3JhbW1pbmcgYW5kIGFsZ29yaXRobXMgaW50byB0aGUgYmFzaWMgY3VycmljdWx1bSwgSSB0aGluayB3ZSB3aWxsIHNlZSBEYXRhIFNjaWVuY2Ugc3RvcCBiZWluZyB0aGlzIGNhdGNoLWFsbCBmb3IgZXZlcnkgc3R1ZGVudCB3aG8gd2FudHMgdG8gbGVhcm4gaG93IHRvIGhhcm5lc3Mg4oCcQmlnIERhdGEu4oCdCgpEb27igJl0IGdldCBtZSB3cm9uZyDigJQgSeKAmW0gc3VyZSBEYXRhIFNjaWVuY2Ugd2lsbCBjb250aW51ZSB0byBleGlzdCBmb3IgYSBsb25nIHRpbWUsIGFuZCB0aGUgY3VycmVudCBzZXQgdXAgaXMgZ3JlYXQgZm9yIHBlb3BsZSBsaWtlIG1lLiBOb3QgdG8gbWVudGlvbiwgaGF2aW5nIHBvZHMgb2YgcGVvcGxlIHdobyBkbyBzaW1pbGFyIHRoaW5ncyBhbGxvd3MgcmVzb3VyY2VzIHRvIGJlIHNoYXJlZCBlYXNpbHkuIEJ1dCBJIHByZWRpY3QgdGhpcyBmaWVsZCB3aWxsIGZsb3cgYmFjayBpbnRvIGl04oCZcyByZXNwZWN0aXZlIHN1YmZpZWxkcyBhcyBjb21wdXRlciBzY2llbmNlIGxpdGVyYWN5IGluY3JlYXNlcy4gVGhlIHByb2dyYW1taW5nIHBhcnRzIG9mIOKAnERhdGEgU2NpZW5jZeKAnSBhcmUgYWN0dWFsbHkgcHJldHR5IGVhc3kuCgpJIGltYWdpbmUgYW4gYWNhZGVteSB3aGVyZSBjb21wdXRlciBzY2llbmNlIGJlY29tZXMgYSBmdW5kYW1lbnRhbCBza2lsbCBpbiBTb2Npb2xvZ3ksIEJpb2xvZ3ksIEpvdXJuYWxpc20sIEVjb25vbWljcywgUGh5c2ljcywgUG9saXRpY2FsIFNjaWVuY2U7IHdoZXJlIHRoZSBpZGVhIG9mIOKAnERhdGEgU2NpZW5jZeKAnSBhcyBhIHNlcGFyYXRlIGVudGl0eSBzZWVtcyBhYnN1cmQsIGJlY2F1c2UgdGhhdOKAmXMganVzdCBlbmdpbmVlcmluZy4gVGhhdOKAmXMganVzdCBhbm90aGVyIHdheSB3ZSBjYW4gcHJvZHVjZSBhbmQgdHJhbnNtaXQgcmVzdWx0cywgYSBzdGFuZGFyZCBwcmFjdGljZSB0YXVnaHQgYWxvbmdzaWRlIHJlYWRpbmcgYW5kIHdyaXRpbmcu","base64").toString()
   },
   2: {
+    id: 2,
     "title": "Don't forget to reply-all: E-mail is a terrible collaboration tool",
     "date": "2013-06-13 16:24",
     "comments": true,
     "categories": ["collaboration", "technology"],
     "text": Buffer("SG93IG1hbnkgdGltZXMgaGF2ZSB5b3Ugd3JpdHRlbiBhbiBlLW1haWwgdG8gYSBncm91cCBvZiBwZW9wbGUsIGFuZCBzb21lb25lIGZvcmdldHMgdG8gcmVwbHktYWxsPwoKTW9zdCBvZiB0aGUgdGltZSwgd2XigJlkIGxpa2UgdG8gaGF2ZSBldmVyeW9uZSByZXNwb25kIHRvIGV2ZXJ5b25lIGVsc2UsIHBhcnRpY3VsYXJseSBpbiBjb2xsYWJvcmF0aW9uIHNjZW5hcmlvcyBzdWNoIGFzIHdvcmssIHNjaG9vbCwgb3Igc2lkZSBwcm9qZWN0cy4gSXTigJlzIG5pY2Ugd2hlbiBwZW9wbGUgYXJlIGxlYXN0IHNpZ25hbGluZyB0aGF0IHRoZXkgaGF2ZSByZWNlaXZlZCB0aGUgbWVzc2FnZSwgbGV0IGFsb25lIHB1dHRpbmcgZm9ydGggdmFsdWFibGUgaW5zaWdodCByZWxhdGVkIHRvIHRoZSB0b3BpYy4gQXQgdGhlIHZlcnkgbGVhc3QsIHdlIGV4cGVjdCwgYW5kIGhvcGUsIHRoYXQgZXZlcnlvbmUgaW52b2x2ZWQgd2lsbCDigJxyZXBseS1hbGzigJ0gd2hlbiB0aGV5IHJlc3BvbmQgd2l0aCBzb21ldGhpbmcgdGhhdCBjb25jZXJucyB0aGUgZW50aXJlIGdyb3VwLgoKVGhpcyBkb2VzbuKAmXQgYWx3YXlzIGhhcHBlbi4gRXNwZWNpYWxseSB3aXRoIG91ciBsZXNzIOKAnHRlY2h54oCdIG5laWdoYm9ycywgaXQgY2FuIGJlIGVhc3kgdG8gYWNjaWRlbnRhbGx5IChvciB1bmtub3dpbmdseSkgbm90IHVzZSB0aGlzIHNlZW1pbmdseSBoaWRkZW4sIG5vbi1kZWZhdWx0IGZlYXR1cmUgb2Yg4oCccmVwbHlpbmctYWxsLuKAnQoKQnV0IHdoeSBpcyDigJxyZXBseS1hbGzigJ0gc28gaW1wb3J0YW50PyBBbmQgd2hlcmUgZG9lcyBlLW1haWwgZ28gcGFydGljdWxhcmx5IGJhZCwgZXZlbiB3aGVuIHJlcGx5LWFsbCBpcyB1c2VkPwoKVGFrZSB0aGlzIGZvciBleGFtcGxlICh0aGlzIGhhcHBlbmVkIHRvIG1lIG9uY2UpOgoKPiBfSm9obl86IFNvLCB3aGVyZSBhcmUgd2UgbWVldGluZz8gMzc2IHdvdWxkIHJlYWxseSB3b3JrIGJldHRlciBmb3IgbWUsIEkgbmVlZCB0byBkcm9wIG9mZiBteSBraWRzIGF0IHNjaG9vbC4KX0JlY2NhXzogSeKAmW0gbmVhciAzNzYsIHNvIHRoYXQgd29ya3MsIGJ1dCBJIGRvbuKAmXQgbWluZCBnb2luZyB0byBUYXlsb3LigJlzIG9mZmljZS4KX1RheWxvcl86IEJvYiBhbmQgSSB3aWxsIGJlIGluIG15IG9mZmljZS4gQ29tZSBvdmVyLgpfQm9iXzogSSBkb27igJl0IHJlYWxseSBjYXJlIHdoZXJlIHdlIG1lZXQuCl9CZWNjYV86IE1heWJlIGl0IG1pZ2h0IGJlIGJldHRlciB0byBtZWV0IGluIDM3NiBiZWNhdXNlIG9mIEpvaG7igJlzIHRpbWUgY29uc3RyYWludD8KX0pvaG5fOiBJdOKAmXMgbm90IGEgYmlnIGRlYWwsIEkgZG9u4oCZdCBtaW5kIGhlYWRpbmcgb3ZlciB0byB5b3VyIG9mZmljZSwgVGF5bG9yLgpfVGF5bG9yXzogQWxyaWdodCB0aGF04oCZcyBmaW5lLCB3ZSB3aWxsIGhlYWQgb3ZlciB0byAzNzYuCgoqKldoZXJlIGlzIHRoZSBncm91cCBtZWV0aW5nPyoqCgpUaGlzIGlzIHdoYXQgaGFwcGVucyB3aXRoIGEgc3RyaW5nIG9mIOKAnHJlcGx5LWFsbOKAnS1zIGF0IHRoZSBzYW1lIHRpbWUuIFBlb3BsZSBhcmUgdHJ5aW5nIHRvIHVzZSBlLW1haWwgbGlrZSBjaGF0LiBUaGVzZSBlLW1haWxzIGVudGVyIHlvdXIgZS1tYWlsIGJveCBzZXF1ZW50aWFsbHksIGxpa2UgY2hhdCwgc28gSSBkb27igJl0IGJsYW1lIHBlb3BsZSBmb3IgZG9pbmcgaXQuCgpCdXQgaXTigJlzIGUtbWFpbCwgbm90IGNoYXQhIEUtbWFpbCBpcyBzbG93LiBJdCBpcyBtb2RlbGVkIGFmdGVyIHNvbWV0aGluZyBwZW9wbGUgbGlrZSB0byBkdWIgYXMg4oCcc25haWwgbWFpbOKAnS4gVGhlcmUgYXJlIG1hbnkgYnV0dG9ucyB0byBwcmVzcywgYW5kIHNvbWV0aW1lcyB5b3UgbWlnaHQgcHJlc3MgdGhlIHdyb25nIG9uZTsgc29tZXRpbWVzIHBlb3BsZSBkb27igJl0IHJlcGx5LWFsbDsgc29tZXRpbWVzIHBlb3BsZSBqdXN0IGdlbnVpbmVseSBtaXNzIHlvdXIgbWVzc2FnZXM7IHBlb3BsZSBzb21ldGltZXMgd3JpdGUgcmVzcG9uc2VzIGF0IHRoZSBzYW1lIHRpbWUuIEl0IHdhc3RlcyB0aW1lLgoKRXZlbiB3b3JzZSwgdGhlIGxvc3Mgb2YgY29tbXVuaWNhdGlvbiBpbiBhIGdyb3VwLCBwYXJ0aWN1bGFybHkgaW4gY29sbGFib3JhdGlvbiBzaXR1YXRpb25zLCBjYW4gbGVhZCB0byB0aGUgZ3JvdXDigJlzIGZhaWx1cmUgdG8gZXN0YWJsaXNoIGdvYWxzIGFuZCBleGVjdXRlIHRoZW0uIEl0IGNhbiBsZWFkIHRvIG1pc3VuZGVyc3RhbmRpbmdzLCB0byBkdXBsaWNhdGlvbiBvZiB3b3JrLCBvciBhYnNlbmNlIG9mIGl0IGVudGlyZWx5LgoKVGhlIHNlcXVlbnRpYWwgcGF0dGVybiBvZiBlLW1haWwgc29tZXRpbWVzIGp1c3QgZG9lc27igJl0IG1ha2UgYW55IHNlbnNlLiBQZW9wbGUgb2Z0ZW4gcmVwbHkgdG8gZS1tYWlscyB0aGF0IGFyZSBvdXQgb2YgZGF0ZSwgcGVyaGFwcyBkdWUgdG8gbGFnIG9yIGEgbWlzc2VkIG1lc3NhZ2UuIFRoZSBlYXN5IHdheSB0byBmaXggdGhpcywgaXMsIG9mIGNvdXJzZSwgcmVhbC1saWZlIGNvbW11bmljYXRpb24gc2ltdWxhdGlvbi4gSGF2ZW7igJl0IHdlIGZpeGVkIHRoaXMgYWxyZWFkeSwgdGhvdWdoPyBXaXRoIGNoYXQ/CgpNYXliZSB3ZSBjb3VsZCBkZXRlY3Qgd2hlbiBldmVyeW9uZSBpbiB5b3VyIHJlY2lwaWVudHMgbGlzdCBpcyBvbmxpbmUsIGFuZCBpbW1lZGlhdGVseSBwdXQgdGhlbSBpbiBhIGNoYXQgcm9vbSB0b2dldGhlciwgaW5zdGVhZCBvZiBmb3JjaW5nIGV2ZXJ5b25lIHRvIGNvbXBseSB3aXRoIHRoZSBjb25zdHJhaW50cyBvZiBlLW1haWwgLiBBIGR5bmFtaWMgcmVzcG9uc2Ugc3lzdGVtIGNvdWxkIHdvcmsgbGlrZSBjaGF0IHdoZW4gcG9zc2libGUsIGFuZCB3b3JrIGxpa2Ugc25haWwtbWFpbCBvdGhlcndpc2UuCgotSwoKRURJVDogSSByZWFsbHkgZGlkbuKAmXQgbWVhbiBmb3IgdGhpcyB0byBjb21lIG91dCBhcyBhbiBlbmRvcnNlbWVudCwgYnV0IGhpcGNoYXQuY29tIGxvb2tzIGxpa2UgYSB2aWFibGUgc29sdXRpb24uCg==","base64").toString()
+  },
+  3: {
+    id: 3,
+    "title": "Expanded Best Practices when Learning to Code",
+    "date": "2013-06-01 00:43",
+    "comments": true,
+    "categories": ["tutorials", "programming", "education"],
+    "text": Buffer("SSBjYW1lIGFjcm9zcyB0aGlzIG5pY2UgbGl0dGxlIGJsb2cgY2FsbGVkIFtDb2RlSFNdKGh0dHA6Ly9ibG9nLmNvZGVocy5jb20vKS4KSeKAmW0gcHJldHR5IGhhcHB5IGFib3V0IGEgbG90IG9mIHRoZSBwb3N0cyBJIHNlZSBvbiBpdCwgYW5kIGFsdGhvdWdoIGl0IGlzbuKAmXQKaW5jcmVkaWJseSBhY3RpdmUsIEkgZG8gZmluZCBpdCB0byBoYXZlIHNvbWUgbmljZSB0aWRiaXRzLiBIZXJlIGlzIGEgZ3JlYXQKbGl0dGxlIHBpZWNlIHRpdGxlZCDigJxCZXN0IFByYWN0aWNlcyBXaGVuIExlYXJuaW5nIHRvIENvZGUu4oCdIEhlIGRvZXNu4oCZdCBnbyBpbnRvCmdyZWF0IHByYWN0aWNhbCBkZXRhaWwgb24gZWFjaCBwb2ludCwgc28gSSB3YW50ZWQgdG8gZXhwYW5kIG9uIHRoZW0gaW4gdGhpcwpwb3N0Lgo8IS0tIG1vcmUgLS0+Cgo+IDEpIEtlZXAgYW4gb3BlbiBtaW5kLiBXaGVuIHlvdSBsZWFybiB0byBwcm9ncmFtLCBhbmQgeW91IGhhdmVu4oCZdCBwcm9ncmFtbWVkCmJlZm9yZSwgdGhlcmUgd2lsbCBiZSBhIGxvdCBvZiBuZXcgaWRlYXMuIEJlIHdpbGxpbmcgdG8gZ28gd2l0aCB0aGUgZmxvdy4KCllvdSB3aWxsIG9mdGVuIGJlIHRocm93biB0YXNrcyBsaWtlIOKAnFVzZSB0aGUgcmVhZGVyIG1vbmFk4oCdIG9yIOKAnFNldApzdWNoLWFuZC1zdWNoIE15U1FMIHZhcmlhYmxlIHRvIFjigJ0gb3Ig4oCcQmVuY2htYXJrIHlvdXIgZnVuY3Rpb25z4oCdIHdpdGhvdXQgbXVjaAptb3JlIGhlbHAuICBTb2Z0d2FyZSBkZXZlbG9wbWVudCwgbGlrZSBhbnkgZGlzY2lwbGluZSBvciBhcnQsIGhhcyBhIGxlYXJuaW5nCmN1cnZlLiBUaGVyZSBhcmUgYmFzaWMgYnVpbGRpbmcgYmxvY2tzIG9uZSBuZWVkcyB0byBjb21wbGV0ZSBldmVyeSB0YXNrLiBEb27igJl0CmJlIGFmcmFpZCB0byBiZSBjb25mdXNlZCwgYW5kIGtlZXAgYW4gb3BlbiBtaW5kIHRvIHdoYXQgbW9yZSBleHBlcmllbmNlZCBwZW9wbGUKYXJlIHRlbGxpbmcgeW91LiBJdOKAmXMgZ29pbmcgdG8gaGFwcGVuIG92ZXIgYW5kIG92ZXIgYWdhaW4uIEFzIHdpdGggbGVhcm5pbmcgYW55CmRpc2NpcGxpbmUgb3IgYXJ0LCBpdCB0YWtlcyB0aW1lIHRvIHB1dCB0aGUgYnVpbGRpbmcgYmxvY2tzIGluIHRoZSByaWdodCBwbGFjZXMKc28gdGhhdCB5b3UgY2FuIGNsaW1iIHRoZSBjdXJ2ZS4gSW4gdGhlIHByb2dyYW1taW5nIGNvbW11bml0eSB0aGVyZSBhcmUgYSBsb3QKb2YgcGVvcGxlIHdobyBzZWVtIGVsaXRpc3QgYW5kIHVud2lsbGluZyB0byBoZWxwIHlvdS4gVGhlIGhhcmRlc3QgcGFydCBmb3IgbWUKaXMgYmVjb21pbmcgZnJ1c3RyYXRlZCB3aGVuIEkgZG9u4oCZdCBoYXZlIHRoZXNlIGJ1aWxkaW5nIGJsb2NrcyB5ZXQsIGFuZCBJIGZlZWwKYWxvbmUgYW5kIGhlbHBsZXNzLiBJZiB5b3Uga2VlcCBwdXNoaW5nIGFuZCB0ZW1wZXIgeW91ciBmcnVzdHJhdGlvbnMsIHlvdeKAmWxsCmdldCB0aG9zZSBidWlsZGluZyBibG9ja3MgaW4gZHVlIHRpbWUuIFlvdSBjYW7igJl0IGJlIGZydXN0cmF0ZWQsIGFzIGl0IHdpbGwga2VlcAp5b3UgZnJvbSBhbiBvcGVuIG1pbmQuCgo+IDIpIEJlIHdpbGxpbmcgdG8gcGxheSBhcm91bmQuIE9uZSBvZiB0aGUgYmVzdCB3YXlzIHRvIHJlaW5mb3JjZSBhIHByb2dyYW1taW5nCmNvbmNlcHQgd2hlbiB5b3UgYXJlIGxlYXJuaW5nIGlzIGp1c3QgdG8gcGxheSBhcm91bmQgd2l0aCBpdC4gTWF5YmUgeW91IGxlYXJuIGEKbmV3IGNvbW1hbmQsIGEgbmV3IGZ1bmN0aW9uLCBhIG5ldyBjb25jZXB04oCmIHRyeSB0byBkbyB0aGUgZ2l2ZW4gZXhhbXBsZSwgYnV0CnRyeSB0byBtb2RpZnkgaXQgYSBsaXR0bGUgLS0ganVzdCB0byBzZWUgd2hhdCBoYXBwZW5zLgoKSXTigJlzIGp1c3QgYSBjb21wdXRlciEgSXQgYWN0dWFsbHkgZG9lc27igJl0IGhhdmUgYSBtaW5kIG9mIGl04oCZcyBvd24sIGFsdGhvdWdoIGl0CmRvZXMgc2VlbSBsaWtlIGl0IHNvbWV0aW1lcy4gSSByZWNvbW1lbmQgd29ya2luZyBvbiBhIGNsZWFuIGluc3RhbGxhdGlvbiBvZgpMaW51eCBNaW50IG9yIFVidW50dSwgYW5kIHdyaXRlIGxvZ3Mgb2Ygd2hhdCB5b3VyIHByb2dyYW0gd2lsbCBkbyB1c2luZyBwcmludApzdGF0ZW1lbnRzIGFuZC9vciB3cml0aW5nIHRvIGEgZmlsZS4gKkJhY2sgdXAgZXZlcnl0aGluZyB5b3Ugd3JpdGUgb24gdmVyc2lvbgpjb250cm9sICh1c2UgZ2l0aHViLmNvbSkuKiBJbiB0aGUgd29yc3QgY2FzZSwgeW91IGNhbiBhbHdheXMgcmVpbnN0YWxsIG9yIGdvCmJhY2sgdG8gYSBwcmV2aW91cyB2ZXJzaW9uLiA6KSBUaGVzZSBzbWFsbCB0aGluZ3Mgd2lsbCBtYWtlIHlvdSBmZWVsIG1vcmUKc2VjdXJlIGluIHlvdXIgcHJvZ3JhbW1pbmcsIHdoaWNoIGlzIGltcG9ydGFudCB0byB5b3VyIHN1Y2Nlc3MuIEp1c3QgZG9u4oCZdCBiZQphZnJhaWQuIFlvdSBjYW4gb25seSBsZWFybiBmcm9tIG1pc3Rha2VzLgoKPiAzKSBTdHlsZSBjb3VudHMuIFdoZW4gd2UgdGVhY2ggcHJvZ3JhbW1pbmcgYW5kIGNvbXB1dGVyIHNjaWVuY2UgYXQgQ29kZUhTLCB3ZQpmb2N1cyBvbiBnZXR0aW5nIHRoZSBwcm9ncmFtIHRvIHdvcmssIGJ1dCBhbHNvIG9uIHdyaXRpbmcgYSBwcm9ncmFtIHRoYXQgaGFzCmdvb2Qg4oCcc3R5bGUu4oCdIFdoYXQgSSBtZWFuIGJ5IHN0eWxlIGlzIHRoYXQgdGhlIHByb2dyYW0gaXMgYnJva2VuIGRvd24gaW4gYQpyZWFzb25hYmxlIHdheSwgYW5kIHRoYXQgYW4gZWZmb3J0IGlzIG1hZGUgdG8gbWFrZSBpdCB1bmRlcnN0YW5kYWJsZSBmb3IKYW5vdGhlciBwZXJzb24gd2hvIG1heSBjb21lIGFsb25nIGFuZCByZWFkIHRoZSBwcm9ncmFtLgoKVGhpcyBpcyBnb29kIGFkdmljZSwgYW5kIGl04oCZcyB0cnVlLCBidXQgaXQgZG9lc27igJl0IGdpdmUgeW91IGFueSBwcmFjdGljYWwKZXhhbXBsZXMuIEhlcmUgaXMgYW4gZXhhbXBsZSBvZiBzb21lIGNvZGUgd2l0aCBHb29kIFN0eWxl4oSiOgoKYGBgIHB5dGhvbgpkZWYgdG9fY3N2KHRpbWVsaW5lLCBmaWxlbmFtZSk6CgkiIiJUYWtlcyBhIHRpbWVsaW5lIChhcyBhIGxpc3Qgb2YgZGljdGlvbmFyaWVzKQoJd3JpdGVzIHRvIGZpbGUgaW4gY3N2IiIiCgoJd3JpdGVyID0gb3BlbihmaWxlbmFtZSwgInciKQoJZmllbGRuYW1lcyA9IFsnZGF0ZScsICdzaWduYWwnLCAndm9sdW1lJ10KCXdyaXRlci53cml0ZSgiJXMsICVzLCAlc24iICUgZmllbGRuYW1lcykKCglmb3IgdCBpbiB0aW1lbGluZToKCSAgICAgICB3cml0ZXIud3JpdGUoIiVzLCAlcywgJXNuIiAlIFt0LmRhdGUsIHQuc2lnbmFsLCB0LnZvbHVtZV0pCgl3cml0ZXIuY2xvc2UoKQpgYGAKCkdvb2QgdGhpbmdzOiBjb21tZW50IHVuZGVyIHRoZSBmdW5jdGlvbiBkZWZpbml0aW9uIHRoYXQgZGVzY3JpYmVzIHRoZSBpbnB1dCBhbmQKb3V0cHV0IG9mIHRoZSBmdW5jdGlvbiBpbiBwbGFpbiBFbmdsaXNoLiBWYXJpYWJsZXMgY3JlYXRlZCBhbmQgdGhlbiBwYXNzZWQgdG8KZnVuY3Rpb25zLCBzbyB0aGF0IGFwcHJvcHJpYXRlIG5hbWVzIGNhbiBiZSBhc3NpZ25lZCBhbmQgdGhlIGNvZGUgaXMgYWJsZSB0bwpzcGVhayBmb3IgaXRzZWxmLiBXaGl0ZXNwYWNlIGluIGJldHdlZW4gZWFjaCBsb2dpY2FsIGNodW5rOiBpbnN0YW50aWF0aW5nIHRoZQp3cml0ZXIsIHdyaXRpbmcgdGhlIGZpZWxkbmFtZXMsIHdyaXRpbmcgdGhlIHJvd3MsIGNsb3NpbmcgdGhlIHdyaXRlci4gT25lIGxhc3QKdGhpbmc6IE5ldmVyIGNvcHkgYW5kIHBhc3RlIHlvdXIgY29kZS4gV3JpdGUgYSBmdW5jdGlvbiwgY3JlYXRlIGEgY2xhc3MsIGFuZApjYWxsIGl0IG11bHRpcGxlIHBsYWNlcy4gT25jZSB5b3UgZmluZCB5b3Vyc2VsZiBjb3B5aW5nIGFuZCBwYXN0aW5nLCB5b3Ugc2hvdWxkCnNlcmlvdXNseSBjb25zaWRlciBpZiB5b3UgYXJlIG1ha2luZyB5b3VyIGNvZGUgaGFyZGVyIHRvIHJlYWQgYW5kIGRlYnVnLiBJCnByb21pc2UgaXQgd2lsbCBtYWtlIG1vcmUgd29yayBmb3IgeW91IGluIHRoZSBsb25nIHJ1biA5OSUgb2YgdGhlIHRpbWUuIFlvdQptaWdodCBsb29rIGF0IHRoaXMgY29kZSB0d28geWVhcnMgZnJvbSBub3cgb3IgcGFzcyBpdCBvZmYgdG8geW91ciBzdWNjZXNzb3IsIHNvCmhhdmluZyBHb29kIFN0eWxl4oSiIGlzIGEgbWF0dGVyIG9mIGNvdXJ0ZXN5LCBwcmFjdGljYWxpdHksIGFuZCB0aW1lIGVmZmljaWVuY3kuCgo+IDQpIEFzayBxdWVzdGlvbnMuIEV2ZXJ5b25lIGdldHMgc3R1Y2sgd2hlbiBsZWFybmluZyB0byBwcm9ncmFtIC0tIEkgcHJvbWlzZS4KSG93ZXZlciwgYSBiaWcgcGFydCBvZiBob3cgd2VsbCB5b3UgbGVhcm4gaXMgaG93IHlvdSByZXNwb25kIHdoZW4geW91IGdldApzdHVjay4gVHJ5IHRvIGFzayBnb29kIHF1ZXN0aW9ucyAtLSBvZnRlbiB0aGUgcHJvbWlzZSBvZiBmb3JtdWxhdGluZyBhbmQgYXNraW5nCnRoZSBxdWVzdGlvbiBhY3R1YWxseSBoZWxwcyBjbGFyaWZ5IHRoZSBwcm9ibGVtIHlvdSBhcmUgaGF2aW5nLgoKV2hlbiB5b3UgaGl0IGEgcHJvYmxlbSwgaGVyZSBpcyB0aGUgb3JkZXIgb2Ygc3RlcHMgeW91IHNob3VsZCB1c2UgdG8gdHJ5IHRvIGZpeCBpdDoKCjAuIEZpbmQgYSBjb2RpbmcgYnVkZHkuIFByZWZlcmFibHksIHNvbWVvbmUgd2hvIGhhcyBleHBlcmllbmNlIGluIGEgZGlmZmVyZW50IGFyZWEgb3IgaGFzIGEgZGlmZmVyZW50IGNvZGluZyBtaW5kc2V0IHRoYW4geW91LiBTb21lIG9mIHRoZSBlYXNpZXN0IHByb2JsZW1zIGNvdWxkIGJlIGZpeGVkIHJpZ2h0IGF3YXkuIFRha2UgdHVybnMgYmVpbmcgdGhlIG9uZSBhdCB0aGUga2V5Ym9hcmQgc28geW91IGJvdGggY2FuIGxlYXJuIGZyb20gZWFjaCBvdGhlci4gSSByZWFsbHkgbGlrZSBwYWlyIHByb2dyYW1taW5nIC0gaXQgcHJvZHVjZXMgY29kZSBnZW5lcmFsbHkgZmFzdGVyIGFuZCBtb3JlIGFjY3VyYXRlbHksIHVubGVzcyB5b3UgZG9u4oCZdCB3b3JrIHdlbGwgdG9nZXRoZXIuCgoxLiBTdG9wIGNvZGluZy4gVGFrZSBvdXQgYSBwaWVjZSBvZiBwYXBlci4gVGhpbmsgYWJvdXQgd2hhdCB5b3UgYXJlIGRvaW5nIGFuZCB0cnkgdG8gd3JpdGUgaXQgaW4gcGxhaW4gRW5nbGlzaCwgdXNlIGRpYWdyYW1zLCBvciBvdXRsaW5lIHRoZSBhbGdvcml0aG0uIFRoaXMgaXMgdGhlIG1vc3QgY3J1Y2lhbCBwYXJ0IG9mIHRoZXNlIHN0ZXBzLCBhcyB5b3Ugd2lsbCBsZWFybiBtb3JlIGFib3V0IHRoZSBwcm9ibGVtIGFuZCBiZSBhYmxlIHRvIGFydGljdWxhdGUgeW91ciBxdWVzdGlvbnMsIG9yIGV2ZW4gYW5zd2VyIHRoZW0geW91cnNlbGYuCgoyLiBBc2sgTXIuR29vZ2xlIGFuZCBTdGFjayBPdmVyZmxvdy4gU29tZW9uZSBtaWdodCBoYXZlIGFscmVhZHkgYW5zd2VyZWQgaXQhCgozLiBBc2sgc29tZW9uZSB3aXRoIG1vcmUgZXhwZXJpZW5jZSB0aGFuIHlvdS4gQXNrIHlvdXIgYm9zcywgYWR2aXNvciwgcHJvZmVzc29yLCBncmFkIHN0dWRlbnQsIHBvc3Rkb2MgZnJpZW5kLCB3aG9ldmVyLiBZb3UgcHJvYmFibHkgd2lsbCBoYXZlIGxlYXJuZWQgbW9yZSBhYm91dCB5b3VyIHByb2JsZW0gZnJvbSB0aGUgcHJldmlvdXMgc3RlcHMgc28geW91IGNhbiBhc2sgdGhlIHF1ZXN0aW9ucyBjbGVhcmx5IGFuZCB1bmRlcnN0YW5kIHRoZWlyIGFuc3dlcnMgZXZlbiBiZXR0ZXIuIElmIHlvdSB3YW50IHRvIGJlIGEgY29kaW5nIGd1cnUsIHRoZW4geW914oCZbGwgbmVlZCB0byBsZWFybiBob3cgdG8gc29sdmUgcHJvYmxlbXMgb24geW91ciBvd24uIElmIHlvdSBhbHdheXMgZ28gdG8gcGVvcGxlIHdobyBoYXZlIG1vcmUgZXhwZXJpZW5jZSBhbmQgZ2V0IGZlZCB0aGUgYW5zd2VyLCB5b3Ugd2lsbCBmYWlsIHRvIGxlYXJuIHRoYXQgdmFsdWFibGUgc2tpbGwuIEFzayBxdWVzdGlvbnMsIGJ1dCBhc2sgeW91cnNlbGYgZmlyc3QuCgo+IDUpIEZvY3VzIG9uIGZ1bi4gTGVhcm5pbmcgYSBuZXcgc2tpbGwgaXMgYWJvdXQgYSBtaWxsaW9uIHRpbWVzIG1vcmUgaW50ZXJlc3Rpbmcgd2hlbiBpdCBmZWVscyBmdW4uIFRoaXMgbWVhbnMgZmluZCBhIHdheSB0byB3b3JrIG9uIGl0IHRoYXQgZml0cyBpbiB5b3VyIHNjaGVkdWxlLCBidXQgb25lIHRoYXQgaXMgcmVhc29uYWJsZSBhbmQgbWFpbnRhaW5hYmxlLiBUaG9zZSBhcmUganVzdCBhIGZldyB0aXBzLCBidXQgdGhlIGJlc3Qgd2F5IHRvIGxlYXJuIGlzIHRvIGp1c3QgdG8gZ2V0IHN0YXJ0ZWQhIFdpdGggQ29kZUhTIHlvdSBzdGFydCB3cml0aW5nIHlvdXIgZmlyc3QgcHJvZ3JhbSBpbiBqdXN0IHR3byBtaW51dGVzLiDigJRKZXJlbXkgKGh0dHA6Ly9ibG9nLmNvZGVocy5jb20vKQoKSSByZWFsbHkgZW5qb3llZCB0aGlzIHNtYWxsIHNldCBvZiB0aWRiaXRzLCBhbmQgSSBob3BlIHlvdSBmaW5kIHRoZW0gdXNlZnVsLiDigJhUaWxsIG5leHQgdGltZS4uLgoKCg==","base64").toString()
   }
 }
-
 var routes = [
   {
     url: '/post/:id',
-    template: Buffer("PGgxPnt7dGl0bGV9fTwvaDE+CjxoMj48L2gyPgo8aDY+YnkgS2FyaXNzYSBNY0tlbHZleSBhdCB7e2RhdGV9fSA8YSBocmVmPSIjZGlzcXVzX3RocmVhZCI+IGNvbW1lbnRzPC9hPjwvaDY+Cnt7bWFya2Rvd24gdGV4dH19Cgp7eyNpZiBjb21tZW50c319CiAgICA8ZGl2IGlkPSJkaXNxdXNfdGhyZWFkIj48L2Rpdj4KICAgIDxub3NjcmlwdD5QbGVhc2UgZW5hYmxlIEphdmFTY3JpcHQgdG8gdmlldyB0aGUgPGEgaHJlZj0iaHR0cDovL2Rpc3F1cy5jb20vP3JlZl9ub3NjcmlwdCI+Y29tbWVudHMgcG93ZXJlZCBieSBEaXNxdXMuPC9hPjwvbm9zY3JpcHQ+CiAgICA8YSBocmVmPSJodHRwOi8vZGlzcXVzLmNvbSIgY2xhc3M9ImRzcS1icmxpbmsiPmNvbW1lbnRzIHBvd2VyZWQgYnkgPHNwYW4gY2xhc3M9ImxvZ28tZGlzcXVzIj5EaXNxdXM8L3NwYW4+PC9hPgp7ey9pZn19","base64").toString(),
+    template: Buffer("PGEgaHJlZj0iLyI+YmFjazwvYT4KPGgxPnt7dGl0bGV9fTwvaDE+CjxoNj5ieSBLYXJpc3NhIE1jS2VsdmV5IGF0IHt7ZGF0ZX19IDxhIGhyZWY9IiNkaXNxdXNfdGhyZWFkIj4gY29tbWVudHM8L2E+PC9oNj4Ke3ttYXJrZG93biB0ZXh0fX0KCnt7I2lmIGNvbW1lbnRzfX0KICAgIDxkaXYgaWQ9ImRpc3F1c190aHJlYWQiPjwvZGl2PgogICAgPGEgaHJlZj0iaHR0cDovL2Rpc3F1cy5jb20iIGNsYXNzPSJkc3EtYnJsaW5rIj5jb21tZW50cyBwb3dlcmVkIGJ5IDxzcGFuIGNsYXNzPSJsb2dvLWRpc3F1cyI+RGlzcXVzPC9zcGFuPjwvYT4Ke3svaWZ9fQ==","base64").toString(),
     data: function (params, cb) {
       var thing = posts[params.id]
       thing.text = thing.text
       cb(thing)
     },
-
     onrender: function (params) {
-      var disqus_shortname = 'karissamck'; // required: replace example with your forum shortname
-      (function() {
-          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-      })();
     }
   },
   {
     url: '/',
-    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9InRlbiBjb2x1bW4iPgogICAgPGgyPnt7dGl0bGV9fTwvaDI+CiAgICA8aDY+Ynkga2FyaXNzYSBvbiB7e2RhdGV9fSBpbiB7e2NhdGVnb3JpZXN9fTwvaDY+CiAgICA8cD57e292ZXJ2aWV3IHRleHR9fSA8YSBocmVmPSIvYmxvZy97aWR9Ij5bcmVhZCBtb3JlXTwvYT48L3A+CiAgICA8aHI+CiAgPC9kaXY+CjwvZGl2Pgp7ey9lYWNofX0KPC9kaXY+Cg==","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9InRlbiBjb2x1bW4iPgogICAgPGgyPjxhIGhyZWY9Ii9wb3N0L3t7aWR9fSI+e3t0aXRsZX19PC9hPjwvaDI+CiAgICA8aDY+Ynkga2FyaXNzYSBvbiB7e2RhdGV9fSBpbiB7e2NhdGVnb3JpZXN9fTwvaDY+CiAgICA8cD57e292ZXJ2aWV3IHRleHR9fSA8YSBocmVmPSIvcG9zdC97e2lkfX0iPltyZWFkIG1vcmVdPC9hPjwvcD4KICAgIDxocj4KICA8L2Rpdj4KPC9kaXY+Cnt7L2VhY2h9fQo8L2Rpdj4K","base64").toString(),
     data: function (params, cb)  {
       cb({
         posts: posts
@@ -12631,4 +12633,4 @@ templater('#content', routes, function (source, data) {
 })
 
 }).call(this,require("buffer").Buffer)
-},{"a-simple-templater":1,"buffer":14,"handlebars":38,"marked":50}]},{},[52]);
+},{"a-simple-templater":1,"buffer":15,"handlebars":39,"marked":51}]},{},[52]);

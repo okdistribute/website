@@ -14,12 +14,32 @@
   max-width: 150px;
 }
 
+h1,h2 a {
+  text-decoration: none;
+  color: black;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+blockquote p {
+  font-size: .95em;
+  font-style: italic;
+  border-left: 5px solid #eee;
+  padding-left: 15px;
+}
+
+body {
+  font-family: "freight-text-pro",Georgia,Cambria,"Times New Roman",Times,serif;
+  font-size: 1.75em;
+}
+
 p {
   font-family: "freight-text-pro",Georgia,Cambria,"Times New Roman",Times,serif;
   letter-spacing: .01rem;
   font-weight: 400;
   font-style: normal;
-  font-size: 20px;
   line-height: 1.5;
 }
 
