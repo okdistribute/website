@@ -1,10 +1,10 @@
 <div class="blog">
 {{#each posts}}
 <div class="row">
-  <div class="ten column">
+  <div class="eleven column">
     <h2 class="blog-title"><a href="/post/{{id}}">{{title}}</a></h2>
     <h6>by karissa at {{date}} about {{categories}}</h6>
-    <h6>{{overview text}} <a href="/post/{{id}}">[read more]</a></h6>
+    <div class="row">{{overview text}} <a href="/post/{{id}}">[read more]</a></div>
     <hr>
   </div>
 </div>
