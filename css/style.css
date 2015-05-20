@@ -1,3 +1,24 @@
+#content img {
+  width: 100%;
+}
+
 .right {
   float: right;
+}
+
+#content {
+  margin: auto;
+}
+
+.blog img {
+  max-width: 150px;
+}
+
+p {
+  font-family: "freight-text-pro",Georgia,Cambria,"Times New Roman",Times,serif;
+  letter-spacing: .01rem;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1.5;
 }

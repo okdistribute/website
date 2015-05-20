@@ -1,2 +1,12 @@
-<h1>{{title}}</h1>
-<p>{{text}}</p>
+<div class="blog">
+{{#each posts}}
+<div class="row">
+  <div class="six columns">
+    <h3>{{title}}</h3>
+    <h6>{{categories}}</h6>
+    <p>{{overview text}}</p>
+    <hr>
+  </div>
+</div>
+{{/each}}
+</div>

@@ -1,26 +1,15 @@
----
-layout: post
-title: "Data Science is Engineering"
-date: 2013-07-07 16:18
-comments: true
-published: true
-categories: [academia, programming, education, the future]
----
-
-![](/images/blog/datascienceconstellation.jpeg)
-
 We expect students to write research papers as well as do statistics in R or STATA or Matlab on small datasets. Why don’t we expect them to deal with very very large datasets? We are told that “Data Science” is the answer to this “Big Data” problem.
 
 I’d like to redefine Data Science: it is the act of gluing toolkits together to create a pipeline from raw data to information to knowledge.There are no innovations to be made in Data Science. The innovations to be made here are in Computer Science, Informatics, Statistics, Sociology, Visualization, Math, etc. — and they always will be.
 
 Data Science is just engineering.
-<!-- more -->
+![](/images/blog/datascienceconstellation.jpeg)
 
 ### A Bit of Background
 
 Recently named the Sexiest Job in the 21st Century by Harvard Business Review, Data Science has emerged as a new discipline, with skillsets applicable to handling large datasets from social media, mobile phones, online purchases, genomes, and other datasets.
 
-From Wikipedia: 
+From Wikipedia:
 >“Data science incorporates varying elements and builds on techniques and theories from many fields, including math, statistics, data engineering, pattern recognition and learning, advanced computing, visualization, uncertainty modeling, data warehousing, and high performance computing with the goal of extracting meaning from data and creating data products.”
 
 The description goes on to reinforce the perception that data science is very difficult, by stating that “there is probably no living person who is an expert in all of these disciplines.” Of course there isn’t. Data science is usually handled by teams of competent individuals with varied backgrounds that can cover most of these areas.
