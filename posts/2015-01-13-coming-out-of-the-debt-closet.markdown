@@ -1,21 +1,14 @@
----
-layout: post
-title: "Coming out of the debt closet"
-date: 2015-01-13 15:29
-comments: true
-categories: story debt personal
----
-I've come out of the closet before, and I'm going to do it again. 
+I've come out of the closet before, and I'm going to do it again.
 
-I paid my student loan payment today. (20 years ago that would be 'I kissed a girl today' ;p) 
+I paid my student loan payment today. (20 years ago that would be 'I kissed a girl today' ;p)
 
-I'm 24 years old and my debt is $75,817.81. The interest rates on my 6 loans vary between 4.5% and 11%. My total minimum payments hover somewhere around $400 or $500 a month. 
+I'm 24 years old and my debt is $75,817.81. The interest rates on my 6 loans vary between 4.5% and 11%. My total minimum payments hover somewhere around $400 or $500 a month.
 
-## Calculator 
+## Calculator
 Here's what happened when I put in my worst loan into an online
 debt calculator. For just one of my Navient (formerly Sallie Mae) loans, the
 principal balance is $33,000 (I think this was my freshman year -- room+board+tuition). If I just pay the minimum payment, which is about
-$159/month, I won't be debt free, ever.  
+$159/month, I won't be debt free, ever.
 
 
 ![mydebt1](/images/blog/mydebt1.png)
@@ -30,13 +23,13 @@ There's no way to erase student loans (via bankruptcy, for example), because
 effectively you've agreed to mortgage your mind. And those who can't pay will
 have their wages garnished if they can't get on income based repayment in time.
 
-I'm one of the few "lucky ones" who will be able to pay off this monstrosity. 
+I'm one of the few "lucky ones" who will be able to pay off this monstrosity.
 
 Thankfully, I have a (currently) lucrative skillset in computer programming,
 making me fortunate enough to make about $2k a month after taxes, healthcare,
 food, and rent.  I'm able to pay more than the minimum monthly payments -- and
-if I continue doing that, I'll be debt free before I'm 40.  
- 
+if I continue doing that, I'll be debt free before I'm 40.
+
 Paying off my debt means I'd have to continue making as much money as I do for
 the next 15 years. But if it was a perfect world, I'd like to take a pay cut at
 some point to do something different. Teaching, music, research, community organizing, and pro-bono tech
@@ -52,7 +45,7 @@ penny](http://money.cnn.com/2014/11/10/pf/millennials-negative-savings/),
 [don't own
 cars](http://www.washingtonpost.com/blogs/wonkblog/wp/2014/10/14/the-many-reasons-millennials-are-shunning-cars/),
 and [aren't buying homes](http://www.cnbc.com/id/102252789) (all articles written
-in the last 3 months of 2014). 
+in the last 3 months of 2014).
 
 If we all just pay the minimum payment, we are trapped in a never-ending debt
 spiral.  This brings up a tough question for my generation -- the generation of
@@ -64,7 +57,7 @@ In fact, I think that indentured servitude is **exactly** what the lenders want.
 ## The loan narrative
 The popular narrative of a loan is that you're borrowing
 some money that the other person needed, that you are a burden onto them, and
-as such it is optimal to pay back the balance as quickly as possible. 
+as such it is optimal to pay back the balance as quickly as possible.
 
 But contrary to this narrative, some lenders don't want you to pay off your debt. They'd
 rather collect interest on your minimum payment forever.  The corporations that
@@ -84,14 +77,14 @@ society - to our economy, to our standard of living, and to our health as a comm
 Is it debt servitude to offer your money endlessly to a corporation with
 interest rates so high that you have no hope of ever paying it back? Or is it
 debt servitude to offer the fruits of your labor to do something or to somewhere you hate,
-just so your debt will eventually be gone? 
+just so your debt will eventually be gone?
 
 I want neither. I don't want to pay it anymore. I'm tired of being scared and alone about the
 prospect that I may never pay off my debt. I'm tired of it being always in the
 back of my mind, a reason I don't do things I enjoy, or a reason I'm stressed
-out about the future. 
+out about the future.
 
-Even though I don't want to, I'm still paying my debt for now. 
+Even though I don't want to, I'm still paying my debt for now.
 
 People are trying to come up with solutions, though it is tough considering the power of these large banks. Here are some ideas:
 
@@ -101,7 +94,7 @@ People are trying to come up with solutions, though it is tough considering the 
   - [debt collectives](http://debtcollective.org)
 
 In all of these solutions, people pool their money and resources together in
-some way. It is becoming more clear that   
+some way. It is becoming more clear that
 rethinking lending could be a key topic for communities in the 21st century.
 
 Do we really need a loan for a car or

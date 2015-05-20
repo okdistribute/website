@@ -1,4 +1,3 @@
-
 I've been in Austin, TX for two weeks now. I've learned a lot about myself, and
 others, and the south, and Austin, and software development, and relationships,
 and collaboration, and open tools since I've been here. If you want to know

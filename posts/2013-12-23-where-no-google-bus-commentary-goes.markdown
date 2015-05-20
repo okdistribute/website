@@ -1,12 +1,4 @@
----
-layout: post
-title: "Where no Google bus commentary goes"
-caption: With income inequality and bad transit, we can't live together. Some of us are having a tough time living at all.
-date: 2013-12-23 03:56
-comments: true
-categories: movements politics US opinion
----
-
+With income inequality and bad transit, we can't live together. Some of us are having a tough time living at all.
 
 In a recent article on Pueblo Lands, the author spends some time outlining the
 lesser known cities of Richmond and San Pablo. Amid all of the hubbub about the
@@ -47,7 +39,7 @@ harm than good by incentivizing the industry to stay in the area?
 
 The traffic here is insane. Public transportation is aging, inadequate, and
 expensive. The Bay Area is packed full of people, and they all need a car to
-get around (except SF/East Bay). 
+get around (except SF/East Bay).
 
 I won't be the first or the last to say it -- Silicon Valley sucks as a place
 to live, work, and play. Forget driving in Silicon Valley 7am-10am and 4-7:30pm.
