@@ -5,26 +5,27 @@ var width = 1400,
 
 var json = {
   nodes: [
-    {name: 'karissa', group: 1, image: 'http://github.com/favicon.ico'},
-    {name: 'karissamck', group: 1, image: 'http://twitter.com/favicon.ico'},
-    {name: 'karissamck', group: 1, image: 'https://www.linkedin.com/favicon.ico'},
-    {name: 'karissa.mckelvey', group: 1, image: 'https://www.facebook.com/favicon.ico'},
+    {name: 'karissa', image: 'http://github.com/favicon.ico'},
+    {name: '@karissamck', image: 'http://twitter.com/favicon.ico'},
+    {name: 'karissamck', image: 'https://www.linkedin.com/favicon.ico'},
+    {name: 'karissa.mckelvey', image: 'https://www.facebook.com/favicon.ico'},
 
     {name: 'indiana', group: 2, image: 'http://indiana.edu/favicon.ico'},
     {name: 'usopendata', group: 2, image: 'http://usopendata.org/favicon.ico'},
     {name: 'dat', group: 2, image: 'http://dat-data.com/favicon.ico'},
 
-    {name: 'taskforce', group: 3, image: 'https://taskforce.is/favicon.ico'},
+    {name: 'taskforce.is', group: 3, image: 'https://taskforce.is/favicon.ico'},
     {name: 'brassliberation', group: 3, image: 'http://brassliberation.org/img/blo_logo.gif'},
     {name: 'debtcollective', group: 3, image: 'https://debtcollective.org/static/img/RedSquare_favicon.png'},
     {name: 'keybase', group: 1, image: "https://keybase.io/favicon.ico"},
 
+    {name: 'oakland', group: 2, image: '/images/oaktree.png'},
   ],
   links: [
     {source: 1, target: 2, value: 1},
     {source: 2, target: 3, value: 1},
     {source: 3, target: 2, value: 1},
-    {source: 3, target: 1, value: 1},
+    {source: 3, target: 4, value: 1},
     {source: 4, target: 1, value: 1},
     {source: 10, target: 0, value: 1},
 
@@ -32,11 +33,15 @@ var json = {
     {source: 6, target: 0, value: 1},
     {source: 6, target: 5, value: 10},
 
-    {source: 8, target: 7, value: 1},
+    {source: 8, target: 11, value: 1},
 
-    {source: 3, target: 9, value: 5},
+    {source: 1, target: 9, value: 5},
     {source: 2, target: 4, value: 1},
-    {source: 2, target: 5, value: 10}
+    {source: 2, target: 5, value: 2},
+
+    {source: 3, target: 11, value: 2},
+    {source: 7, target: 11, value: 2}
+
   ]
 }
 
@@ -56,6 +61,7 @@ module.exports = function () {
     .linkDistance(120)
     .gravity(0.002)
     .friction(0.1)
+    .charge(-100)
     .linkStrength(.50)
     .size([width, height])
     .start();
@@ -95,7 +101,7 @@ module.exports = function () {
   node.on('click', function () {
     clicks += 1
     if (clicks > 8) {
-      d3.select("#graph")
+      d3.select("body")
       .attr("class", "burnout")
       .append("text").text()
     }

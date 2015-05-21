@@ -2715,26 +2715,27 @@ var width = 1400,
 
 var json = {
   nodes: [
-    {name: 'karissa', group: 1, image: 'http://github.com/favicon.ico'},
-    {name: 'karissamck', group: 1, image: 'http://twitter.com/favicon.ico'},
-    {name: 'karissamck', group: 1, image: 'https://www.linkedin.com/favicon.ico'},
-    {name: 'karissa.mckelvey', group: 1, image: 'https://www.facebook.com/favicon.ico'},
+    {name: 'karissa', image: 'http://github.com/favicon.ico'},
+    {name: '@karissamck', image: 'http://twitter.com/favicon.ico'},
+    {name: 'karissamck', image: 'https://www.linkedin.com/favicon.ico'},
+    {name: 'karissa.mckelvey', image: 'https://www.facebook.com/favicon.ico'},
 
     {name: 'indiana', group: 2, image: 'http://indiana.edu/favicon.ico'},
     {name: 'usopendata', group: 2, image: 'http://usopendata.org/favicon.ico'},
     {name: 'dat', group: 2, image: 'http://dat-data.com/favicon.ico'},
 
-    {name: 'taskforce', group: 3, image: 'https://taskforce.is/favicon.ico'},
+    {name: 'taskforce.is', group: 3, image: 'https://taskforce.is/favicon.ico'},
     {name: 'brassliberation', group: 3, image: 'http://brassliberation.org/img/blo_logo.gif'},
     {name: 'debtcollective', group: 3, image: 'https://debtcollective.org/static/img/RedSquare_favicon.png'},
     {name: 'keybase', group: 1, image: "https://keybase.io/favicon.ico"},
 
+    {name: 'oakland', group: 2, image: '/images/oaktree.png'},
   ],
   links: [
     {source: 1, target: 2, value: 1},
     {source: 2, target: 3, value: 1},
     {source: 3, target: 2, value: 1},
-    {source: 3, target: 1, value: 1},
+    {source: 3, target: 4, value: 1},
     {source: 4, target: 1, value: 1},
     {source: 10, target: 0, value: 1},
 
@@ -2742,11 +2743,15 @@ var json = {
     {source: 6, target: 0, value: 1},
     {source: 6, target: 5, value: 10},
 
-    {source: 8, target: 7, value: 1},
+    {source: 8, target: 11, value: 1},
 
-    {source: 3, target: 9, value: 5},
+    {source: 1, target: 9, value: 5},
     {source: 2, target: 4, value: 1},
-    {source: 2, target: 5, value: 10}
+    {source: 2, target: 5, value: 2},
+
+    {source: 3, target: 11, value: 2},
+    {source: 7, target: 11, value: 2}
+
   ]
 }
 
@@ -2766,6 +2771,7 @@ module.exports = function () {
     .linkDistance(120)
     .gravity(0.002)
     .friction(0.1)
+    .charge(-100)
     .linkStrength(.50)
     .size([width, height])
     .start();
@@ -2805,7 +2811,7 @@ module.exports = function () {
   node.on('click', function () {
     clicks += 1
     if (clicks > 8) {
-      d3.select("#graph")
+      d3.select("body")
       .attr("class", "burnout")
       .append("text").text()
     }
@@ -22324,7 +22330,7 @@ var routes = [
   },
   {
     url: '/',
-    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KPGlmcmFtZSBpZD0idHdpdHRlci13aWRnZXQtMSIgc2Nyb2xsaW5nPSJubyIgZnJhbWVib3JkZXI9IjAiIGFsbG93dHJhbnNwYXJlbmN5PSJ0cnVlIiBzcmM9Imh0dHA6Ly9wbGF0Zm9ybS50d2l0dGVyLmNvbS93aWRnZXRzL2ZvbGxvd19idXR0b24uNTAwMDVmZTMzNjkxYWQxNTA0MWY3MTk5NDU3YWMzZTAuZW4uaHRtbCNfPTE0MzIxNDIxMzc3OTkmYW1wO2lkPXR3aXR0ZXItd2lkZ2V0LTEmYW1wO2xhbmc9ZW4mYW1wO3NjcmVlbl9uYW1lPWthcmlzc2FtY2smYW1wO3Nob3dfY291bnQ9dHJ1ZSZhbXA7c2hvd19zY3JlZW5fbmFtZT10cnVlJmFtcDtzaXplPW0iIGNsYXNzPSJ0d2l0dGVyLWZvbGxvdy1idXR0b24gdHdpdHRlci1mb2xsb3ctYnV0dG9uIiB0aXRsZT0iVHdpdHRlciBGb2xsb3cgQnV0dG9uIiBkYXRhLXR3dHRyLXJlbmRlcmVkPSJ0cnVlIiBzdHlsZT0icG9zaXRpb246IHN0YXRpYzsgdmlzaWJpbGl0eTogdmlzaWJsZTsgd2lkdGg6IDI0OXB4OyBoZWlnaHQ6IDMwcHg7Ij48L2lmcmFtZT4KPC9kaXY+CjxkaXYgY2xhc3M9ImJsb2ciPgp7eyNlYWNoIHBvc3RzfX0KPGRpdiBjbGFzcz0icm93Ij4KICA8ZGl2IGNsYXNzPSJlbGV2ZW4gY29sdW1uIj4KICAgIDxoMiBjbGFzcz0iYmxvZy10aXRsZSI+PGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij57e3RpdGxlfX08L2E+PC9oMj4KICAgIDxoNj5ieSBrYXJpc3NhIG1ja2VsdmV5IGF0IHt7ZGF0ZX19IGFib3V0IHt7Y2F0ZWdvcmllc319PC9oNj4KICAgIDxkaXYgY2xhc3M9InJvdyI+e3tvdmVydmlldyB0ZXh0fX0gPGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij5bcmVhZCBtb3JlXTwvYT48L2Rpdj4KICAgIDxocj4KICA8L2Rpdj4KPC9kaXY+Cnt7L2VhY2h9fQo8L2Rpdj4K","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4iPgogICAgPGgyIGNsYXNzPSJibG9nLXRpdGxlIj48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2gyPgogICAgPGg2PmJ5IGthcmlzc2EgbWNrZWx2ZXkgYXQge3tkYXRlfX0gYWJvdXQge3tjYXRlZ29yaWVzfX08L2g2PgogICAgPGRpdiBjbGFzcz0icm93Ij57e292ZXJ2aWV3IHRleHR9fSA8YSBocmVmPSIvcG9zdC97e2lkfX0iPltyZWFkIG1vcmVdPC9hPjwvZGl2PgogICAgPGhyPgogIDwvZGl2Pgo8L2Rpdj4Ke3svZWFjaH19CjwvZGl2Pgo8ZGl2IGNsYXNzPSJyb3ciPgo8aWZyYW1lIGlkPSJ0d2l0dGVyLXdpZGdldC0xIiBzY3JvbGxpbmc9Im5vIiBmcmFtZWJvcmRlcj0iMCIgYWxsb3d0cmFuc3BhcmVuY3k9InRydWUiIHNyYz0iaHR0cDovL3BsYXRmb3JtLnR3aXR0ZXIuY29tL3dpZGdldHMvZm9sbG93X2J1dHRvbi41MDAwNWZlMzM2OTFhZDE1MDQxZjcxOTk0NTdhYzNlMC5lbi5odG1sI189MTQzMjE0MjEzNzc5OSZhbXA7aWQ9dHdpdHRlci13aWRnZXQtMSZhbXA7bGFuZz1lbiZhbXA7c2NyZWVuX25hbWU9a2FyaXNzYW1jayZhbXA7c2hvd19jb3VudD10cnVlJmFtcDtzaG93X3NjcmVlbl9uYW1lPXRydWUmYW1wO3NpemU9bSIgY2xhc3M9InR3aXR0ZXItZm9sbG93LWJ1dHRvbiB0d2l0dGVyLWZvbGxvdy1idXR0b24iIHRpdGxlPSJUd2l0dGVyIEZvbGxvdyBCdXR0b24iIGRhdGEtdHd0dHItcmVuZGVyZWQ9InRydWUiIHN0eWxlPSJwb3NpdGlvbjogc3RhdGljOyB2aXNpYmlsaXR5OiB2aXNpYmxlOyB3aWR0aDogMjQ5cHg7IGhlaWdodDogMzBweDsiPjwvaWZyYW1lPgo8L2Rpdj4=","base64").toString(),
     data: function (params, cb)  {
       cb({
         posts: posts
