@@ -2726,7 +2726,9 @@ var json = {
 
     {name: 'taskforce', group: 3, image: 'https://taskforce.is/favicon.ico'},
     {name: 'brassliberation', group: 3, image: 'http://brassliberation.org/img/blo_logo.gif'},
-    {name: 'debtcollective', group: 3, image: 'https://debtcollective.org/static/img/RedSquare_favicon.png'}
+    {name: 'debtcollective', group: 3, image: 'https://debtcollective.org/static/img/RedSquare_favicon.png'},
+    {name: 'keybase', group: 1, image: "https://keybase.io/favicon.ico"},
+
   ],
   links: [
     {source: 1, target: 2, value: 1},
@@ -2734,6 +2736,7 @@ var json = {
     {source: 3, target: 2, value: 1},
     {source: 3, target: 1, value: 1},
     {source: 4, target: 1, value: 1},
+    {source: 10, target: 0, value: 1},
 
     {source: 7, target: 9, value: 1},
     {source: 6, target: 0, value: 1},
@@ -2801,7 +2804,7 @@ module.exports = function () {
 
   node.on('click', function () {
     clicks += 1
-    if (clicks > 10) {
+    if (clicks > 1) {
       d3.select("#graph")
       .attr("class", "burnout")
       .append("text").text()

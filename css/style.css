@@ -67,3 +67,14 @@ p {
 .burnout {
   background-image: url(/images/staging.png);
 }
+
+#graph textarea {
+  display: none;
+}
+
+.burnout textarea {
+  width: 100%;
+  height: 250px;
+  background-color: black;
+  display: block !important;
+}
