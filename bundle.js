@@ -2804,7 +2804,7 @@ module.exports = function () {
 
   node.on('click', function () {
     clicks += 1
-    if (clicks > 1) {
+    if (clicks > 8) {
       d3.select("#graph")
       .attr("class", "burnout")
       .append("text").text()
