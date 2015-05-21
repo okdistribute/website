@@ -1,6 +1,4 @@
-I've come out of the closet before, and I'm going to do it again.
-
-I paid my student loan payment today. (20 years ago that would be 'I kissed a girl today' ;p)
+I've come out of the closet before, and I'm going to do it again. I paid my student loan payment today. (20 years ago that would be 'I kissed a girl today' ;p)
 
 I'm 24 years old and my debt is $75,817.81. The interest rates on my 6 loans vary between 4.5% and 11%. My total minimum payments hover somewhere around $400 or $500 a month.
 

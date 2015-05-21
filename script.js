@@ -3,6 +3,8 @@ var fs = require('fs')
 var marked = require('marked')
 var Handlebars = require('handlebars')
 
+var disqus = require('./disqus.js')
+var force = require('./force.js')
 var posts = require('./posts.js')
 
 var routes = [
@@ -10,30 +12,24 @@ var routes = [
     url: '/post/:id',
     template: fs.readFileSync('templates/post.html').toString(),
     data: function (params, cb) {
-      var post = posts[params.id]
-      post.disqus = post.disqus || '/post/' + post.id
-      post.text = post.text
-      cb(post)
+      posts.forEach(function (post) {
+        if (post.id === parseInt(params.id)) {
+          post.disqus = post.disqus || '/post/' + post.id
+          post.text = post.text
+          return cb(post)
+        }
+      })
     },
     onrender: function (params, data) {
-      if (typeof DISQUS === 'undefined') {
-        var disqus_shortname = 'karissamck';
-        window.disqus_identifier = data.disqus;
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript';
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      } else {
-        var shortname = data.disqus || 'post/' + data.id
-        DISQUS.reset({
-          reload: true,
-          config: function () {
-            this.page.identifier = shortname;
-            this.page.url = "http://karissamck.com/" + shortname;
-          }
-        });
-      }
+      disqus()
+      force()
+    }
+  },
+  {
+    url: '/graph',
+    template: fs.readFileSync('templates/graph.html').toString(),
+    onrender: function () {
+      force()
     }
   },
   {
@@ -43,6 +39,10 @@ var routes = [
       cb({
         posts: posts
       })
+    },
+    onrender: function (params, data) {
+      console.log('params', params)
+      force()
     }
   }
 ]
