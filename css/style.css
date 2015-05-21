@@ -59,6 +59,11 @@ p {
 #graph {
   height: 200px;
   min-width: 300px;
-  width: 80%;
-  max-width: 700px;
+  width: 100%;
+  overflow: hidden;
+  color: white !important;
+}
+
+.burnout {
+  background-image: url(/images/staging.png);
 }

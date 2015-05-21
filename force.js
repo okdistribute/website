@@ -22,8 +22,12 @@ var json = {
   ]
 }
 
+var clicks = 0
+var force_rendered = false
+
 module.exports = function () {
-    console.log('yo')
+  if (force_rendered) return
+  force_rendered = true
   var svg = d3.select("#graph").append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -69,5 +73,14 @@ module.exports = function () {
         .attr("y2", function(d) { return d.target.y; });
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  })
+
+  node.on('click', function () {
+    clicks += 1
+    if (clicks > 1) {
+      d3.select("#graph")
+      .attr("class", "burnout")
+      .append("text").text()
+    }
   })
 }

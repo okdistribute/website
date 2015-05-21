@@ -20,8 +20,8 @@ var routes = [
         }
       })
     },
-    onrender: function (params, data) {
-      disqus()
+    onrender: function (params, post) {
+      disqus(post)
       force()
     }
   },

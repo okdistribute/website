@@ -2687,17 +2687,17 @@ module.exports = Array.isArray || function (arr) {
 
 },{}],14:[function(require,module,exports){
  // disqus junk
- module.exports = function () {
+ module.exports = function (post) {
   if (typeof DISQUS === 'undefined') {
     var disqus_shortname = 'karissamck';
-    window.disqus_identifier = data.disqus;
+    window.disqus_identifier = post.disqus;
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript';
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
   } else {
-    var shortname = data.disqus || 'post/' + data.id
+    var shortname = post.disqus || 'post/' + post.id
     DISQUS.reset({
       reload: true,
       config: function () {
@@ -2732,8 +2732,12 @@ var json = {
   ]
 }
 
+var clicks = 0
+var force_rendered = false
+
 module.exports = function () {
-    console.log('yo')
+  if (force_rendered) return
+  force_rendered = true
   var svg = d3.select("#graph").append("svg")
     .attr("width", width)
     .attr("height", height);
@@ -2779,6 +2783,15 @@ module.exports = function () {
         .attr("y2", function(d) { return d.target.y; });
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  })
+
+  node.on('click', function () {
+    clicks += 1
+    if (clicks > 1) {
+      d3.select("#graph")
+      .attr("class", "burnout")
+      .append("text").text()
+    }
   })
 }
 
@@ -22280,8 +22293,8 @@ var routes = [
         }
       })
     },
-    onrender: function (params, data) {
-      disqus()
+    onrender: function (params, post) {
+      disqus(post)
       force()
     }
   },
