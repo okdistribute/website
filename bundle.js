@@ -2710,15 +2710,23 @@ module.exports = Array.isArray || function (arr) {
 },{}],15:[function(require,module,exports){
 var d3 = require('d3')
 
-var width = 700,
-    height = 200
+var width = 1400,
+    height = 250
 
 var json = {
   nodes: [
     {name: 'karissa', group: 1, image: 'http://github.com/favicon.ico'},
     {name: 'karissamck', group: 1, image: 'http://twitter.com/favicon.ico'},
     {name: 'karissamck', group: 1, image: 'https://www.linkedin.com/favicon.ico'},
-    {name: 'karissa.mckelvey', group: 1, image: 'https://www.facebook.com/favicon.ico'}
+    {name: 'karissa.mckelvey', group: 1, image: 'https://www.facebook.com/favicon.ico'},
+
+    {name: 'indiana', group: 2, image: 'http://indiana.edu/favicon.ico'},
+    {name: 'usopendata', group: 2, image: 'http://usopendata.org/favicon.ico'},
+    {name: 'dat', group: 2, image: 'http://dat-data.com/favicon.ico'},
+
+    {name: 'taskforce', group: 3, image: 'https://taskforce.is/favicon.ico'},
+    {name: 'brassliberation', group: 3, image: 'http://brassliberation.org/img/blo_logo.gif'},
+    {name: 'debtcollective', group: 3, image: 'https://debtcollective.org/static/img/RedSquare_favicon.png'}
   ],
   links: [
     {source: 0, target: 1, value: 1},
@@ -2727,8 +2735,18 @@ var json = {
     {source: 3, target: 2, value: 1},
     {source: 2, target: 0, value: 1},
     {source: 3, target: 0, value: 1},
-    {source: 3, target: 1, value: 1}
+    {source: 3, target: 1, value: 1},
 
+    {source: 7, target: 9, value: 1},
+
+    {source: 6, target: 5, value: 10},
+
+    {source: 6, target: 1, value: 1},
+    {source: 8, target: 7, value: 1},
+
+    {source: 3, target: 9, value: 5},
+    {source: 2, target: 4, value: 1},
+    {source: 2, target: 5, value: 10}
   ]
 }
 
@@ -2746,10 +2764,9 @@ module.exports = function () {
     .nodes(json.nodes)
     .links(json.links)
     .linkDistance(120)
-    .gravity(.05)
-    .theta(0.8)
-    .alpha(0.1)
-    .linkStrength(.20)
+    .gravity(0.002)
+    .friction(0.1)
+    .linkStrength(.50)
     .size([width, height])
     .start();
 
@@ -2787,7 +2804,7 @@ module.exports = function () {
 
   node.on('click', function () {
     clicks += 1
-    if (clicks > 1) {
+    if (clicks > 4) {
       d3.select("#graph")
       .attr("class", "burnout")
       .append("text").text()
@@ -22283,7 +22300,7 @@ var posts = require('./posts.js')
 var routes = [
   {
     url: '/post/:id',
-    template: Buffer("PGRpdiBjbGFzcz0icm93IGxlZnQiPjxhIGhyZWY9Ii8iPmJhY2s8L2E+PC9kaXY+CjxoMSBjbGFzcz0iYmxvZy10aXRsZSI+e3t0aXRsZX19PC9oMT4KPGg2PmJ5IGthcmlzc2EgYXQge3tkYXRlfX0gYWJvdXQge3tjYXRlZ29yaWVzfX08L2g2PgoKPGRpdiBjbGFzcz0icm93Ij57e21hcmtkb3duIHRleHR9fTwvZGl2Pgo8ZGl2IGNsYXNzPSJyb3ciPgogICAgPGlmcmFtZSBpZD0idHdpdHRlci13aWRnZXQtMCIgc2Nyb2xsaW5nPSJubyIgZnJhbWVib3JkZXI9IjAiIGFsbG93dHJhbnNwYXJlbmN5PSJ0cnVlIiBzcmM9Imh0dHA6Ly9wbGF0Zm9ybS50d2l0dGVyLmNvbS93aWRnZXRzL3R3ZWV0X2J1dHRvbi5iMTY5YWE3ODg3MzEyNTVkZDU1ZjFiYjI0M2I2NjBlMS5lbi5odG1sI189MTQzMjE0MjEzNzc4MSZhbXA7Y291bnQ9aG9yaXpvbnRhbCZhbXA7ZG50PWZhbHNlJmFtcDtpZD10d2l0dGVyLXdpZGdldC0wJmFtcDtsYW5nPWVuIiBjbGFzcz0idHdpdHRlci1zaGFyZS1idXR0b24gdHdpdHRlci10d2VldC1idXR0b24gdHdpdHRlci1zaGFyZS1idXR0b24gdHdpdHRlci1jb3VudC1ob3Jpem9udGFsIiB0aXRsZT0iVHdpdHRlciBUd2VldCBCdXR0b24iIGRhdGEtdHd0dHItcmVuZGVyZWQ9InRydWUiIHN0eWxlPSJwb3NpdGlvbjogc3RhdGljOyB2aXNpYmlsaXR5OiB2aXNpYmxlOyB3aWR0aDogMTAwcHg7IGhlaWdodDogMjBweDsiPjwvaWZyYW1lPgoKICAgIDxpZnJhbWUgaWQ9InR3aXR0ZXItd2lkZ2V0LTEiIHNjcm9sbGluZz0ibm8iIGZyYW1lYm9yZGVyPSIwIiBhbGxvd3RyYW5zcGFyZW5jeT0idHJ1ZSIgc3JjPSJodHRwOi8vcGxhdGZvcm0udHdpdHRlci5jb20vd2lkZ2V0cy9mb2xsb3dfYnV0dG9uLjUwMDA1ZmUzMzY5MWFkMTUwNDFmNzE5OTQ1N2FjM2UwLmVuLmh0bWwjXz0xNDMyMTQyMTM3Nzk5JmFtcDtkbnQ9ZmFsc2UmYW1wO2lkPXR3aXR0ZXItd2lkZ2V0LTEmYW1wO2xhbmc9ZW4mYW1wO3NjcmVlbl9uYW1lPWthcmlzc2FtY2smYW1wO3Nob3dfY291bnQ9dHJ1ZSZhbXA7c2hvd19zY3JlZW5fbmFtZT10cnVlJmFtcDtzaXplPW0iIGNsYXNzPSJ0d2l0dGVyLWZvbGxvdy1idXR0b24gdHdpdHRlci1mb2xsb3ctYnV0dG9uIiB0aXRsZT0iVHdpdHRlciBGb2xsb3cgQnV0dG9uIiBkYXRhLXR3dHRyLXJlbmRlcmVkPSJ0cnVlIiBzdHlsZT0icG9zaXRpb246IHN0YXRpYzsgdmlzaWJpbGl0eTogdmlzaWJsZTsgd2lkdGg6IDIxOXB4OyBoZWlnaHQ6IDIwcHg7Ij48L2lmcmFtZT4KICA8L2Rpdj4KICA8ZGl2IGlkPSJkaXNxdXNfdGhyZWFkIj48L2Rpdj4KICA8YSBocmVmPSJodHRwOi8vZGlzcXVzLmNvbSIgY2xhc3M9ImRzcS1icmxpbmsiPmNvbW1lbnRzIHBvd2VyZWQgYnkgPHNwYW4gY2xhc3M9ImxvZ28tZGlzcXVzIj5EaXNxdXM8L3NwYW4+PC9hPgo8L2Rpdj4K","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0icm93IGxlZnQiPjxhIGhyZWY9Ii8iPmJhY2s8L2E+PC9kaXY+CjxoMSBjbGFzcz0iYmxvZy10aXRsZSI+e3t0aXRsZX19PC9oMT4KPGg2PmJ5IGthcmlzc2EgbWNrZWx2ZXkgYXQge3tkYXRlfX0gYWJvdXQge3tjYXRlZ29yaWVzfX08L2g2PgoKPGRpdiBjbGFzcz0icm93Ij57e21hcmtkb3duIHRleHR9fTwvZGl2Pgo8ZGl2IGNsYXNzPSJyb3ciPgogICAgPGlmcmFtZSBpZD0idHdpdHRlci13aWRnZXQtMCIgc2Nyb2xsaW5nPSJubyIgZnJhbWVib3JkZXI9IjAiIGFsbG93dHJhbnNwYXJlbmN5PSJ0cnVlIiBzcmM9Imh0dHA6Ly9wbGF0Zm9ybS50d2l0dGVyLmNvbS93aWRnZXRzL3R3ZWV0X2J1dHRvbi5iMTY5YWE3ODg3MzEyNTVkZDU1ZjFiYjI0M2I2NjBlMS5lbi5odG1sI189MTQzMjE0MjEzNzc4MSZhbXA7Y291bnQ9aG9yaXpvbnRhbCZhbXA7ZG50PWZhbHNlJmFtcDtpZD10d2l0dGVyLXdpZGdldC0wJmFtcDtsYW5nPWVuIiBjbGFzcz0idHdpdHRlci1zaGFyZS1idXR0b24gdHdpdHRlci10d2VldC1idXR0b24gdHdpdHRlci1zaGFyZS1idXR0b24gdHdpdHRlci1jb3VudC1ob3Jpem9udGFsIiB0aXRsZT0iVHdpdHRlciBUd2VldCBCdXR0b24iIGRhdGEtdHd0dHItcmVuZGVyZWQ9InRydWUiIHN0eWxlPSJwb3NpdGlvbjogc3RhdGljOyB2aXNpYmlsaXR5OiB2aXNpYmxlOyB3aWR0aDogMTAwcHg7IGhlaWdodDogMjBweDsiPjwvaWZyYW1lPgoKICAgIDxpZnJhbWUgaWQ9InR3aXR0ZXItd2lkZ2V0LTEiIHNjcm9sbGluZz0ibm8iIGZyYW1lYm9yZGVyPSIwIiBhbGxvd3RyYW5zcGFyZW5jeT0idHJ1ZSIgc3JjPSJodHRwOi8vcGxhdGZvcm0udHdpdHRlci5jb20vd2lkZ2V0cy9mb2xsb3dfYnV0dG9uLjUwMDA1ZmUzMzY5MWFkMTUwNDFmNzE5OTQ1N2FjM2UwLmVuLmh0bWwjXz0xNDMyMTQyMTM3Nzk5JmFtcDtkbnQ9ZmFsc2UmYW1wO2lkPXR3aXR0ZXItd2lkZ2V0LTEmYW1wO2xhbmc9ZW4mYW1wO3NjcmVlbl9uYW1lPWthcmlzc2FtY2smYW1wO3Nob3dfY291bnQ9dHJ1ZSZhbXA7c2hvd19zY3JlZW5fbmFtZT10cnVlJmFtcDtzaXplPW0iIGNsYXNzPSJ0d2l0dGVyLWZvbGxvdy1idXR0b24gdHdpdHRlci1mb2xsb3ctYnV0dG9uIiB0aXRsZT0iVHdpdHRlciBGb2xsb3cgQnV0dG9uIiBkYXRhLXR3dHRyLXJlbmRlcmVkPSJ0cnVlIiBzdHlsZT0icG9zaXRpb246IHN0YXRpYzsgdmlzaWJpbGl0eTogdmlzaWJsZTsgd2lkdGg6IDIxOXB4OyBoZWlnaHQ6IDIwcHg7Ij48L2lmcmFtZT4KICA8L2Rpdj4KICA8ZGl2IGlkPSJkaXNxdXNfdGhyZWFkIj48L2Rpdj4KICA8YSBocmVmPSJodHRwOi8vZGlzcXVzLmNvbSIgY2xhc3M9ImRzcS1icmxpbmsiPmNvbW1lbnRzIHBvd2VyZWQgYnkgPHNwYW4gY2xhc3M9ImxvZ28tZGlzcXVzIj5EaXNxdXM8L3NwYW4+PC9hPgo8L2Rpdj4K","base64").toString(),
     data: function (params, cb) {
       posts.forEach(function (post) {
         if (post.id === parseInt(params.id)) {
@@ -22307,7 +22324,7 @@ var routes = [
   },
   {
     url: '/',
-    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KPGlmcmFtZSBpZD0idHdpdHRlci13aWRnZXQtMSIgc2Nyb2xsaW5nPSJubyIgZnJhbWVib3JkZXI9IjAiIGFsbG93dHJhbnNwYXJlbmN5PSJ0cnVlIiBzcmM9Imh0dHA6Ly9wbGF0Zm9ybS50d2l0dGVyLmNvbS93aWRnZXRzL2ZvbGxvd19idXR0b24uNTAwMDVmZTMzNjkxYWQxNTA0MWY3MTk5NDU3YWMzZTAuZW4uaHRtbCNfPTE0MzIxNDIxMzc3OTkmYW1wO2lkPXR3aXR0ZXItd2lkZ2V0LTEmYW1wO2xhbmc9ZW4mYW1wO3NjcmVlbl9uYW1lPWthcmlzc2FtY2smYW1wO3Nob3dfY291bnQ9dHJ1ZSZhbXA7c2hvd19zY3JlZW5fbmFtZT10cnVlJmFtcDtzaXplPW0iIGNsYXNzPSJ0d2l0dGVyLWZvbGxvdy1idXR0b24gdHdpdHRlci1mb2xsb3ctYnV0dG9uIiB0aXRsZT0iVHdpdHRlciBGb2xsb3cgQnV0dG9uIiBkYXRhLXR3dHRyLXJlbmRlcmVkPSJ0cnVlIiBzdHlsZT0icG9zaXRpb246IHN0YXRpYzsgdmlzaWJpbGl0eTogdmlzaWJsZTsgd2lkdGg6IDI0OXB4OyBoZWlnaHQ6IDMwcHg7Ij48L2lmcmFtZT4KPC9kaXY+CjxkaXYgY2xhc3M9ImJsb2ciPgp7eyNlYWNoIHBvc3RzfX0KPGRpdiBjbGFzcz0icm93Ij4KICA8ZGl2IGNsYXNzPSJlbGV2ZW4gY29sdW1uIj4KICAgIDxoMiBjbGFzcz0iYmxvZy10aXRsZSI+PGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij57e3RpdGxlfX08L2E+PC9oMj4KICAgIDxoNj5ieSBrYXJpc3NhIGF0IHt7ZGF0ZX19IGFib3V0IHt7Y2F0ZWdvcmllc319PC9oNj4KICAgIDxkaXYgY2xhc3M9InJvdyI+e3tvdmVydmlldyB0ZXh0fX0gPGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij5bcmVhZCBtb3JlXTwvYT48L2Rpdj4KICAgIDxocj4KICA8L2Rpdj4KPC9kaXY+Cnt7L2VhY2h9fQo8L2Rpdj4K","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KPGlmcmFtZSBpZD0idHdpdHRlci13aWRnZXQtMSIgc2Nyb2xsaW5nPSJubyIgZnJhbWVib3JkZXI9IjAiIGFsbG93dHJhbnNwYXJlbmN5PSJ0cnVlIiBzcmM9Imh0dHA6Ly9wbGF0Zm9ybS50d2l0dGVyLmNvbS93aWRnZXRzL2ZvbGxvd19idXR0b24uNTAwMDVmZTMzNjkxYWQxNTA0MWY3MTk5NDU3YWMzZTAuZW4uaHRtbCNfPTE0MzIxNDIxMzc3OTkmYW1wO2lkPXR3aXR0ZXItd2lkZ2V0LTEmYW1wO2xhbmc9ZW4mYW1wO3NjcmVlbl9uYW1lPWthcmlzc2FtY2smYW1wO3Nob3dfY291bnQ9dHJ1ZSZhbXA7c2hvd19zY3JlZW5fbmFtZT10cnVlJmFtcDtzaXplPW0iIGNsYXNzPSJ0d2l0dGVyLWZvbGxvdy1idXR0b24gdHdpdHRlci1mb2xsb3ctYnV0dG9uIiB0aXRsZT0iVHdpdHRlciBGb2xsb3cgQnV0dG9uIiBkYXRhLXR3dHRyLXJlbmRlcmVkPSJ0cnVlIiBzdHlsZT0icG9zaXRpb246IHN0YXRpYzsgdmlzaWJpbGl0eTogdmlzaWJsZTsgd2lkdGg6IDI0OXB4OyBoZWlnaHQ6IDMwcHg7Ij48L2lmcmFtZT4KPC9kaXY+CjxkaXYgY2xhc3M9ImJsb2ciPgp7eyNlYWNoIHBvc3RzfX0KPGRpdiBjbGFzcz0icm93Ij4KICA8ZGl2IGNsYXNzPSJlbGV2ZW4gY29sdW1uIj4KICAgIDxoMiBjbGFzcz0iYmxvZy10aXRsZSI+PGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij57e3RpdGxlfX08L2E+PC9oMj4KICAgIDxoNj5ieSBrYXJpc3NhIG1ja2VsdmV5IGF0IHt7ZGF0ZX19IGFib3V0IHt7Y2F0ZWdvcmllc319PC9oNj4KICAgIDxkaXYgY2xhc3M9InJvdyI+e3tvdmVydmlldyB0ZXh0fX0gPGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij5bcmVhZCBtb3JlXTwvYT48L2Rpdj4KICAgIDxocj4KICA8L2Rpdj4KPC9kaXY+Cnt7L2VhY2h9fQo8L2Rpdj4K","base64").toString(),
     data: function (params, cb)  {
       cb({
         posts: posts
