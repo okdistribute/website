@@ -2774,7 +2774,7 @@ module.exports = function () {
     .gravity(0.002)
     .friction(0.1)
     .charge(-100)
-    .linkStrength(.50)
+    .linkStrength(.75)
     .size([width, height])
     .start();
 
