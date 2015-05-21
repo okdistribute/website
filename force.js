@@ -1,7 +1,7 @@
 var d3 = require('d3')
 
 var width = 1400,
-    height = 350
+    height = 250
 
 var json = {
   nodes: [
@@ -102,8 +102,10 @@ module.exports = function () {
 
   d3.select('.you').on('click', function () {
     clicks += 1
-    d3.select("body")
-    .attr("class", "burnout")
+    if (clicks > 1) {
+      d3.select("body")
+      .attr("class", "burnout")
+    }
   })
 
   force.on("tick", function() {
