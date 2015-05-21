@@ -1,7 +1,7 @@
 var d3 = require('d3')
 
 var width = 1400,
-    height = 250
+    height = 350
 
 var json = {
   nodes: [

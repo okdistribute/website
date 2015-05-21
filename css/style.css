@@ -43,6 +43,7 @@ p {
 
 .easter-egg {
   color: white;
+  display: none;
 }
 
 .upper-right {
@@ -70,7 +71,17 @@ p {
 
 .burnout {
   background-image: url(/images/staging.png);
-  color: white;
+  color: white !important;
+}
+
+.burnout h1,
+.burnout p,
+.burnout a {
+  color: white !important;
+}
+
+.burnout code {
+  background-color: black;
 }
 
 #graph textarea {
@@ -82,6 +93,10 @@ p {
   height: 250px;
   background-color: black;
   display: block !important;
+}
+
+.burnout .easter-egg {
+  display: block;
 }
 
 .centered {

@@ -2,20 +2,20 @@ var fs = require('fs')
 // numbers don't really matter, just don't change them!
 module.exports = [
   {
-    id: 11,
-    title: "Why you shouldn't say it's easy when teaching",
-    date: "2014-04-26 23:24",
-    categories: ["development", "people", "teaching", "advice"],
-    text: fs.readFileSync("posts/2014-04-26-why-you-shouldnt-say-its-easy-when-teaching.markdown").toString(),
-    disqus: "blog/2014/04/26/why-you-shouldnt-say-its-easy-when-teaching"
-  },
-  {
     id: 10,
     title: "Coming out of the debt closet",
     date: "2015-01-13 15:29",
     categories: ["story", "debt", "personal"],
     text: fs.readFileSync("posts/2015-01-13-coming-out-of-the-debt-closet.markdown").toString(),
     disqus: "blog/2015/01/13/coming-out-of-the-debt-closet/"
+  },
+  {
+    id: 11,
+    title: "Why you shouldn't say it's easy when teaching",
+    date: "2014-04-26 23:24",
+    categories: ["development", "people", "teaching", "advice"],
+    text: fs.readFileSync("posts/2014-04-26-why-you-shouldnt-say-its-easy-when-teaching.markdown").toString(),
+    disqus: "blog/2014/04/26/why-you-shouldnt-say-its-easy-when-teaching"
   },
   {
     id: 9,

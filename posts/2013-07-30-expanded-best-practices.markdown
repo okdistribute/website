@@ -46,7 +46,7 @@ another person who may come along and read the program.
 This is good advice, and it’s true, but it doesn’t give you any practical
 examples. Here is an example of some code with Good Style™:
 
-``` python
+```python
 def to_csv(timeline, filename):
 	"""Takes a timeline (as a list of dictionaries)
 	writes to file in csv"""
