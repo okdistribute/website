@@ -2729,19 +2729,16 @@ var json = {
     {name: 'debtcollective', group: 3, image: 'https://debtcollective.org/static/img/RedSquare_favicon.png'}
   ],
   links: [
-    {source: 0, target: 1, value: 1},
     {source: 1, target: 2, value: 1},
     {source: 2, target: 3, value: 1},
     {source: 3, target: 2, value: 1},
-    {source: 2, target: 0, value: 1},
-    {source: 3, target: 0, value: 1},
     {source: 3, target: 1, value: 1},
+    {source: 4, target: 1, value: 1},
 
     {source: 7, target: 9, value: 1},
-
+    {source: 6, target: 0, value: 1},
     {source: 6, target: 5, value: 10},
 
-    {source: 6, target: 1, value: 1},
     {source: 8, target: 7, value: 1},
 
     {source: 3, target: 9, value: 5},
@@ -2804,7 +2801,7 @@ module.exports = function () {
 
   node.on('click', function () {
     clicks += 1
-    if (clicks > 4) {
+    if (clicks > 10) {
       d3.select("#graph")
       .attr("class", "burnout")
       .append("text").text()
