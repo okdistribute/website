@@ -20,6 +20,7 @@ var json = {
     {name: 'keybase', group: 1, image: "https://keybase.io/favicon.ico"},
 
     {name: 'oakland', group: 2, image: '/images/oaktree.png'},
+    {name: 'you', group: 2, image: '/images/laptop.png', cl: 'you'}
   ],
   links: [
     {source: 1, target: 2, value: 1},
@@ -40,7 +41,8 @@ var json = {
     {source: 2, target: 5, value: 2},
 
     {source: 3, target: 11, value: 2},
-    {source: 7, target: 11, value: 2}
+    {source: 7, target: 11, value: 2},
+    {source: 12, target: 0, value: 1}
 
   ]
 }
@@ -75,7 +77,16 @@ module.exports = function () {
     .data(json.nodes)
     .enter().append("g")
     .attr("class", "node")
-    .call(force.drag);
+    .attr("class", function (d) { return d.cl })
+    .call(force.drag)
+    .on('click', function () {
+      clicks += 1
+      if (clicks > 8) {
+        d3.select("body")
+        .attr("class", "burnout")
+        .append("text").text()
+      }
+    });
 
   node.append("text")
       .attr("dx", 12)
@@ -89,6 +100,12 @@ module.exports = function () {
       .attr("width", 16)
       .attr("height", 16);
 
+  d3.select('.you').on('click', function () {
+    clicks += 1
+    d3.select("body")
+    .attr("class", "burnout")
+  })
+
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
         .attr("y1", function(d) { return d.source.y; })
@@ -96,14 +113,5 @@ module.exports = function () {
         .attr("y2", function(d) { return d.target.y; });
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-  })
-
-  node.on('click', function () {
-    clicks += 1
-    if (clicks > 8) {
-      d3.select("body")
-      .attr("class", "burnout")
-      .append("text").text()
-    }
   })
 }
