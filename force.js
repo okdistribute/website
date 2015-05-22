@@ -10,17 +10,17 @@ var json = {
     {name: 'karissamck', image: 'https://www.linkedin.com/favicon.ico'},
     {name: 'karissa.mckelvey', image: 'https://www.facebook.com/favicon.ico'},
 
-    {name: 'indiana', group: 2, image: 'http://indiana.edu/favicon.ico'},
-    {name: 'usopendata', group: 2, image: 'http://usopendata.org/favicon.ico'},
-    {name: 'dat', group: 2, image: 'http://dat-data.com/favicon.ico'},
+    {name: 'indiana', image: 'http://indiana.edu/favicon.ico'},
+    {name: 'usopendata', image: 'http://usopendata.org/favicon.ico'},
+    {name: 'dat', image: 'http://dat-data.com/favicon.ico'},
 
-    {name: 'taskforce.is', group: 3, image: 'https://taskforce.is/favicon.ico'},
-    {name: 'brassliberation', group: 3, image: 'http://brassliberation.org/img/blo_logo.gif'},
-    {name: 'debtcollective', group: 3, image: 'https://debtcollective.org/static/img/RedSquare_favicon.png'},
-    {name: 'keybase', group: 1, image: "https://keybase.io/favicon.ico"},
+    {name: 'taskforce.is', image: 'https://taskforce.is/favicon.ico'},
+    {name: 'brassliberation', image: 'http://brassliberation.org/img/blo_logo.gif'},
+    {name: 'debtcollective', image: 'https://debtcollective.org/static/img/RedSquare_favicon.png'},
+    {name: 'keybase', image: "https://keybase.io/favicon.ico"},
 
-    {name: 'oakland', group: 2, image: '/images/oaktree.png'},
-    {name: 'you', group: 2, image: '/images/laptop.png', cl: 'you'}
+    {name: 'oakland', image: '/images/oaktree.png'},
+    {name: 'you', image: '/images/laptop.png', cl: 'you'}
   ],
   links: [
     {source: 1, target: 2, value: 1},
