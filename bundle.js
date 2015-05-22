@@ -26,6 +26,7 @@ function templater (contentSelector, routes, renderer) {
     var compiled = renderer(ctx.template, ctx.data)
     target.html(compiled)
     ctx.onrender(ctx.params, ctx.data)
+    if (ctx.scroll) window.scrollTo(0,0)
   }
 
   function createRoutes (i) {
@@ -44,6 +45,7 @@ function makePage (route, cb) {
     route.data(ctx.params, function (data) {
       ctx.template = route.template
       ctx.data = data
+      ctx.scroll = route.scroll || true
       if (route.onrender) ctx.onrender = route.onrender
       next()
     })
