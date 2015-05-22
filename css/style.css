@@ -75,9 +75,18 @@ p {
 }
 
 .burnout h1,
+.burnout h2,
+.burnout h3,
 .burnout p,
+.burnout li,
 .burnout a {
   color: white !important;
+  font-family: monospace !important;
+}
+
+.burnout .container {
+  background-color: black;
+  padding: 10px;
 }
 
 .burnout code {
