@@ -86,14 +86,19 @@ a:hover {
 
 .burnout h1,
 .burnout h2,
-.burnout h2 a,
-.burnout h3,
 .burnout h6,
 .burnout p,
 .burnout textarea,
 .burnout li {
   color: #888 !important;
   font-family: monospace !important;
+}
+
+.burnout h1,
+.burnout h2 a,
+.burnout h3 {
+  color: #ccc !important;
+  font-size: 24px;
 }
 
 .burnout h6 {
