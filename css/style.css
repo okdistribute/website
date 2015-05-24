@@ -70,18 +70,34 @@ p {
 }
 
 .burnout {
-  background-image: url(/images/staging.png);
-  color: white !important;
+  background-color: black;
+  color: green;
+  font-size: 17px;
+  font-family: monospace !important;
+}
+
+a {
+  color: green;
+}
+
+a:hover {
+  color: green !important;
 }
 
 .burnout h1,
 .burnout h2,
+.burnout h2 a,
 .burnout h3,
+.burnout h6,
 .burnout p,
-.burnout li,
-.burnout a {
-  color: white !important;
+.burnout textarea,
+.burnout li {
+  color: #888 !important;
   font-family: monospace !important;
+}
+
+.burnout h6 {
+  color: green !important;
 }
 
 .burnout .container {
