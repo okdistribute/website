@@ -20,7 +20,8 @@ var json = {
     {name: 'keybase', image: "https://keybase.io/favicon.ico"},
 
     {name: 'oakland', image: '/images/oaktree.png'},
-    {name: 'you', image: '/images/laptop.png', cl: 'you'}
+    {name: 'you', image: '/images/laptop.png', cl: 'you'},
+    {name: 'thewyattact', image: '/images/hat-purple.png'}
   ],
   links: [
     {source: 1, target: 2, value: 1},
@@ -42,7 +43,8 @@ var json = {
 
     {source: 3, target: 11, value: 2},
     {source: 7, target: 11, value: 2},
-    {source: 12, target: 0, value: 1}
+    {source: 12, target: 0, value: 1},
+    {source: 13, target: 11, value: 10}
 
   ]
 }
