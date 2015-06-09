@@ -12,7 +12,7 @@ var json = {
 
     {name: 'indiana', image: 'http://indiana.edu/favicon.ico'},
     {name: 'usopendata', image: 'http://usopendata.org/favicon.ico'},
-    {name: 'dat', image: 'http://dat-data.com/favicon.ico'},
+    {name: 'dat', image: 'http://dat-data.com/static/img/dat-hex-small.png'},
 
     {name: 'taskforce.is', image: 'https://taskforce.is/favicon.ico'},
     {name: 'brassliberation', image: 'http://brassliberation.org/img/blo_logo.gif'},
