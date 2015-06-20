@@ -6,7 +6,7 @@ var width = 1400,
 var json = {
   nodes: [
     {name: 'karissa', image: 'http://github.com/favicon.ico'},
-    {name: '@karissamck', image: 'http://twitter.com/favicon.ico'},
+    {name: '@o_Orissa', image: 'http://twitter.com/favicon.ico'},
     {name: 'karissamck', image: 'https://www.linkedin.com/favicon.ico'},
     {name: 'karissa.mckelvey', image: 'https://www.facebook.com/favicon.ico'},
 
