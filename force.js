@@ -9,7 +9,6 @@ var json = {
     {name: '@o_Orissa', image: 'http://twitter.com/favicon.ico'},
     {name: 'karissamck', image: 'https://www.linkedin.com/favicon.ico'},
     {name: 'karissa.mckelvey', image: 'https://www.facebook.com/favicon.ico'},
-
     {name: 'indiana', image: 'http://indiana.edu/favicon.ico'},
     {name: 'usopendata', image: 'http://usopendata.org/favicon.ico'},
     {name: 'dat', image: 'http://dat-data.com/static/img/dat-hex-small.png'},
