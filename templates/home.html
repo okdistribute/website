@@ -1,0 +1,17 @@
+<div class="blog">
+<table>
+  <thead>
+  </thead>
+  <tbody>
+  {{#each posts}}
+  <tr>
+    <td>
+      <p class="blog-title"><a href="/post/{{id}}">{{title}}</a>
+      </p>
+    </td>
+    <td>{{date}}</td>
+  </tr>
+  {{/each}}
+  </tbody>
+</table>
+</div>

@@ -2712,9 +2712,6 @@ module.exports = Array.isArray || function (arr) {
 },{}],15:[function(require,module,exports){
 var d3 = require('d3')
 
-var width = 1400,
-    height = 250
-
 var json = {
   nodes: [
     {name: 'karissa', image: '/images/github.ico'},
@@ -2763,10 +2760,15 @@ var json = {
 var clicks = 0
 var force_rendered = false
 
-module.exports = function () {
+module.exports = function (height) {
   if (force_rendered) return
   force_rendered = true
-  var svg = d3.select("#graph").append("svg")
+  var width = 1400
+  var graph = d3.select("#graph")
+
+  graph.style({'height': height})
+
+  var svg = graph.append("svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -2794,10 +2796,9 @@ module.exports = function () {
     .call(force.drag)
     .on('click', function () {
       clicks += 1
-      if (clicks > 8) {
+      if (clicks > 3) {
         d3.select("body")
         .attr("class", "burnout")
-        .append("text").text()
       }
     });
 
@@ -2814,11 +2815,8 @@ module.exports = function () {
       .attr("height", 16);
 
   d3.select('.you').on('click', function () {
-    clicks += 1
-    if (clicks > 1) {
-      d3.select("body")
-      .attr("class", "burnout")
-    }
+    d3.select("body")
+    .attr("class", "burnout")
   })
 
   force.on("tick", function() {
@@ -22331,30 +22329,43 @@ var routes = [
     },
     onrender: function (params, post) {
       disqus(post)
-      force()
+      force(250)
     }
   },
   {
     url: '/graph',
     template: Buffer("PGRpdiBpZD0iZ3JhcGgiPjwvZGl2Pg==","base64").toString(),
     onrender: function () {
-      force()
+      force(250)
     }
   },
   {
     url: '/',
-    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4iPgogICAgPGgyIGNsYXNzPSJibG9nLXRpdGxlIj48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2gyPgogICAgPGRpdiBjbGFzcz0icm93Ij57e292ZXJ2aWV3IHRleHR9fSA8YSBocmVmPSIvcG9zdC97e2lkfX0iPltyZWFkIG1vcmVdPC9hPjwvZGl2PgogICAgPGhyPgogIDwvZGl2Pgo8L2Rpdj4Ke3svZWFjaH19CjwvZGl2Pgo8ZGl2IGNsYXNzPSJyb3ciPgo8aWZyYW1lIGlkPSJ0d2l0dGVyLXdpZGdldC0xIiBzY3JvbGxpbmc9Im5vIiBmcmFtZWJvcmRlcj0iMCIgYWxsb3d0cmFuc3BhcmVuY3k9InRydWUiIHNyYz0iaHR0cDovL3BsYXRmb3JtLnR3aXR0ZXIuY29tL3dpZGdldHMvZm9sbG93X2J1dHRvbi41MDAwNWZlMzM2OTFhZDE1MDQxZjcxOTk0NTdhYzNlMC5lbi5odG1sI189MTQzMjE0MjEzNzc5OSZhbXA7aWQ9dHdpdHRlci13aWRnZXQtMSZhbXA7bGFuZz1lbiZhbXA7c2NyZWVuX25hbWU9b19Pcmlzc2EmYW1wO3Nob3dfY291bnQ9dHJ1ZSZhbXA7c2hvd19zY3JlZW5fbmFtZT10cnVlJmFtcDtzaXplPW0iIGNsYXNzPSJ0d2l0dGVyLWZvbGxvdy1idXR0b24gdHdpdHRlci1mb2xsb3ctYnV0dG9uIiB0aXRsZT0iVHdpdHRlciBGb2xsb3cgQnV0dG9uIiBkYXRhLXR3dHRyLXJlbmRlcmVkPSJ0cnVlIiBzdHlsZT0icG9zaXRpb246IHN0YXRpYzsgdmlzaWJpbGl0eTogdmlzaWJsZTsgd2lkdGg6IDI0OXB4OyBoZWlnaHQ6IDMwcHg7Ij48L2lmcmFtZT4KPC9kaXY+","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cjx0YWJsZT4KICA8dGhlYWQ+CiAgPC90aGVhZD4KICA8dGJvZHk+CiAge3sjZWFjaCBwb3N0c319CiAgPHRyPgogICAgPHRkPgogICAgICA8cCBjbGFzcz0iYmxvZy10aXRsZSI+PGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij57e3RpdGxlfX08L2E+CiAgICAgIDwvcD4KICAgIDwvdGQ+CiAgICA8dGQ+e3tkYXRlfX08L3RkPgogIDwvdHI+CiAge3svZWFjaH19CiAgPC90Ym9keT4KPC90YWJsZT4KPC9kaXY+","base64").toString(),
+    data: function (params, cb)  {
+      cb({
+        posts: posts.slice(0,4)
+      })
+    },
+    onrender: function (params, data) {
+      force(500)
+    }
+  },
+  {
+    url: '/blog',
+    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4iPgogICAgPGgyIGNsYXNzPSJibG9nLXRpdGxlIj48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2gyPgogICAgPGRpdiBjbGFzcz0icm93Ij57e292ZXJ2aWV3IHRleHR9fSA8YSBocmVmPSIvcG9zdC97e2lkfX0iPltyZWFkIG1vcmVdPC9hPjwvZGl2PgogICAgPGhyPgogIDwvZGl2Pgo8L2Rpdj4Ke3svZWFjaH19CjwvZGl2Pg==","base64").toString(),
     data: function (params, cb)  {
       cb({
         posts: posts
       })
     },
     onrender: function (params, data) {
-      console.log('params', params)
-      force()
+      force(250)
     }
   }
 ]
+
+console.log('if not you, who?')
 
 Handlebars.registerHelper('overview', function(passedString) {
   var endIndex = passedString.indexOf('<!-- more -->')

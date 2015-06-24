@@ -1,8 +1,5 @@
 var d3 = require('d3')
 
-var width = 1400,
-    height = 250
-
 var json = {
   nodes: [
     {name: 'karissa', image: '/images/github.ico'},
@@ -51,10 +48,15 @@ var json = {
 var clicks = 0
 var force_rendered = false
 
-module.exports = function () {
+module.exports = function (height) {
   if (force_rendered) return
   force_rendered = true
-  var svg = d3.select("#graph").append("svg")
+  var width = 1400
+  var graph = d3.select("#graph")
+
+  graph.style({'height': height})
+
+  var svg = graph.append("svg")
     .attr("width", width)
     .attr("height", height);
 
@@ -82,10 +84,9 @@ module.exports = function () {
     .call(force.drag)
     .on('click', function () {
       clicks += 1
-      if (clicks > 8) {
+      if (clicks > 3) {
         d3.select("body")
         .attr("class", "burnout")
-        .append("text").text()
       }
     });
 
@@ -102,11 +103,8 @@ module.exports = function () {
       .attr("height", 16);
 
   d3.select('.you').on('click', function () {
-    clicks += 1
-    if (clicks > 1) {
-      d3.select("body")
-      .attr("class", "burnout")
-    }
+    d3.select("body")
+    .attr("class", "burnout")
   })
 
   force.on("tick", function() {

@@ -22,18 +22,30 @@ var routes = [
     },
     onrender: function (params, post) {
       disqus(post)
-      force()
+      force(250)
     }
   },
   {
     url: '/graph',
     template: fs.readFileSync('templates/graph.html').toString(),
     onrender: function () {
-      force()
+      force(250)
     }
   },
   {
     url: '/',
+    template: fs.readFileSync('templates/home.html').toString(),
+    data: function (params, cb)  {
+      cb({
+        posts: posts.slice(0,4)
+      })
+    },
+    onrender: function (params, data) {
+      force(500)
+    }
+  },
+  {
+    url: '/blog',
     template: fs.readFileSync('templates/blog.html').toString(),
     data: function (params, cb)  {
       cb({
@@ -41,11 +53,12 @@ var routes = [
       })
     },
     onrender: function (params, data) {
-      console.log('params', params)
-      force()
+      force(250)
     }
   }
 ]
+
+console.log('if not you, who?')
 
 Handlebars.registerHelper('overview', function(passedString) {
   var endIndex = passedString.indexOf('<!-- more -->')
