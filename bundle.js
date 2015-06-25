@@ -22353,7 +22353,7 @@ var routes = [
   },
   {
     url: '/blog',
-    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4iPgogICAgPGgyIGNsYXNzPSJibG9nLXRpdGxlIj48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2gyPgogICAgPGRpdiBjbGFzcz0icm93Ij57e292ZXJ2aWV3IHRleHR9fSA8YSBocmVmPSIvcG9zdC97e2lkfX0iPltyZWFkIG1vcmVdPC9hPjwvZGl2PgogICAgPGhyPgogIDwvZGl2Pgo8L2Rpdj4Ke3svZWFjaH19CjwvZGl2Pg==","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVpZ2h0IGNvbHVtbnMiPgogICAgPGgyIGNsYXNzPSJibG9nLXRpdGxlIj48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2gyPgogICAgPGRpdiBjbGFzcz0icm93Ij57e292ZXJ2aWV3IHRleHR9fSA8YSBocmVmPSIvcG9zdC97e2lkfX0iPltyZWFkIG1vcmVdPC9hPjwvZGl2PgogICAgPGhyPgogIDwvZGl2Pgo8L2Rpdj4Ke3svZWFjaH19CjwvZGl2Pg==","base64").toString(),
     data: function (params, cb)  {
       cb({
         posts: posts
