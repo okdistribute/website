@@ -24,6 +24,10 @@ h1,h2 a {
   color: black;
 }
 
+a {
+  text-decoration: none;
+}
+
 h1,h2,h3,h4,h5 {
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
