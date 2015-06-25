@@ -60,7 +60,7 @@ var routes = [
   }
 ]
 
-console.log('if not you, who?')
+console.log('if not us, who?')
 
 Handlebars.registerHelper('overview', function(passedString) {
   var endIndex = passedString.indexOf('<!-- more -->')
