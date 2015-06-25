@@ -28,6 +28,10 @@ a {
   text-decoration: none;
 }
 
+a:visited {
+  color: #888;
+}
+
 h1,h2,h3,h4,h5 {
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
