@@ -1,3 +1,7 @@
+g > text {
+  font-family: monospace;
+}
+
 #content img {
   width: 100%;
 }
@@ -20,7 +24,7 @@ h1,h2 a {
   color: black;
 }
 
-h1,h2,h3,h4,h5,h6, g > text {
+h1,h2,h3,h4,h5,h6 {
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
