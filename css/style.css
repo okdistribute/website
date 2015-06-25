@@ -24,11 +24,14 @@ h1,h2 a {
   color: black;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,h2,h3,h4,h5 {
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.mono {
+h6, g > text {
+  font-size: 1.7rem;
+  line-height: 1.6;
+  letter-spacing: 0;
   font-family: monospace;
   margin-bottom: 0px;
 }

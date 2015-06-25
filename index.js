@@ -13,7 +13,7 @@ var routes = [
     template: fs.readFileSync('templates/post.html').toString(),
     data: function (params, cb) {
       posts.forEach(function (post) {
-        if (post.id === parseInt(params.id)) {
+        if (post.id === params.id) {
           post.disqus = post.disqus || '/post/' + post.id
           return cb({
             posts: posts,
