@@ -10,13 +10,23 @@
   max-width: 150px;
 }
 
+.post {
+  margin: auto !important;
+  float: none;
+}
+
 h1,h2 a {
   text-decoration: none;
   color: black;
 }
 
-h1,h2,h3,h4,h5,h6 {
+h1,h2,h3,h4,h5,h6, g > text {
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.mono {
+  font-family: monospace;
+  margin-bottom: 0px;
 }
 
 .blog-title {
@@ -31,7 +41,12 @@ blockquote p {
 }
 
 body {
-  font-size: 1.75em;
+  line-height: 1.5;
+  font-weight: 400;
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
+  font-size: 19px;
+  color: #222;
+  letter-spacing: .01rem;
 }
 
 p {

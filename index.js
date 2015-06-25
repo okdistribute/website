@@ -15,8 +15,10 @@ var routes = [
       posts.forEach(function (post) {
         if (post.id === parseInt(params.id)) {
           post.disqus = post.disqus || '/post/' + post.id
-          post.text = post.text
-          return cb(post)
+          return cb({
+            posts: posts,
+            post: post
+          })
         }
       })
     },

@@ -1,4 +1,4 @@
-<div class="blog">
+<div class="blog eleven columns">
 <table>
   <thead>
   </thead>
@@ -6,10 +6,9 @@
   {{#each posts}}
   <tr>
     <td>
-      <p class="blog-title"><a href="/post/{{id}}">{{title}}</a>
-      </p>
+      <h6 class="mono"><a href="/post/{{id}}">{{title}}</a></h6>
     </td>
-    <td>{{date}}</td>
+    <td><h6 class="mono">{{date}}</h6></td>
   </tr>
   {{/each}}
   </tbody>
