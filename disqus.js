@@ -9,12 +9,10 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
   } else {
-    var shortname = post.disqus || 'post/' + post.id
     DISQUS.reset({
       reload: true,
       config: function () {
-        this.page.identifier = shortname;
-        this.page.url = "http://karissamck.com/" + shortname;
+        this.page.identifier = 'post/' + post.id;
       }
     });
   }
