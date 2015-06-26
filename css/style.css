@@ -162,3 +162,37 @@ a:hover {
 .centered {
   text-align: center;
 }
+
+/* Mobile first queries */
+
+.mobile-only {
+  display: block;
+}
+.hidden-mobile {
+  display: none;
+}
+/* Larger than mobile */
+@media (min-width: 400px) {
+}
+
+/* Larger than phablet */
+@media (min-width: 550px) {
+}
+
+/* Larger than tablet */
+@media (min-width: 750px) {
+  .mobile-only {
+    display: none !important;
+  }
+  .hidden-mobile {
+    display: block !important;
+  }
+}
+
+/* Larger than desktop */
+@media (min-width: 1000px) {}
+
+/* Larger than Desktop HD */
+@media (min-width: 1200px) {}
+
+

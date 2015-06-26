@@ -51,7 +51,7 @@ var force_rendered = false
 module.exports = function (height) {
   if (force_rendered) return
   force_rendered = true
-  var width = 1400
+  var width = window.innerWidth
   var graph = d3.select("#graph")
 
   graph.style({'height': height})

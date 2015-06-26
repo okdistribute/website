@@ -14,7 +14,6 @@ var routes = [
     data: function (params, cb) {
       posts.forEach(function (post) {
         if (post.id === params.id) {
-          post.disqus = post.disqus || '/post/' + post.id
           return cb({
             posts: posts,
             post: post
@@ -22,8 +21,8 @@ var routes = [
         }
       })
     },
-    onrender: function (params, post) {
-      disqus(post)
+    onrender: function (params, data) {
+      disqus(data.post)
       force(250)
     }
   },
