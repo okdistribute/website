@@ -3,7 +3,6 @@ var fs = require('fs')
 var marked = require('marked')
 var Handlebars = require('handlebars')
 
-var disqus = require('./disqus.js')
 var force = require('./force.js')
 var posts = require('./posts.js')
 
@@ -22,7 +21,6 @@ var routes = [
       })
     },
     onrender: function (params, data) {
-      disqus(data.post)
       force(250)
     }
   },

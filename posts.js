@@ -1,21 +1,26 @@
 var fs = require('fs')
-// numbers don't really matter, just don't change them!
+// ids don't really matter, just don't change them!
 module.exports = [
+  {
+    id: 'what-the-department-should-have-done',
+    title: "What the Department of Education Should Have Done Years Ago",
+    date: "2015-07-06 11:31",
+    categories: ["government", "tech", "education", "debt"],
+    text: fs.readFileSync("posts/2015-07-06-civicist.markdown").toString()
+  },
   {
     id: 'debt-closet',
     title: "Coming out of the debt closet",
     date: "2015-01-13 15:29",
     categories: ["story", "debt", "personal"],
-    text: fs.readFileSync("posts/2015-01-13-coming-out-of-the-debt-closet.markdown").toString(),
-    disqus: "blog/2015/01/13/coming-out-of-the-debt-closet/"
+    text: fs.readFileSync("posts/2015-01-13-coming-out-of-the-debt-closet.markdown").toString()
   },
   {
     id: 'dont-say-its-easy',
     title: "Why you shouldn't say it's easy when teaching",
     date: "2014-04-26 23:24",
-    categories: ["development", "people", "teaching", "advice"],
-    text: fs.readFileSync("posts/2014-04-26-why-you-shouldnt-say-its-easy-when-teaching.markdown").toString(),
-    disqus: "blog/2014/04/26/why-you-shouldnt-say-its-easy-when-teaching"
+    categories: ["tech", "people", "teaching", "advice"],
+    text: fs.readFileSync("posts/2014-04-26-why-you-shouldnt-say-its-easy-when-teaching.markdown").toString()
   },
   {
     id: 'no-cages',
@@ -63,7 +68,7 @@ module.exports = [
     id: 'data-science-is-engineering',
     title: "Data Science is Engineering",
     date: "2013-07-07 16:18",
-    categories: ["academia", "programming", "education", "the future"],
+    categories: ["academia", "tech", "programming", "education", "the future"],
     text: fs.readFileSync("posts/2013-07-17-data-science-is-engineering.markdown").toString(),
     disqus: "blog/2013/07/07/data-science-is-engineering/"
   },
@@ -71,14 +76,14 @@ module.exports = [
     id: 'dont-forget-to-reply-all',
     title: "Don't forget to reply-all: E-mail is a terrible collaboration tool",
     date: "2013-06-13 16:24",
-    categories: ["collaboration", "technology"],
+    categories: ["collaboration", "tech"],
     text: fs.readFileSync("posts/2013-07-17-dont-forget-to-reply-all.markdown").toString()
   },
   {
     id: 'widespread-apathy',
     title: "Widespread Apathy and the NSA",
     date: "2013-06-13 00:37",
-    categories: ["politics", "technology", "surveillance"],
+    categories: ["politics", "tech", "surveillance"],
     text: fs.readFileSync("posts/2013-07-30-widespread-apathy-and-the-nsa.markdown").toString()
   },
   {
