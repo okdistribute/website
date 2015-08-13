@@ -1,4 +1,4 @@
-var templater = require('a-simple-templater')
+var templater = require('page-router')
 var fs = require('fs')
 var marked = require('marked')
 var Handlebars = require('handlebars')

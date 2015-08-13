@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/karissa/karissamck.com",
   "devDependencies": {
-    "a-simple-templater": "^1.0.1",
+    "page-router": "^1.0.1",
     "brfs": "^1.4.0",
     "browserify": "^10.2.1",
     "marked": "^0.3.3",
