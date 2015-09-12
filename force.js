@@ -9,12 +9,10 @@ var json = {
     {name: 'indiana', image: '/images/indiana.ico'},
     {name: 'usopendata', image: '/images/usopendata.ico'},
     {name: 'dat', image: '/images/dat.png'},
-
     {name: 'taskforce.is', image: '/images/taskforce.ico'},
     {name: 'brassliberation', image: '/images/blo.gif'},
     {name: 'debtcollective', image: '/images/dc.png'},
     {name: 'keybase', image: '/images/keybase.ico'},
-
     {name: 'oakland', image: '/images/oaktree.png'},
     {name: 'you', image: '/images/laptop.png', cl: 'you'},
     {name: 'thewyattact', image: '/images/hat-purple.png'}
