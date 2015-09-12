@@ -3,7 +3,7 @@ var d3 = require('d3')
 var json = {
   nodes: [
     {name: 'karissa', image: '/images/github.ico'},
-    {name: '@o_Orissa', image: '/images/twitter.ico'},
+    {name: '@captainkmac', image: '/images/twitter.ico'},
     {name: 'karissamck', image: '/images/linkedin.ico'},
     {name: 'karissa.mckelvey', image: '/images/facebook.ico'},
     {name: 'indiana', image: '/images/indiana.ico'},
