@@ -41,6 +41,7 @@ h6, g > text {
   line-height: 1.6;
   letter-spacing: 0;
   font-family: monospace;
+  margin-bottom: 0px;
 }
 
 .blog-title {
@@ -193,3 +194,5 @@ a:hover {
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
+
+
