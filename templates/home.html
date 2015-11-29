@@ -1,17 +1,8 @@
-<div class="blog eleven columns">
-<table>
-  <thead>
-  </thead>
-  <tbody>
+<div class="row post-list">
   {{#each posts}}
-    <tr>
-      <td>
-        <h6><a href="/post/{{id}}">{{title}}</a> </h6>
-        <h6 class="mobile-only">{{date}}</h6>
-      </td>
-      <td class="hidden-mobile"><h6>{{date}}</h6></td>
-    </tr>
+  <div class="box square">
+    <span class="date">{{usefulDate date}}</span>
+    <h5><a href="/post/{{id}}">{{title}}</a></h5>
+  </div>
   {{/each}}
-  </tbody>
-</table>
 </div>

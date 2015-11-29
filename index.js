@@ -1,30 +1,34 @@
 var templater = require('page-router')
 var fs = require('fs')
-var usefulDate = require('useful-date')
-require( 'useful-date/locale/en-GB.js' )
-var relativeDate = require('relative-date')
-var marked = require('marked')
 var Handlebars = require('handlebars')
 
-var force = require('./force.js')
-var posts = require('./posts.js')
+var disqus = require('./js/disqus.js')
+var force = require('./js/force.js')
+var posts = require('./js/posts.js')
+var nav = require('./js/nav.js')
+var helpers = require('./js/helpers')
 
 var routes = [
   {
     url: '/post/:id',
     template: fs.readFileSync('templates/post.html').toString(),
     data: function (params, cb) {
-      posts.forEach(function (post) {
-        if (post.id === params.id) {
-          return cb({
-            posts: posts,
-            post: post
-          })
+      var post = null
+      var filtered = posts.filter(function (p) {
+        if (p.id === params.id) {
+          post = p
+          return false
         }
+        return true
+      })
+      disqus(post)
+      return cb({
+        posts: filtered.slice(0, 6),
+        post: post
       })
     },
     onrender: function (params, data) {
-      force(175)
+      force(250)
     }
   },
   {
@@ -61,26 +65,6 @@ var routes = [
 ]
 
 console.log('if not us, who?')
-
-Handlebars.registerHelper('usefulDate', function (date) {
-  return new Date(date).format('n F Y')
-})
-
-Handlebars.registerHelper('relativeDate', function (date) {
-  return relativeDate(new Date(date))
-})
-
-Handlebars.registerHelper('overview', function (passedString) {
-  var endIndex = passedString.indexOf('<!-- more -->')
-  if (endIndex === -1) endIndex = 300
-  var theString = passedString.substring(0, endIndex)
-  theString += '...'
-  return new Handlebars.SafeString(marked(theString))
-})
-
-Handlebars.registerHelper('markdown', function (string) {
-  return new Handlebars.SafeString(marked(string))
-})
 
 templater('#content', routes, function (source, data) {
   var template = Handlebars.compile(source)
