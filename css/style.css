@@ -10,11 +10,6 @@
   max-width: 150px;
 }
 
-.post {
-  margin: auto !important;
-  float: none;
-}
-
 h1,h2 a {
   text-decoration: none;
 }
@@ -85,8 +80,8 @@ body {
   font-weight: 300;
   font-family: Georgia,Cambria,"Times New Roman",Times,serif;
   font-size: 18px;
-  color: #F6F3E8;
-  background-color: #404040;
+  color: #404040;
+  background-color: white;
 }
 
 .easter-egg {
@@ -114,7 +109,7 @@ body {
   max-height: 500px;
   width: 100%;
   overflow: hidden;
-  fill: white;
+  fill: #404040;
   font-size: 14px;
   font-family: monospace;
 }
@@ -141,15 +136,14 @@ code {
 }
 
 .box {
-  margin-bottom: 10px;
-  padding: 20px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-  background-color: #F6F3E8;
-  color: #404040;
+  padding-left: 10px;
+  margin: 10px;
+  border-left: 1px solid #404040;
+  background-color: white;
 }
 
 .post-content {
-  padding: 20px 40px 40px 40px;
+  padding: 0px 40px 40px 40px;
   margin-bottom: 60px;
 }
 
