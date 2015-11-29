@@ -1,25 +1,23 @@
-<div class="columns ten ">
-<div class="row">
-  <h2 class="blog-title">{{post.title}}</h2>
-  <h6>karissa mckelvey at {{post.date}} about {{post.categories}}</h6>
-  {{markdown post.text}}
-</div>
+<div class="eight columns">
+  <div class="post-content box">
+    <div class="row">
+      <span class="date">{{usefulDate post.date}} by <a href="http://twitter.com/captainkmac">Karissa McKelvey</a> </span>
+      <h1>{{post.title}}</h1>
+      <div>{{markdown post.text}}</div>
+    </div>
 
-<div class="row">
-    <iframe id="twitter-widget-0" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/tweet_button.b169aa788731255dd55f1bb243b660e1.en.html#_=1432142137781&amp;count=horizontal&amp;dnt=false&amp;id=twitter-widget-0&amp;lang=en" class="twitter-share-button twitter-tweet-button twitter-share-button twitter-count-horizontal" title="Twitter Tweet Button" data-twttr-rendered="true" style="position: static; visibility: visible; width: 100px; height: 20px;"></iframe>
-
-    <iframe id="twitter-widget-1" scrolling="no" frameborder="0" allowtransparency="true" src="http://platform.twitter.com/widgets/follow_button.50005fe33691ad15041f7199457ac3e0.en.html#_=1432142137799&amp;dnt=false&amp;id=twitter-widget-1&amp;lang=en&amp;screen_name=o_Orissa&amp;show_count=true&amp;show_screen_name=true&amp;size=m" class="twitter-follow-button twitter-follow-button" title="Twitter Follow Button" data-twttr-rendered="true" style="position: static; visibility: visible; width: 219px; height: 20px;"></iframe>
+    <div class="row">
+      <div id="disqus_thread"></div>
+    </div>
   </div>
 
-<div class="row">
-  <div id="disqus_thread"></div>
-</div>
-
-<div class="row">
-<hr>
-  {{#each posts}}
-    <h6><a href="/post/{{id}}">{{title}}</a>. {{date}}</h6>
-  {{/each}}
-<hr>
-</div>
+  <div class="row post-list">
+    <h4>More Posts</h4>
+    {{#each posts}}
+    <div class="box">
+      <span class="date">{{usefulDate date}}</span>
+      <h5><a href="/post/{{id}}">{{title}}</a></h5>
+    </div>
+    {{/each}}
+  </div>
 </div>

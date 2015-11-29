@@ -27,6 +27,8 @@
     "watchify": "^3.2.1"
   },
   "dependencies": {
-    "brfs": "^1.4.0"
+    "brfs": "^1.4.0",
+    "relative-date": "^1.1.2",
+    "useful-date": "0.0.6"
   }
 }
