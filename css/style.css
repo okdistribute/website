@@ -165,6 +165,10 @@ code {
   margin-bottom: 60px;
 }
 
+.five.columns.project {
+  width: 45%;
+}
+
 /* Larger than mobile */
 @media (min-width: 400px) {
 }
