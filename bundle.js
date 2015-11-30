@@ -56,21 +56,15 @@ var json = {
 }
 
 var clicks = 0
-var force_rendered = false
+var graph = null
+var svg = null
+var force = null
+var rendered = false
 
 module.exports = function (height) {
-  if (force_rendered) return
-  force_rendered = true
-  var width = window.innerWidth
-  var graph = d3.select("#graph")
-
-  graph.style({'height': height})
-
-  var svg = graph.append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-  var force = d3.layout.force()
+  if (!graph) graph = d3.select("#graph")
+  if (!svg) svg = graph.append("svg")
+  if (!force) force = d3.layout.force()
     .nodes(json.nodes)
     .links(json.links)
     .linkDistance(120)
@@ -78,8 +72,16 @@ module.exports = function (height) {
     .friction(0.1)
     .charge(-100)
     .linkStrength(.75)
-    .size([width, height])
+
+  var width = window.innerWidth
+  graph.style({'height': height})
+  svg.attr("width", width)
+    .attr("height", height);
+  force.size([width, height])
     .start();
+    
+  if (rendered) return
+  rendered = true
 
   var link = svg.selectAll(".link")
     .data(json.links)
@@ -24058,9 +24060,16 @@ var routes = [
   },
   {
     url: '/graph',
-    template: Buffer("PGRpdiBpZD0iZ3JhcGgiPjwvZGl2Pg==","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8aDI+U3RhbGsgTWU8L2gyPgogIDxwPkFib3ZlIHRoaXMgdGV4dCwgeW91J2xsIHNlZSBhIGZvcmNlLWxheW91dCBuZXR3b3JrIGRpYWdyYW0gb2YgbXkgb25saW5lIGlkZW50aXRpZXMuIEFueW9uZSBjYW4gZmluZCB0aGVzZSBpbiB0aGUgcHVibGljIGRvbWFpbiB0aHJvdWdoIGRpZ2l0YWwgdHJhY2UgZGF0YSBzdWNoIGFzIGEgR29vZ2xlIHNlYXJjaCBvZiBteSBuYW1lLCBteSBGYWNlYm9vayBwcm9maWxlLCBhbmQgbXkgVHdpdHRlciBhY3Rpdml0eS48L3A+CiAgPHA+RWFjaCA8ZW0+bm9kZTwvZW0+IChpY29uIGFuZCBhIG5hbWUpLCByZXByZXNlbnRzIGFuIGlkZW50aXR5IHJlZmVyZW5jZWQgb24gYSB3ZWJzaXRlLiBFYWNoIDxlbT5lZGdlPC9lbT4gKGxpbmUgYmV0d2VlbiBub2RlcykgcmVwcmVzZW50cyBob3cgdHdvIGlkZW50aXRpZXMgYXJlIHJlbGF0ZWQgdG8gZWFjaG90aGVyLiBZb3UgY2FuIGRyYXcgYW4gZWRnZSBiZXR3ZWVuIHR3byBub2RlcyB3aGVuIG9uZSBub2RlIHJlZmVyZW5jZXMgYW5vdGhlci4gRm9yIGV4YW1wbGUsIG9uIFR3aXR0ZXIsIEkgcmV0d2VldCBhbmQgbWVudGlvbiB0aGUgPGEgaHJlZj0iaHR0cDovL2RlYnRjb2xsZWN0aXZlLm9yZyI+RGVidCBDb2xsZWN0aXZlPC9hPi4gU28sIHRob3NlIHR3byBnYWluIGFuIGVkZ2UgYmV0d2VlbiB0aGVtLjwvcD4KICA8cD5BbnlvbmUgY2FuIHRyYWNlIHRoZSBsaW5lcyBmcm9tIGEgc2luZ2xlIHBvaW50IHRvIHJlbGF0ZSBtdWx0aXBsZSBpZGVudGl0aWVzIHRvIGVhY2hvdGhlciwgYW5kIHVsdGltYXRlbHksIHRvIG15IHJlYWwtd29ybGQgaWRlbnRpdHkuIFRoaXMgaXMgaG93IG1ldGFkYXRhIHN1cHBvcnRzIHRoZSBzdXJ2ZWlsbGFuY2Ugb2YgbXkgcmVhbC13b3JsZCBhbmQgb25saW5lIGFjdGl2aXR5LjwvcD4KICA8cD5GZWVsIGZyZWUgdG8gY2xpY2sgYW5kIGRyYWcgYSBub2RlIGluIHRoZSBncmFwaCB0byBleHBsb3JlIGFuZCB1bmNvdmVyIHRoZSBjb25uZWN0aW9ucy48L3A+CjwvZGl2Pgo=","base64").toString(),
     onrender: function () {
-      force(500)
+      force(400)
+    }
+  },
+  {
+    url: '/projects',
+    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8ZGl2IGNsYXNzPSJmb3VyIGNvbHVtbiBib3giPgogICAgPGgxPjxhIGhyZWY9Ii9ncmFwaCI+R3JhcGg8L2E+PC9oMT4KICAgIDxkaXYgY2xhc3M9InJvdyI+QSBmb3JjZS1sYXlvdXQgbmV0d29yayBkaWFncmFtIG9mIG15IG9ubGluZSBpZGVudGl0aWVzLiBBbnlvbmUgY2FuIGZpbmQgdGhlc2UgaW4gdGhlIHB1YmxpYyBkb21haW4gdGhyb3VnaCBkaWdpdGFsIHRyYWNlIGRhdGEuPC9kaXY+CiAgPC9kaXY+CjwvZGl2Pgo=","base64").toString(),
+    onrender: function () {
+      force(250)
     }
   },
   {
@@ -24084,7 +24093,7 @@ var routes = [
       })
     },
     onrender: function (params, data) {
-      force(175)
+      force(250)
     }
   }
 ]

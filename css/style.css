@@ -84,6 +84,17 @@ body {
   background-color: white;
 }
 
+textarea {
+  display: none;
+}
+
+.burnout textarea {
+  width: 100%;
+  height: 250px;
+  background-color: black;
+  display: block !important;
+}
+
 .easter-egg {
   color: white;
   display: none;
@@ -120,6 +131,13 @@ code {
 
 .burnout .easter-egg {
   display: block;
+}
+
+.burnout, .burnout .box {
+  background-color: black !important;
+  color: green !imporant;
+  font-family: monospace;
+  font-size: 14px;
 }
 
 .centered {

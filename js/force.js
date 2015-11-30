@@ -44,21 +44,15 @@ var json = {
 }
 
 var clicks = 0
-var force_rendered = false
+var graph = null
+var svg = null
+var force = null
+var rendered = false
 
 module.exports = function (height) {
-  if (force_rendered) return
-  force_rendered = true
-  var width = window.innerWidth
-  var graph = d3.select("#graph")
-
-  graph.style({'height': height})
-
-  var svg = graph.append("svg")
-    .attr("width", width)
-    .attr("height", height);
-
-  var force = d3.layout.force()
+  if (!graph) graph = d3.select("#graph")
+  if (!svg) svg = graph.append("svg")
+  if (!force) force = d3.layout.force()
     .nodes(json.nodes)
     .links(json.links)
     .linkDistance(120)
@@ -66,8 +60,16 @@ module.exports = function (height) {
     .friction(0.1)
     .charge(-100)
     .linkStrength(.75)
-    .size([width, height])
+
+  var width = window.innerWidth
+  graph.style({'height': height})
+  svg.attr("width", width)
+    .attr("height", height);
+  force.size([width, height])
     .start();
+    
+  if (rendered) return
+  rendered = true
 
   var link = svg.selectAll(".link")
     .data(json.links)

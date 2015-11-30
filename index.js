@@ -34,7 +34,14 @@ var routes = [
     url: '/graph',
     template: fs.readFileSync('templates/graph.html').toString(),
     onrender: function () {
-      force(500)
+      force(400)
+    }
+  },
+  {
+    url: '/projects',
+    template: fs.readFileSync('templates/projects.html').toString(),
+    onrender: function () {
+      force(250)
     }
   },
   {
@@ -58,7 +65,7 @@ var routes = [
       })
     },
     onrender: function (params, data) {
-      force(175)
+      force(250)
     }
   }
 ]
