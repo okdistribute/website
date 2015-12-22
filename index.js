@@ -31,7 +31,7 @@ var routes = [
     }
   },
   {
-    url: '/graph',
+    url: '/stalkme',
     template: fs.readFileSync('templates/graph.html').toString(),
     onrender: function () {
       force(400)
