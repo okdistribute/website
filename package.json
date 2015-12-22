@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "browserify -t brfs index.js -o bundle.js",
     "watch": "watchify -t brfs index.js -o bundle.js",
     "server": "nodemon --exec http-server -e js,css,html -i lib/",
     "start": "npm run watch & npm run server"
