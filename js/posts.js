@@ -6,7 +6,7 @@ module.exports = [
     title: "We won the Knight News Challenge!",
     date: "2016-02-01 23:10",
     categories: ["dat", "data", "non-profit", "grant", "money", "big girl pants"],
-    text: fs.readFileSync("posts/2015-10-02-new-startup.markdown").toString()
+    text: fs.readFileSync("posts/2016-02-01-knight-money.md").toString()
   },
   {
     id: 'new-startup-plans-to-hedge-uber',
