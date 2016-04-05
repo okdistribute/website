@@ -5,7 +5,7 @@ var Handlebars = require('handlebars')
 var disqus = require('./js/disqus.js')
 var force = require('./js/force.js')
 var posts = require('./js/posts.js')
-var helpers = require('./js/helpers')
+var helpers = require('./js/helpers') // magic :)
 
 var routes = [
   {

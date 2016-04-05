@@ -2,6 +2,13 @@ var fs = require('fs')
 // ids don't really matter, just don't change them!
 module.exports = [
   {
+    id: 'publicbits-knight-money',
+    title: "We won the Knight News Challenge!",
+    date: "2016-02-01 23:10",
+    categories: ["dat", "data", "non-profit", "grant", "money", "big girl pants"],
+    text: fs.readFileSync("posts/2015-10-02-new-startup.markdown").toString()
+  },
+  {
     id: 'new-startup-plans-to-hedge-uber',
     title: "New Startup Plans to Hedge Uber's Bets",
     date: "2015-10-01 23:10",

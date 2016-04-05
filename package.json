@@ -29,6 +29,8 @@
   },
   "dependencies": {
     "brfs": "^1.4.0",
+    "d3": "^3.5.16",
+    "handlebars": "^4.0.5",
     "relative-date": "^1.1.2",
     "useful-date": "0.0.6"
   }
