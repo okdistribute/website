@@ -2,20 +2,21 @@ var d3 = require('d3')
 
 var json = {
   nodes: [
-    {name: 'karissa', image: '/images/github.ico'},
-    {name: '@okdistribute', image: '/images/twitter.ico'},
-    {name: 'karissamck', image: '/images/linkedin.ico'},
-    {name: 'karissa.mckelvey', image: '/images/facebook.ico'},
-    {name: 'indiana', image: '/images/indiana.ico'},
-    {name: 'usopendata', image: '/images/usopendata.ico'},
-    {name: 'dat', image: '/images/dat.png'},
-    {name: 'taskforce.is', image: '/images/taskforce.ico'},
-    {name: 'brassliberation', image: '/images/blo.gif'},
-    {name: 'debtcollective', image: '/images/dc.png'},
-    {name: 'keybase', image: '/images/keybase.ico'},
-    {name: 'oakland', image: '/images/oaktree.png'},
+    {name: 'karissa', image: '/images/github.ico', url: 'http://github.com/karissa'},
+    {name: '@okdistribute', image: '/images/twitter.ico', url: 'http://twitter.com/okdistribute'},
+    {name: 'karissamck', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
+    {name: 'karissa.mckelvey', image: '/images/facebook.ico', url: 'http://www.facebook.com/karissa.mckelvey'},
+    {name: 'indiana', image: '/images/indiana.ico', url: 'http://indiana.edu'},
+    {name: 'usopendata', image: '/images/usopendata.ico', url: 'http://usopendata.org'},
+    {name: 'dat', image: '/images/dat.png', url: 'http://dat-data.com'},
+    {name: 'taskforce.is', image: '/images/taskforce.ico', url: 'http://taskforce.is'},
+    {name: 'brassliberation', image: '/images/blo.gif', url: 'http://brassliberation.org'},
+    {name: 'debtcollective', image: '/images/dc.png', url: 'http://debtcollective.org'},
+    {name: 'karissa', image: '/images/keybase.ico', url: 'http://keybase.io/karissa'},
+    {name: 'oakland', image: '/images/oaktree.png', url: 'https://en.wikipedia.org/wiki/Oakland,_California'},
     {name: 'you', image: '/images/laptop.png', cl: 'you'},
-    {name: 'thewyattact', image: '/images/hat-purple.png'}
+    {name: 'thewyattact', image: '/images/hat-purple.png', url: 'http://thewyattact.com'},
+    {name: 'pastosecoband', image: '/images/hat-purple.png', url: 'http://pastosecoband.com'}
   ],
   links: [
     {source: 1, target: 2, value: 1},
@@ -38,7 +39,8 @@ var json = {
     {source: 3, target: 11, value: 2},
     {source: 7, target: 11, value: 2},
     {source: 12, target: 0, value: 1},
-    {source: 13, target: 11, value: 10}
+    {source: 13, target: 11, value: 10},
+    {source: 14, target: 11, value: 10}
 
   ]
 }
@@ -67,7 +69,7 @@ module.exports = function (height) {
     .attr("height", height);
   force.size([width, height])
     .start();
-    
+
   if (rendered) return
   rendered = true
 
@@ -82,7 +84,10 @@ module.exports = function (height) {
     .attr("class", "node")
     .attr("class", function (d) { return d.cl })
     .call(force.drag)
-    .on('click', function () {
+    .on('dblclick', function (d) {
+      window.open(d.url)
+    })
+    .on('click', function (d) {
       clicks += 1
       if (clicks > 3) {
         d3.select("body")
