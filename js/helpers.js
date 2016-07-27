@@ -5,7 +5,8 @@ require('useful-date')
 require('useful-date/locale/en-GB.js')
 
 Handlebars.registerHelper('usefulDate', function (date) {
-  return new Date(date).format('n F Y')
+  var d = new Date(date.replace(/-/g, '/'))
+  return d.format('n F Y')
 })
 
 Handlebars.registerHelper('relativeDate', function (date) {
