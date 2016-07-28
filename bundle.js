@@ -223,13 +223,16 @@ var marked = require('marked')
 require('useful-date')
 require('useful-date/locale/en-GB.js')
 
+function newDate (date) {
+  return new Date(date.replace(/-g/, '/'))
+}
+
 Handlebars.registerHelper('usefulDate', function (date) {
-  var d = new Date(date.replace(/-/g, '/'))
-  return d.format('n F Y')
+  return newDate(date).format('n F Y')
 })
 
 Handlebars.registerHelper('relativeDate', function (date) {
-  return relativeDate(new Date(date))
+  return relativeDate(newDate(date))
 })
 
 Handlebars.registerHelper('overview', function (passedString) {
