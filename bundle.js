@@ -33,6 +33,13 @@ var routes = [
     }
   },
   {
+    url: '/about',
+    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8ZGl2IGNsYXNzPSJ0ZW4gY29sdW1ucyI+CiAgICBLYXJpc3NhIE1jS2VsdmV5IGlzIGEgc29mdHdhcmUgZGV2ZWxvcGVyLCB3cml0ZXIsIGludmVudG9yLCBhbmQgYWN0aXZpc3Qgc3VwcG9ydGluZyBhbiBlcXVpdGFibGUgd2ViLiBGb3JtZXJseSBhIHJlc2VhcmNoIHNjaWVudGlzdCBhdCBJbmRpYW5hIFVuaXZlcnNpdHksIGhlciB3b3JrIHN0dWR5aW5nIG9ubGluZSBwb2xpdGljYWwgY29tbXVuaWNhdGlvbiByZXN1bHRlZCBpbiBtdWx0aXBsZSBwZWVyLXJldmlld2VkIHBhcGVycyBhbmQgcHJlc3MgaW4gb3V0bGV0cyBzdWNoIGFzIE5QUiBhbmQgdGhlIFdhbGwgU3RyZWV0IEpvdXJuYWwuIEluIGFkZGl0aW9uIHRvIGFuIGV4cGVyaWVuY2VkIHNvZnR3YXJlIGFuZCB3ZWIgZGV2ZWxvcGVyLCBzaGUgaGFzIHN1Y2Nlc3NmdWxseSBsZWQgdGVhbXMgdG8gc3VjY2VzcyB3aXRoIGRpdmVyc2UgcHJvamVjdHMgdGhyb3VnaG91dCBoZXIgY2FyZWVyIGluIGFjYWRlbWlhLCBub24tcHJvZml0cywgYW5kIGluZHVzdHJ5LiBJbiBoZXIgc3BhcmUgdGltZSwgc2hlIHRlYWNoZXMgYmVnaW5uaW5nIHByb2dyYW1tZXJzLCB2b2x1bnRlZXJzIGhlciB0aW1lIGluIHNvY2lhbCBtb3ZlbWVudHMsIGFuZCBwbGF5cyB0aGUgdHJ1bXBldC4KICAgIDxkaXY+CiAgICAgIDxpbWcgc3JjPSJodHRwOi8vZW4uZ3JhdmF0YXIuY29tL3VzZXJpbWFnZS8xMTY4ODI3Ny9mMWEwOTViNWQ1MjhmMDY1YmQ2ZTUzODllZjlhYjdkMy5qcGc/c2l6ZT0zMDAiIC8+CiAgICA8L2Rpdj4KPC9kaXY+Cg==","base64").toString(),
+    onrender: function () {
+      force(250)
+    }
+  },
+  {
     url: '/stalkme',
     template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8aDI+U3RhbGsgTWU8L2gyPgogIDxwPkFib3ZlIHRoaXMgdGV4dCwgeW91J2xsIHNlZSBhIGZvcmNlLWxheW91dCBuZXR3b3JrIGRpYWdyYW0gb2YgbXkgb25saW5lIGlkZW50aXRpZXMuIEFueW9uZSBjYW4gZmluZCB0aGVzZSBpbiB0aGUgcHVibGljIGRvbWFpbiB0aHJvdWdoIGRpZ2l0YWwgdHJhY2UgZGF0YSBzdWNoIGFzIGEgR29vZ2xlIHNlYXJjaCBvZiBteSBuYW1lLCBteSBGYWNlYm9vayBwcm9maWxlLCBhbmQgbXkgVHdpdHRlciBhY3Rpdml0eS48L3A+CiAgPHA+RWFjaCA8ZW0+bm9kZTwvZW0+IChpY29uIGFuZCBhIG5hbWUpLCByZXByZXNlbnRzIGFuIGlkZW50aXR5IHJlZmVyZW5jZWQgb24gYSB3ZWJzaXRlLiBFYWNoIDxlbT5lZGdlPC9lbT4gKGxpbmUgYmV0d2VlbiBub2RlcykgcmVwcmVzZW50cyBob3cgdHdvIGlkZW50aXRpZXMgYXJlIHJlbGF0ZWQgdG8gZWFjaG90aGVyLiBZb3UgY2FuIGRyYXcgYW4gZWRnZSBiZXR3ZWVuIHR3byBub2RlcyB3aGVuIG9uZSBub2RlIHJlZmVyZW5jZXMgYW5vdGhlci4gRm9yIGV4YW1wbGUsIG9uIFR3aXR0ZXIsIEkgcmV0d2VldCBhbmQgbWVudGlvbiB0aGUgPGEgaHJlZj0iaHR0cDovL2RlYnRjb2xsZWN0aXZlLm9yZyI+RGVidCBDb2xsZWN0aXZlPC9hPi4gU28sIHRob3NlIHR3byBnYWluIGFuIGVkZ2UgYmV0d2VlbiB0aGVtLjwvcD4KICA8cD5BbnlvbmUgY2FuIHRyYWNlIHRoZSBsaW5lcyBmcm9tIGEgc2luZ2xlIHBvaW50IHRvIHJlbGF0ZSBtdWx0aXBsZSBpZGVudGl0aWVzIHRvIGVhY2hvdGhlciwgYW5kIHVsdGltYXRlbHksIHRvIG15IHJlYWwtd29ybGQgaWRlbnRpdHkuIFRoaXMgaXMgaG93IG1ldGFkYXRhIHN1cHBvcnRzIHRoZSBzdXJ2ZWlsbGFuY2Ugb2YgbXkgcmVhbC13b3JsZCBhbmQgb25saW5lIGFjdGl2aXR5LjwvcD4KICA8cD5GZWVsIGZyZWUgdG8gY2xpY2sgYW5kIGRyYWcgYSBub2RlIGluIHRoZSBncmFwaCB0byBleHBsb3JlIGFuZCB1bmNvdmVyIHRoZSBjb25uZWN0aW9ucy4gRG91YmxlIGNsaWNraW5nIGEgbm9kZSBsZWFkcyB0byB0aGUgcmVmZXJlbmNlZCB3ZWIgcGFnZS48L3A+CjwvZGl2Pgo=","base64").toString(),
     onrender: function () {
@@ -99,7 +106,7 @@ var json = {
     {name: 'karissa', image: '/images/github.ico', url: 'http://github.com/karissa'},
     {name: '@okdistribute', image: '/images/twitter.ico', url: 'http://twitter.com/okdistribute'},
     {name: 'karissamck', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
-    {name: 'karissa.mckelvey', image: '/images/facebook.ico', url: 'http://www.facebook.com/karissa.mckelvey'},
+    {name: 'karissa.mckelvey', image: '/images/facebook.ico'},
     {name: 'indiana', image: '/images/indiana.ico', url: 'http://indiana.edu'},
     {name: 'usopendata', image: '/images/usopendata.ico', url: 'http://usopendata.org'},
     {name: 'dat', image: '/images/dat.png', url: 'http://dat-data.com'},
@@ -109,8 +116,7 @@ var json = {
     {name: 'karissa', image: '/images/keybase.ico', url: 'http://keybase.io/karissa'},
     {name: 'oakland', image: '/images/oaktree.png', url: 'https://en.wikipedia.org/wiki/Oakland,_California'},
     {name: 'you', image: '/images/laptop.png', cl: 'you'},
-    {name: 'thewyattact', image: '/images/hat-purple.png', url: 'http://thewyattact.com'},
-    {name: 'pastosecoband', image: '/images/hat-purple.png', url: 'http://pastosecoband.com'}
+    {name: 'thewyattact', image: '/images/hat-purple.png', url: 'http://thewyattact.com'}
   ],
   links: [
     {source: 1, target: 2, value: 1},
@@ -134,7 +140,6 @@ var json = {
     {source: 7, target: 11, value: 2},
     {source: 12, target: 0, value: 1},
     {source: 13, target: 11, value: 10},
-    {source: 14, target: 11, value: 10}
 
   ]
 }
@@ -252,6 +257,13 @@ Handlebars.registerHelper('markdown', function (string) {
 
 // ids don't really matter, just don't change them!
 module.exports = [
+  {
+    id: 'okf-de',
+    title: "How to run a FOSS project",
+    date: "2016-09-01 23:10",
+    categories: ["prototype", "non-profit", "grant", "money", ""],
+    text: Buffer("TGFzdCB3ZWVrIEkgd2VudCB0byBPcGVuIEtub3dsZWRnZSBGb3VuZGF0aW9uIERldXRzY2hsYW5kIGhlYWRxdWFydGVycyAoaW4gQmVybGluKSBhbmQgZ2F2ZSBhIHRhbGsgYWJvdXQgRGF0LiBXaGlsZSBJIHdhcyB0aGVyZSwgdGhleSBhc2tlZCBtZSBzb21lIHF1ZXN0aW9ucyBhYm91dCBob3cgdG8gcnVuIGFuIG9wZW4gc291cmNlIHByb2plY3QuIEkgc3Bva2UgdG8gdGhlIFByb3RvdHlwZSBGdW5kIGFib3V0IG9wZW4gc291cmNlIHByb2plY3RzLCBodW1hbi1jZW50ZXJlZCBkZXNpZ24sIGFuZCB0aGUgc3RyZW5ndGhzIGFzIHdlbGwgYXMgcGl0ZmFsbHMgb2YgcHVibGljIGZ1bmRpbmcuCgpUYWtlIHRocmVlIG1pbnV0ZXMgYW5kIHdhdGNoIHRoZSBmaW5pc2hlZCBwcm9kdWN0IGhlcmU6Cgo8aWZyYW1lIHdpZHRoPSI1NjAiIGhlaWdodD0iMzE1IiBzcmM9Imh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL2VtYmVkL1RGNTNKcFhKbGNZIiBmcmFtZWJvcmRlcj0iMCIgYWxsb3dmdWxsc2NyZWVuPjwvaWZyYW1lPgoKVGhlcmUncyBzb21lIHRydXRoIHRvIHRoZSBpZGVhIHRoYXQgbW9zdCBnb29kIG9wZW4gc291cmNlIGlzIGp1c3QgdHJ5aW5nIHRoaW5ncyBvdXQgYW5kIHNlZWluZyBpZiB0aGV5J2xsIHN0aWNrLiBPcGVuIHNvdXJjZSBpcyBhYm91dCBoYXZpbmcgdGhlIGNvdXJhZ2UgdG8gZmFpbCwgZmFpbCBoYXJkLCBhbmQgZmFpbCBwdWJsaWNseS4gSXQncyBhYm91dCBsZXZlcmFnaW5nIHlvdXIgY29tbXVuaXR5IGJ5IGxpc3RlbmluZyB0byBvdGhlcnMsIGFuZCBldmVuIGlmIHlvdSBkaXNhZ3JlZSB3aXRoIHRoZW0sIHRydXN0aW5nIHRoYXQgdGhleSBtaWdodCBiZSByaWdodCBpbiB0aGUgZW5kLiBPcGVuIHNvdXJjZSBoYXMgdGF1Z2h0IG1lIGh1bWlsaXR5IGJldHRlciB0aGFuIGFueXRoaW5nIGVsc2UgSSd2ZSBkb25lIGluIG15IGxpZmUuCgpUaGUgdHJ1dGggaXMgdGhhdCBoYXZpbmcgYSBzdXBwb3J0aXZlIGNvbW11bml0eSBpcyBrZXkuIEknZCBuZXZlciBiZSBhYmxlIHRvIGRvIHRoaXMgd29yayB3aXRob3V0IHRoZSBoZWxwIG9mIG15IGNvbGxlYWd1ZXMsIGZyaWVuZGx5IGludGVybmV0IHN0cmFuZ2VycywgYW5kIGNoYXR0eSBJUkMgY2hhbm5lbHMuIEknbSB2ZXJ5IGdyYXRlZnVsIHRvIGhhdmUgdmVyeSBzdXBwb3J0aXZlIGFuZCBmcmllbmRseSBmb2xrcyBhcm91bmQgbWUgdGhhdCBlbmNvdXJhZ2UgdGhlIGJlc3Qgd29yay4gRG9uJ3Qgc2V0dGxlIGZvciBsZXNzLiBEb24ndCBzZXR0bGUgZm9yIGFzc2hvbGVzLiBCdXQsIHdoZW4gdGhleSBzaG93IHVwLCB0cnkgdG8gYnJ1c2ggdGhlbSBvZmYgeW91ciBzaG91bGRlciBhbmQgbGVhbiBvbiB5b3VyIGZyaWVuZHMgZm9yIHN1cHBvcnQuIEp1c3QgZG9uJ3QgYmUgYWZyYWlkIHRvIHB1Ymxpc2ggYW5kIHRlc3QgZWFybHkgYW5kIG9mdGVuLiBUaGF0J3MgdGhlIGtleSB0byBsb25nLWxhc3RpbmcsIHdlbGwtdGVzdGVkLCBhbmQgY29tbXVuaXR5LWRyaXZlbiBvcGVuIHNvdXJjZSBzb2Z0d2FyZS4KCldoYXQgbW9zdCBwZW9wbGUgZG9uJ3QgdGFsayBhYm91dCBpbiBvcGVuIHNvdXJjZSBpcyBtb25leS4gV2hvIGdldHMgcGFpZCB0byBkbyB0aGlzIHdvcms/IElzIGl0IGFsbCB2b2x1bnRlZXI/IFdoYXQgb3JnYW5pemF0aW9ucyBhcmUgbWFpbnRhaW5pbmcgdGhpcyBjb2RlLCBhbmQgaG93IGFyZSB0aGV5IGZ1bmRlZD8gTWFueSBwZW9wbGUgdXNlZCB0byB0aGluayB0aGF0IG9wZW4gc291cmNlIGp1c3QgYXBwZWFycyBvdXQgb2YgdGhpbiBhaXIgZnJvbSB0aGUgZ29vZG5lc3Mgb2Ygdm9sdW50ZWVycywgYnV0IHRoZSBjb2xkIHJlYWxpdHkgaXMgdGhhdCBwZW9wbGUgbmVlZCB0byBlYXQuIFRvIGhhdmUgZ29vZCBvcGVuIHNvdXJjZSwgd2UgbmVlZCB0byBwYXkgcGVvcGxlIGZvciBpdC4gVGhlcmUgc2hvdWxkIGJlIGVhc3kgd2F5cyB0byBzdXBwb3J0IGFuZCBjb250cmlidXRlIHRvIGZvbGtzIHdobyBhcmUgYWxyZWFkeSBkb2luZyBncmVhdCB3b3JrIGluIG9wZW4gc291cmNlLiBUaGVyZSBhbHNvIHNob3VsZCBiZSBlYXN5IHdheXMgdG8gZ2V0IHN0YXJ0ZWQgaW4gb3BlbiBzb3VyY2UsIGV2ZW4gaWYgeW91IGhhdmVuJ3QgZG9uZSBpdCBiZWZvcmUuIFRoaXMgaXMgd2h5IEkgbG92ZSBpbml0aWF0aXZlcyBsaWtlIHRoZSBQcm90b3R5cGUgRnVuZC4gSXQgbWFrZXMgbWUgdG8ga25vdyB0aGF0IG9wZW4gc291cmNlIGNvbnRyaWJ1dG9ycyB3aWxsIGJlIHN1cHBvcnRlZCBmaW5hbmNpYWxseSB0byBidWlsZCB0aGluZ3MgdGhhdCB3ZSBhbGwgbmVlZC4KCkkgaG9wZSB5b3UgYXBwbHkgdG8gdGhlIHByb3RvdHlwZSBmdW5kLiBPciBhbnkgcHJvdG90eXBlIGZ1bmQuIERvbid0IGJlIGFmcmFpZCB0byBwdXQgeW91ciBpZGVhcyBvdXQgdGhlcmUsIGFuZCBkb24ndCBiZSBhZnJhaWQgdG8gYXNrIGZvciBmZWVkYmFjayBmcm9tIHlvdXIgZnJpZW5kcyAtLSBhbmQgbWUhIEknZCBiZSBoYXBweSB0byByZXZpZXcgeW91ciBncmFudCBhcHBsaWNhdGlvbiwgZ2l2ZSB5b3UgZmVlZGJhY2ssIGFuZCBoZWxwIHlvdSBnZXQgeW91ciBwcm9qZWN0IG9uIGl0cyBmZWV0IHdpdGggYSBuaWNlIGNodW5rIG9mIG1vbmV5LiBPcGVuIHNvdXJjZSBkZXNlcnZlcyB0byBiZSBwYWlkLiBZb3UgZGVzZXJ2ZSB0byBiZSBpbiBvcGVuIHNvdXJjZSEgV2UgbmVlZCB5b3UsIHRvby4K","base64").toString()
+  },
   {
     id: 'publicbits-knight-money',
     title: "We won the Knight News Challenge!",

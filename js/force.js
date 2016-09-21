@@ -5,7 +5,7 @@ var json = {
     {name: 'karissa', image: '/images/github.ico', url: 'http://github.com/karissa'},
     {name: '@okdistribute', image: '/images/twitter.ico', url: 'http://twitter.com/okdistribute'},
     {name: 'karissamck', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
-    {name: 'karissa.mckelvey', image: '/images/facebook.ico', url: 'http://www.facebook.com/karissa.mckelvey'},
+    {name: 'karissa.mckelvey', image: '/images/facebook.ico'},
     {name: 'indiana', image: '/images/indiana.ico', url: 'http://indiana.edu'},
     {name: 'usopendata', image: '/images/usopendata.ico', url: 'http://usopendata.org'},
     {name: 'dat', image: '/images/dat.png', url: 'http://dat-data.com'},
@@ -15,8 +15,7 @@ var json = {
     {name: 'karissa', image: '/images/keybase.ico', url: 'http://keybase.io/karissa'},
     {name: 'oakland', image: '/images/oaktree.png', url: 'https://en.wikipedia.org/wiki/Oakland,_California'},
     {name: 'you', image: '/images/laptop.png', cl: 'you'},
-    {name: 'thewyattact', image: '/images/hat-purple.png', url: 'http://thewyattact.com'},
-    {name: 'pastosecoband', image: '/images/hat-purple.png', url: 'http://pastosecoband.com'}
+    {name: 'thewyattact', image: '/images/hat-purple.png', url: 'http://thewyattact.com'}
   ],
   links: [
     {source: 1, target: 2, value: 1},
@@ -40,7 +39,6 @@ var json = {
     {source: 7, target: 11, value: 2},
     {source: 12, target: 0, value: 1},
     {source: 13, target: 11, value: 10},
-    {source: 14, target: 11, value: 10}
 
   ]
 }

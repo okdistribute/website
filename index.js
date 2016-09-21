@@ -31,6 +31,13 @@ var routes = [
     }
   },
   {
+    url: '/about',
+    template: fs.readFileSync('templates/about.html').toString(),
+    onrender: function () {
+      force(250)
+    }
+  },
+  {
     url: '/stalkme',
     template: fs.readFileSync('templates/graph.html').toString(),
     onrender: function () {
