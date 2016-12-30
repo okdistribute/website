@@ -27,11 +27,11 @@ h2, h3 {
 
 a {
   text-decoration: none;
-  color: green;
+  color: #96d996;
 }
 
 a:visited {
-  color: green;
+  color: #96d996;
 }
 
 a:hover {
@@ -80,8 +80,9 @@ body {
   font-weight: 300;
   font-family: Georgia,Cambria,"Times New Roman",Times,serif;
   font-size: 18px;
-  color: #404040;
-  background-color: white;
+  color: #b3b8b3;
+  background-color: #111;
+  font-family: monospace;
 }
 
 textarea {
@@ -120,23 +121,17 @@ textarea {
   max-height: 500px;
   width: 100%;
   overflow: hidden;
-  fill: #404040;
+  fill: #ccc;
   font-size: 14px;
   font-family: monospace;
 }
 
 code {
-  background-color: white;
+  background-color: #111;
 }
 
 .burnout .easter-egg {
   display: block;
-}
-
-.burnout, .burnout .box {
-  background-color: black !important;
-  color: green !imporant;
-  font-family: monospace;
 }
 
 .centered {
@@ -153,10 +148,8 @@ code {
 }
 
 .box {
-  padding-left: 10px;
-  margin: 10px;
-  border-left: 1px solid #404040;
-  background-color: white;
+  margin-top: 10px;
+  background-color: #111;
 }
 
 .post-content {

@@ -27,28 +27,28 @@ var routes = [
       })
     },
     onrender: function (params, data) {
-      force(250)
+      force(350)
     }
   },
   {
     url: '/about',
     template: fs.readFileSync('templates/about.html').toString(),
     onrender: function () {
-      force(250)
+      force(350)
     }
   },
   {
     url: '/stalkme',
     template: fs.readFileSync('templates/graph.html').toString(),
     onrender: function () {
-      force(400)
+      force(350)
     }
   },
   {
     url: '/projects',
     template: fs.readFileSync('templates/projects.html').toString(),
     onrender: function () {
-      force(250)
+      force(350)
     }
   },
   {
@@ -60,7 +60,7 @@ var routes = [
       })
     },
     onrender: function (params, data) {
-      force(250)
+      force(350)
     }
   },
   {
@@ -72,7 +72,7 @@ var routes = [
       })
     },
     onrender: function (params, data) {
-      force(250)
+      force(350)
     }
   }
 ]

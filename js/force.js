@@ -7,7 +7,7 @@ var json = {
     {name: 'karissamck', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
     {name: 'karissa.mckelvey', image: '/images/facebook.ico'},
     {name: 'indiana', image: '/images/indiana.ico', url: 'http://indiana.edu'},
-    {name: 'usopendata', image: '/images/usopendata.ico', url: 'http://usopendata.org'},
+    {name: 'code for science', image: '/images/css-blank.png', url: 'http://codeforscience.org'},
     {name: 'dat', image: '/images/dat.png', url: 'http://dat-data.com'},
     {name: 'taskforce.is', image: '/images/taskforce.ico', url: 'http://taskforce.is'},
     {name: 'brassliberation', image: '/images/blo.gif', url: 'http://brassliberation.org'},
@@ -104,11 +104,6 @@ module.exports = function (height) {
       .attr("y", -8)
       .attr("width", 16)
       .attr("height", 16);
-
-  d3.select('.you').on('click', function () {
-    d3.select("body")
-    .attr("class", "burnout")
-  })
 
   force.on("tick", function() {
     link.attr("x1", function(d) { return d.source.x; })
