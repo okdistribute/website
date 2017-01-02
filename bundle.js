@@ -12,7 +12,7 @@ var helpers = require('./js/helpers') // magic :)
 var routes = [
   {
     url: '/post/:id',
-    template: Buffer("PGRpdiBjbGFzcz0icG9zdC1jb250ZW50Ij4KICA8ZGl2IGNsYXNzPSJyb3ciPgogICAgPHNwYW4gY2xhc3M9ImhpZGRlbi1tb2JpbGUgZGF0ZSI+IHt7dXNlZnVsRGF0ZSBwb3N0LmRhdGV9fSBieSA8YSBocmVmPSIvYWJvdXQiPkthcmlzc2EgTWNLZWx2ZXk8L2E+IDwvc3Bhbj4KICAgIDxoMT57e3Bvc3QudGl0bGV9fTwvaDE+CiAgICA8ZGl2Pnt7bWFya2Rvd24gcG9zdC50ZXh0fX08L2Rpdj4KICA8L2Rpdj4KICA8IS0tPGRpdiBjbGFzcz0icm93Ij4KICAgIDxkaXYgaWQ9ImRpc3F1c190aHJlYWQiPgogICAgPC9kaXY+CiAgPC9kaXY+Ci0tPgo8L2Rpdj4KPGRpdiBjbGFzcz0icm93IHBvc3QtbGlzdCI+CjxoNSBjbGFzcz0iaGVhZGluZyI+TW9yZSBQb3N0czwvaDU+CiAge3sjZWFjaCBwb3N0c319CiAgPGRpdiBjbGFzcz0iYm94Ij4KICAgIDxzcGFuIGNsYXNzPSJkYXRlIj57e3VzZWZ1bERhdGUgZGF0ZX19PC9zcGFuPgogICAgPGg1PjxhIGhyZWY9Ii9wb3N0L3t7aWR9fSI+e3t0aXRsZX19PC9hPjwvaDU+CiAgPC9kaXY+CiAge3svZWFjaH19CjwvZGl2Pgo=","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0icG9zdC1jb250ZW50Ij4KICA8ZGl2IGNsYXNzPSJyb3ciPgogICAgPHNwYW4gY2xhc3M9ImhpZGRlbi1tb2JpbGUgZGF0ZSI+IHt7dXNlZnVsRGF0ZSBwb3N0LmRhdGV9fTwvc3Bhbj4KICAgIDxoMT57e3Bvc3QudGl0bGV9fTwvaDE+CiAgICA8ZGl2Pnt7bWFya2Rvd24gcG9zdC50ZXh0fX08L2Rpdj4KICA8L2Rpdj4KICA8IS0tPGRpdiBjbGFzcz0icm93Ij4KICAgIDxkaXYgaWQ9ImRpc3F1c190aHJlYWQiPgogICAgPC9kaXY+CiAgPC9kaXY+Ci0tPgo8L2Rpdj4KPGRpdiBjbGFzcz0icm93IHBvc3QtbGlzdCI+CjxoNSBjbGFzcz0iaGVhZGluZyI+TW9yZSBQb3N0czwvaDU+CiAge3sjZWFjaCBwb3N0c319CiAgPGRpdj4gCiAgICA8c3BhbiBjbGFzcz0iZGF0ZSI+e3t1c2VmdWxEYXRlIGRhdGV9fTwvc3Bhbj4KICAgIDxoNT48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2g1PgogIDwvZGl2PgogIHt7L2VhY2h9fQo8L2Rpdj4K","base64").toString(),
     data: function (params, cb) {
       var post = null
       var filtered = posts.filter(function (p) {
@@ -55,7 +55,7 @@ var routes = [
   },
   {
     url: '/',
-    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4gYm94Ij4KICAgIDxzcGFuIGNsYXNzPSJkYXRlIj57e2RhdGV9fTwvc3Bhbj4KICAgIDxoMT48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2gxPgogICAgPGRpdiBjbGFzcz0icm93Ij57e292ZXJ2aWV3IHRleHR9fTwvZGl2PgogIDwvZGl2Pgo8L2Rpdj4Ke3svZWFjaH19CjwvZGl2Pgo=","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4iPgogICAgPHNwYW4gY2xhc3M9ImRhdGUiPnt7dXNlZnVsRGF0ZSBkYXRlfX08L3NwYW4+CiAgICA8aDE+PGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij57e3RpdGxlfX08L2E+PC9oMT4KICAgIDxkaXYgY2xhc3M9InJvdyI+e3tvdmVydmlldyB0ZXh0fX08L2Rpdj4KICA8L2Rpdj4KPC9kaXY+Cnt7L2VhY2h9fQo8L2Rpdj4K","base64").toString(),
     data: function (params, cb) {
       cb({
         posts: posts
@@ -67,7 +67,7 @@ var routes = [
   },
   {
     url: '/blog',
-    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4gYm94Ij4KICAgIDxzcGFuIGNsYXNzPSJkYXRlIj57e2RhdGV9fTwvc3Bhbj4KICAgIDxoMT48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2gxPgogICAgPGRpdiBjbGFzcz0icm93Ij57e292ZXJ2aWV3IHRleHR9fTwvZGl2PgogIDwvZGl2Pgo8L2Rpdj4Ke3svZWFjaH19CjwvZGl2Pgo=","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4iPgogICAgPHNwYW4gY2xhc3M9ImRhdGUiPnt7dXNlZnVsRGF0ZSBkYXRlfX08L3NwYW4+CiAgICA8aDE+PGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij57e3RpdGxlfX08L2E+PC9oMT4KICAgIDxkaXYgY2xhc3M9InJvdyI+e3tvdmVydmlldyB0ZXh0fX08L2Rpdj4KICA8L2Rpdj4KPC9kaXY+Cnt7L2VhY2h9fQo8L2Rpdj4K","base64").toString(),
     data: function (params, cb) {
       cb({
         posts: posts

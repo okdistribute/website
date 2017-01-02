@@ -16,7 +16,6 @@ h1,h2 a {
 
 h1 {
   font-size: 35px;
-  margin-top: 10px;
 }
 
 h2, h3 {
@@ -148,7 +147,8 @@ code {
 }
 
 .box {
-  margin-top: 10px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
   background-color: #111;
 }
 
