@@ -20,7 +20,7 @@ var routes = [
         }
         return true
       })
-      disqus(post)
+      // disqus(post)
       return cb({
         posts: filtered.slice(0, 6),
         post: post
@@ -61,6 +61,7 @@ var routes = [
     },
     onrender: function (params, data) {
       force(350)
+    }
   },
   {
     url: '/blog',

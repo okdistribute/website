@@ -12,7 +12,7 @@ var helpers = require('./js/helpers') // magic :)
 var routes = [
   {
     url: '/post/:id',
-    template: Buffer("PGRpdiBjbGFzcz0icG9zdC1jb250ZW50Ij4KICA8ZGl2IGNsYXNzPSJyb3ciPgogICAgPHNwYW4gY2xhc3M9ImhpZGRlbi1tb2JpbGUgZGF0ZSI+IDxhIGhyZWY9Ii9ibG9nIj5CbG9nIDwvYT4gfCB7e3VzZWZ1bERhdGUgcG9zdC5kYXRlfX0gYnkgPGEgaHJlZj0iL2Fib3V0Ij5LYXJpc3NhIE1jS2VsdmV5PC9hPiA8L3NwYW4+CiAgICA8aDE+e3twb3N0LnRpdGxlfX08L2gxPgogICAgPGRpdj57e21hcmtkb3duIHBvc3QudGV4dH19PC9kaXY+CiAgPC9kaXY+CiAgPGRpdiBjbGFzcz0icm93Ij4KICAgIDxkaXYgaWQ9ImRpc3F1c190aHJlYWQiPgogICAgPC9kaXY+CiAgPC9kaXY+CjwvZGl2Pgo8ZGl2IGNsYXNzPSJyb3cgcG9zdC1saXN0Ij4KPGg1IGNsYXNzPSJoZWFkaW5nIj5Nb3JlIFBvc3RzPC9oNT4KICB7eyNlYWNoIHBvc3RzfX0KICA8ZGl2IGNsYXNzPSJib3giPgogICAgPHNwYW4gY2xhc3M9ImRhdGUiPnt7dXNlZnVsRGF0ZSBkYXRlfX08L3NwYW4+CiAgICA8aDU+PGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij57e3RpdGxlfX08L2E+PC9oNT4KICA8L2Rpdj4KICB7ey9lYWNofX0KPC9kaXY+Cg==","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0icG9zdC1jb250ZW50Ij4KICA8ZGl2IGNsYXNzPSJyb3ciPgogICAgPHNwYW4gY2xhc3M9ImhpZGRlbi1tb2JpbGUgZGF0ZSI+IHt7dXNlZnVsRGF0ZSBwb3N0LmRhdGV9fSBieSA8YSBocmVmPSIvYWJvdXQiPkthcmlzc2EgTWNLZWx2ZXk8L2E+IDwvc3Bhbj4KICAgIDxoMT57e3Bvc3QudGl0bGV9fTwvaDE+CiAgICA8ZGl2Pnt7bWFya2Rvd24gcG9zdC50ZXh0fX08L2Rpdj4KICA8L2Rpdj4KICA8IS0tPGRpdiBjbGFzcz0icm93Ij4KICAgIDxkaXYgaWQ9ImRpc3F1c190aHJlYWQiPgogICAgPC9kaXY+CiAgPC9kaXY+Ci0tPgo8L2Rpdj4KPGRpdiBjbGFzcz0icm93IHBvc3QtbGlzdCI+CjxoNSBjbGFzcz0iaGVhZGluZyI+TW9yZSBQb3N0czwvaDU+CiAge3sjZWFjaCBwb3N0c319CiAgPGRpdiBjbGFzcz0iYm94Ij4KICAgIDxzcGFuIGNsYXNzPSJkYXRlIj57e3VzZWZ1bERhdGUgZGF0ZX19PC9zcGFuPgogICAgPGg1PjxhIGhyZWY9Ii9wb3N0L3t7aWR9fSI+e3t0aXRsZX19PC9hPjwvaDU+CiAgPC9kaXY+CiAge3svZWFjaH19CjwvZGl2Pgo=","base64").toString(),
     data: function (params, cb) {
       var post = null
       var filtered = posts.filter(function (p) {
@@ -22,7 +22,7 @@ var routes = [
         }
         return true
       })
-      disqus(post)
+      // disqus(post)
       return cb({
         posts: filtered.slice(0, 6),
         post: post
@@ -34,7 +34,7 @@ var routes = [
   },
   {
     url: '/about',
-    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8ZGl2IGNsYXNzPSJmb3VyIGNvbHVtbnMiPgogICAgPGRpdiBzdHlsZT0id2lkdGg6MjAwcHg7Ij4KICAgICAgPGltZyB3aWR0aD0iMjAwIiBzcmM9Imh0dHA6Ly9lbi5ncmF2YXRhci5jb20vdXNlcmltYWdlLzExNjg4Mjc3L2YxYTA5NWI1ZDUyOGYwNjViZDZlNTM4OWVmOWFiN2QzLmpwZz9zaXplPTIwMCIgLz4KICAgIDwvZGl2PgogIDwvZGl2PgogIDxkaXYgY2xhc3M9InNpeCBjb2x1bW5zIj4KICAgIDxwPgogICAgICBLYXJpc3NhIE1jS2VsdmV5IGlzIGEgc29mdHdhcmUgZGV2ZWxvcGVyLCB3cml0ZXIsIGludmVudG9yLCBhbmQgYWN0aXZpc3Qgc3VwcG9ydGluZyBhbiBlcXVpdGFibGUgd2ViLiBGb3JtZXJseSBhIHJlc2VhcmNoIHNjaWVudGlzdCBhdCBJbmRpYW5hIFVuaXZlcnNpdHksIGhlciB3b3JrIHN0dWR5aW5nIG9ubGluZSBwb2xpdGljYWwgY29tbXVuaWNhdGlvbiByZXN1bHRlZCBpbiBtdWx0aXBsZSBwZWVyLXJldmlld2VkIHBhcGVycyBhbmQgcHJlc3MgaW4gb3V0bGV0cyBzdWNoIGFzIE5QUiBhbmQgdGhlIFdhbGwgU3RyZWV0IEpvdXJuYWwuIEluIGFkZGl0aW9uIHRvIGFuIGV4cGVyaWVuY2VkIHNvZnR3YXJlIGFuZCB3ZWIgZGV2ZWxvcGVyLCBzaGUgaGFzIHN1Y2Nlc3NmdWxseSBsZWQgdGVhbXMgdG8gc3VjY2VzcyB3aXRoIGRpdmVyc2UgcHJvamVjdHMgdGhyb3VnaG91dCBoZXIgY2FyZWVyIGluIGFjYWRlbWlhLCBub24tcHJvZml0cywgYW5kIGluZHVzdHJ5LiBJbiBoZXIgc3BhcmUgdGltZSwgc2hlIHRlYWNoZXMgYmVnaW5uaW5nIHByb2dyYW1tZXJzLCB2b2x1bnRlZXJzIGhlciB0aW1lIGluIHNvY2lhbCBtb3ZlbWVudHMsIGFuZCBwbGF5cyB0aGUgdHJ1bXBldC4KICAgIDwvcD4KICA8L2Rpdj4KPC9kaXY+Cg==","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8aDI+S2FyaXNzYSBNY0tlbHZleTwvaDI+CiAgPGRpdiBjbGFzcz0iZm91ciBjb2x1bW5zIj4KICAgIDxkaXYgc3R5bGU9IndpZHRoOjIwMHB4OyI+CiAgICAgIDxpbWcgd2lkdGg9IjIwMCIgc3JjPSJodHRwOi8vZW4uZ3JhdmF0YXIuY29tL3VzZXJpbWFnZS8xMTY4ODI3Ny9mMWEwOTViNWQ1MjhmMDY1YmQ2ZTUzODllZjlhYjdkMy5qcGc/c2l6ZT0yMDAiIC8+CiAgICA8L2Rpdj4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJzaXggY29sdW1ucyI+CiAgICA8cD4KICAgICAgS2FyaXNzYSBNY0tlbHZleSBpcyBhIHNvZnR3YXJlIGRldmVsb3Blciwgd3JpdGVyLCBpbnZlbnRvciwgYW5kIGFjdGl2aXN0IHN1cHBvcnRpbmcgYW4gZXF1aXRhYmxlIHdlYi4gRm9ybWVybHkgYSByZXNlYXJjaCBzY2llbnRpc3QgYXQgSW5kaWFuYSBVbml2ZXJzaXR5LCBoZXIgd29yayBzdHVkeWluZyBvbmxpbmUgcG9saXRpY2FsIGNvbW11bmljYXRpb24gcmVzdWx0ZWQgaW4gbXVsdGlwbGUgcGVlci1yZXZpZXdlZCBwYXBlcnMgYW5kIHByZXNzIGluIG91dGxldHMgc3VjaCBhcyBOUFIgYW5kIHRoZSBXYWxsIFN0cmVldCBKb3VybmFsLiBJbiBhZGRpdGlvbiB0byBhbiBleHBlcmllbmNlZCBzb2Z0d2FyZSBhbmQgd2ViIGRldmVsb3Blciwgc2hlIGhhcyBzdWNjZXNzZnVsbHkgbGVkIHRlYW1zIHRvIHN1Y2Nlc3Mgd2l0aCBkaXZlcnNlIHByb2plY3RzIHRocm91Z2hvdXQgaGVyIGNhcmVlciBpbiBhY2FkZW1pYSwgbm9uLXByb2ZpdHMsIGFuZCBpbmR1c3RyeS4gSW4gaGVyIHNwYXJlIHRpbWUsIHNoZSB0ZWFjaGVzIGJlZ2lubmluZyBwcm9ncmFtbWVycywgdm9sdW50ZWVycyBoZXIgdGltZSBpbiBzb2NpYWwgbW92ZW1lbnRzLCBhbmQgcGxheXMgdGhlIHRydW1wZXQuCiAgICA8L3A+CiAgPC9kaXY+CjwvZGl2Pgo=","base64").toString(),
     onrender: function () {
       force(350)
     }
@@ -55,10 +55,10 @@ var routes = [
   },
   {
     url: '/',
-    template: Buffer("PGg1PlJlY2VudCBQb3N0czwvaDU+CjxkaXYgY2xhc3M9InJvdyBwb3N0LWxpc3QiPgogIHt7I2VhY2ggcG9zdHN9fQogIDxkaXYgY2xhc3M9ImJveCBzcXVhcmUiPgogICAgPHNwYW4gY2xhc3M9ImRhdGUiPnt7dXNlZnVsRGF0ZSBkYXRlfX08L3NwYW4+CiAgICA8aDU+PGEgaHJlZj0iL3Bvc3Qve3tpZH19Ij57e3RpdGxlfX08L2E+PC9oNT4KICA8L2Rpdj4KICB7ey9lYWNofX0KPC9kaXY+Cg==","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0iYmxvZyI+Cnt7I2VhY2ggcG9zdHN9fQo8ZGl2IGNsYXNzPSJyb3ciPgogIDxkaXYgY2xhc3M9ImVsZXZlbiBjb2x1bW4gYm94Ij4KICAgIDxzcGFuIGNsYXNzPSJkYXRlIj57e2RhdGV9fTwvc3Bhbj4KICAgIDxoMT48YSBocmVmPSIvcG9zdC97e2lkfX0iPnt7dGl0bGV9fTwvYT48L2gxPgogICAgPGRpdiBjbGFzcz0icm93Ij57e292ZXJ2aWV3IHRleHR9fTwvZGl2PgogIDwvZGl2Pgo8L2Rpdj4Ke3svZWFjaH19CjwvZGl2Pgo=","base64").toString(),
     data: function (params, cb) {
       cb({
-        posts: posts.slice(0, 4)
+        posts: posts
       })
     },
     onrender: function (params, data) {
