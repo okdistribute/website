@@ -53,15 +53,14 @@ var routes = [
   },
   {
     url: '/',
-    template: fs.readFileSync('templates/home.html').toString(),
+    template: fs.readFileSync('templates/blog.html').toString(),
     data: function (params, cb) {
       cb({
-        posts: posts.slice(0, 4)
+        posts: posts
       })
     },
     onrender: function (params, data) {
       force(350)
-    }
   },
   {
     url: '/blog',
