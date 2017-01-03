@@ -152,6 +152,10 @@ code {
   background-color: #111;
 }
 
+.post-list {
+  margin-bottom: 30px;
+}
+
 .post-content {
   padding: 0px 40px 40px 0px;
   margin-bottom: 60px;

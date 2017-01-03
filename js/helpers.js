@@ -18,10 +18,10 @@ Handlebars.registerHelper('relativeDate', function (date) {
 
 Handlebars.registerHelper('overview', function (passedString) {
   var endIndex = passedString.indexOf('<!-- more -->')
-  if (endIndex === -1) endIndex = 300
+  if (endIndex === -1) endIndex = 200
   var theString = passedString.substring(0, endIndex)
   theString += '...'
-  return new Handlebars.SafeString(marked(theString))
+  return new Handlebars.SafeString(theString)
 })
 
 Handlebars.registerHelper('markdown', function (string) {

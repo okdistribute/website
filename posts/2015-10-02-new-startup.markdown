@@ -1,5 +1,1 @@
-I have written a new piece on Medium about my new company, ['Is it Profitable Yet?'.com](http://isitprofitableyet.com).
-
-After massive success from my first company, [isuberprofitableyet.com](http://isuberprofitableyet.com), we are expanding to new markets. 
-
-Check out the post here: [http://medium.com/@karissamck/new-startup-plans-to-hedge-uber-s-bets-fc9e4542936d](http://medium.com/@karissamck/new-startup-plans-to-hedge-uber-s-bets-fc9e4542936d)
+I have written a new piece on Medium about my new company, ['Is it Profitable Yet?'.com](http://isitprofitableyet.com). After massive success from my first company, [isuberprofitableyet.com](http://isuberprofitableyet.com), we are expanding to new markets.  Check out the post here: [http://medium.com/@karissamck/new-startup-plans-to-hedge-uber-s-bets-fc9e4542936d](http://medium.com/@karissamck/new-startup-plans-to-hedge-uber-s-bets-fc9e4542936d)
