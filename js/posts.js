@@ -1,6 +1,12 @@
 var fs = require('fs')
 // ids don't really matter, just don't change them!
 module.exports = [
+  { id: 'job-changes',
+    title: "Now a Board Member of Code for Science and Society",
+    date: "2018-04-05 10:10",
+    categories: ["tech", "dat", "career"],
+    text: fs.readFileSync("posts/2018-3-5-board-member-css.md").toString()
+  },
   {
     id: 'web-of-commons',
     title: 'The Web of Commons',
