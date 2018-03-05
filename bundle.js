@@ -133,7 +133,7 @@ var json = {
     {source: 3, target: 8, value: 2},
     {source: 9, target: 0, value: 1},
     {source: 10, target: 8, value: 10},
-    {source: 11, target: 5, value: 5}
+    {source: 11, target: 0, value: 5}
 
   ]
 }
