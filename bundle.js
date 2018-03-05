@@ -34,14 +34,14 @@ var routes = [
   },
   {
     url: '/about',
-    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8aDI+S2FyaXNzYSBNY0tlbHZleTwvaDI+CiAgPGRpdiBjbGFzcz0iZm91ciBjb2x1bW5zIj4KICAgIDxkaXYgc3R5bGU9IndpZHRoOjIwMHB4OyI+CiAgICAgIDxpbWcgd2lkdGg9IjIwMCIgc3JjPSJodHRwOi8vZW4uZ3JhdmF0YXIuY29tL3VzZXJpbWFnZS8xMTY4ODI3Ny9mMWEwOTViNWQ1MjhmMDY1YmQ2ZTUzODllZjlhYjdkMy5qcGc/c2l6ZT0yMDAiIC8+CiAgICA8L2Rpdj4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJzaXggY29sdW1ucyI+CiAgICA8cD4KICAgICAgS2FyaXNzYSBNY0tlbHZleSBpcyBhIHNvZnR3YXJlIGRldmVsb3Blciwgd3JpdGVyLCBpbnZlbnRvciwgYW5kIGFjdGl2aXN0IHN1cHBvcnRpbmcgYW4gZXF1aXRhYmxlIHdlYi4gRm9ybWVybHkgYSA8YSBocmVmPSJodHRwczovL3NjaG9sYXIuZ29vZ2xlLmNvbS9jaXRhdGlvbnM/dXNlcj1STTJ0QjhFQUFBQUomaGw9ZW4mb2k9YW8iPnJlc2VhcmNoIHNjaWVudGlzdCBhdCBJbmRpYW5hIFVuaXZlcnNpdHk8L2E+LCBoZXIgd29yayBzdHVkeWluZyBvbmxpbmUgcG9saXRpY2FsIGNvbW11bmljYXRpb24gcmVzdWx0ZWQgaW4gbXVsdGlwbGUgcGVlci1yZXZpZXdlZCBwYXBlcnMgYW5kIHByZXNzIGluIG91dGxldHMgc3VjaCBhcyBOUFIgYW5kIHRoZSBXYWxsIFN0cmVldCBKb3VybmFsLiBJbiBhZGRpdGlvbiwgc2hlIGlzIGFuIDxhIGhyZWY9Imh0dHA6Ly9naXRodWIuY29tL2thcmlzc2EiPmV4cGVyaWVuY2VkIHNvZnR3YXJlIGFuZCB3ZWIgZGV2ZWxvcGVyPC9hPiB3aG8gaGFzIHN1Y2Nlc3NmdWxseSBsZWQgdGVhbXMgdG8gc3VjY2VzcyB3aXRoIGRpdmVyc2UgcHJvamVjdHMgdGhyb3VnaG91dCBoZXIgY2FyZWVyIGluIGFjYWRlbWlhLCBub24tcHJvZml0cywgYW5kIGluZHVzdHJ5LiBJbiBoZXIgc3BhcmUgdGltZSwgc2hlIHRlYWNoZXMgYmVnaW5uaW5nIHByb2dyYW1tZXJzLCB2b2x1bnRlZXJzIGhlciB0aW1lIGluIHNvY2lhbCBtb3ZlbWVudHMsIGFuZCBwbGF5cyB0aGUgdHJ1bXBldC4KICAgIDwvcD4KICA8L2Rpdj4KPC9kaXY+Cg==","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8aDI+S2FyaXNzYSBNY0tlbHZleTwvaDI+CiAgPGRpdiBjbGFzcz0idGVuIGNvbHVtbnMiPgogICAgPHA+CiAgICBLYXJpc3NhIE1jS2VsdmV5IGlzIGFuIG9wZW4gc291cmNlIHNvZnR3YXJlIGRldmVsb3Blciwgd3JpdGVyLCBwcm9qZWN0CiAgICBtYW5hZ2VyLCBhbmQgYWN0aXZpc3Qgc3VwcG9ydGluZyBhbiBlcXVpdGFibGUgd2ViLiBTaGUgaXMgYSBTb2Z0d2FyZQogICAgRW5naW5lZXIgZm9yIERpZ2l0YWwgRGVtb2NyYWN5IGFuZCBib2FyZCBtZW1iZXIgb2YgQ29kZSBmb3IgU2NpZW5jZSBhbmQKICAgIFNvY2lldHkuIDxhIGhyZWY9Imh0dHBzOi8vc2Nob2xhci5nb29nbGUuY29tL2NpdGF0aW9ucz91c2VyPVJNMnRCOEVBQUFBSiZobD1lbiZvaT1hbyI+Rm9ybWVybHkgYSBkYXRhIHNjaWVudGlzdCw8L2E+IGhlciB3b3JrIHN0dWR5aW5nIG9ubGluZSBwb2xpdGljYWwKICAgIGNvbW11bmljYXRpb24gcmVzdWx0ZWQgaW4gbXVsdGlwbGUgcGVlci1yZXZpZXdlZCBwYXBlcnMgYW5kIHByZXNzIGluCiAgICBvdXRsZXRzIHN1Y2ggYXMgTlBSIGFuZCB0aGUgV2FsbCBTdHJlZXQgSm91cm5hbC4gSW4gYWRkaXRpb24gdG8gYW4KICAgIGV4cGVyaWVuY2VkIDxhIGhyZWY9Imh0dHA6Ly9naXRodWIuY29tL2thcmlzc2EiPnNvZnR3YXJlIGFuZCB3ZWIgZGV2ZWxvcGVyPC9hPiwgc2hlIGxlYWRzIHRlYW1zIHRvIHN1Y2Nlc3Mgd2l0aAogICAgZGl2ZXJzZSBwcm9qZWN0cyBpbiBhY2FkZW1pYSwgbm9uLXByb2ZpdHMsIGFuZCBpbmR1c3RyeS4gSW4gaGVyIHNwYXJlIHRpbWUKICAgIHNoZSBwbGF5cyB0aGUgdHJ1bXBldCBhbmQgdm9sdW50ZWVycyBhdCBUaGUgRGVidCBDb2xsZWN0aXZlIGFzIGEgdGVjaG5vbG9neQogICAgY29uc3VsdGFudC4KICAgIDwvcD4KICA8L2Rpdj4KICA8aW1nIHdpZHRoPSIyMDAiIHNyYz0iaHR0cHM6Ly9hdmF0YXJzMC5naXRodWJ1c2VyY29udGVudC5jb20vdS82MzMwMTI/dj0zJnM9NDYwIiAvPgo8L2Rpdj4K","base64").toString(),
     onrender: function () {
       force(350)
     }
   },
   {
     url: '/stalkme',
-    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8aDI+U3RhbGsgTWU8L2gyPgogIDxwPkFib3ZlIHRoaXMgdGV4dCwgeW91J2xsIHNlZSBhIGZvcmNlLWxheW91dCBuZXR3b3JrIGRpYWdyYW0gb2YgbXkgb25saW5lIGlkZW50aXRpZXMuIEFueW9uZSBjYW4gZmluZCB0aGVzZSBpbiB0aGUgcHVibGljIGRvbWFpbiB0aHJvdWdoIGRpZ2l0YWwgdHJhY2UgZGF0YSBzdWNoIGFzIGEgR29vZ2xlIHNlYXJjaCBvZiBteSBuYW1lLCBteSBGYWNlYm9vayBwcm9maWxlLCBhbmQgbXkgVHdpdHRlciBhY3Rpdml0eS48L3A+CiAgPHA+RWFjaCA8ZW0+bm9kZTwvZW0+IChpY29uIGFuZCBhIG5hbWUpLCByZXByZXNlbnRzIGFuIGlkZW50aXR5IHJlZmVyZW5jZWQgb24gYSB3ZWJzaXRlLiBFYWNoIDxlbT5lZGdlPC9lbT4gKGxpbmUgYmV0d2VlbiBub2RlcykgcmVwcmVzZW50cyBob3cgdHdvIGlkZW50aXRpZXMgYXJlIHJlbGF0ZWQgdG8gZWFjaG90aGVyLiBZb3UgY2FuIGRyYXcgYW4gZWRnZSBiZXR3ZWVuIHR3byBub2RlcyB3aGVuIG9uZSBub2RlIHJlZmVyZW5jZXMgYW5vdGhlci4gRm9yIGV4YW1wbGUsIG9uIFR3aXR0ZXIsIEkgcmV0d2VldCBhbmQgbWVudGlvbiB0aGUgPGEgaHJlZj0iaHR0cDovL2RlYnRjb2xsZWN0aXZlLm9yZyI+RGVidCBDb2xsZWN0aXZlPC9hPi4gU28sIHRob3NlIHR3byBnYWluIGFuIGVkZ2UgYmV0d2VlbiB0aGVtLjwvcD4KICA8cD5BbnlvbmUgY2FuIHRyYWNlIHRoZSBsaW5lcyBmcm9tIGEgc2luZ2xlIHBvaW50IHRvIHJlbGF0ZSBtdWx0aXBsZSBpZGVudGl0aWVzIHRvIGVhY2hvdGhlciwgYW5kIHVsdGltYXRlbHksIHRvIG15IHJlYWwtd29ybGQgaWRlbnRpdHkuIFRoaXMgaXMgaG93IG1ldGFkYXRhIHN1cHBvcnRzIHRoZSBzdXJ2ZWlsbGFuY2Ugb2YgbXkgcmVhbC13b3JsZCBhbmQgb25saW5lIGFjdGl2aXR5LjwvcD4KICA8cD5GZWVsIGZyZWUgdG8gY2xpY2sgYW5kIGRyYWcgYSBub2RlIGluIHRoZSBncmFwaCB0byBleHBsb3JlIGFuZCB1bmNvdmVyIHRoZSBjb25uZWN0aW9ucy4gRG91YmxlIGNsaWNraW5nIGEgbm9kZSBsZWFkcyB0byB0aGUgcmVmZXJlbmNlZCB3ZWIgcGFnZS48L3A+CjwvZGl2Pgo=","base64").toString(),
+    template: Buffer("PGRpdiBjbGFzcz0icm93Ij4KICA8aDI+R3JhcGggTWU8L2gyPgogIDxwPkFib3ZlIHRoaXMgdGV4dCwgeW91J2xsIHNlZSBhIGZvcmNlLWxheW91dCBuZXR3b3JrIGRpYWdyYW0gb2YgbXkgb25saW5lIGlkZW50aXRpZXMuIEFueW9uZSBjYW4gZmluZCB0aGVzZSBpbiB0aGUgcHVibGljIGRvbWFpbiB0aHJvdWdoIGRpZ2l0YWwgdHJhY2UgZGF0YSBzdWNoIGFzIGEgR29vZ2xlIHNlYXJjaCBvZiBteSBuYW1lLCBteSBGYWNlYm9vayBwcm9maWxlLCBhbmQgbXkgVHdpdHRlciBhY3Rpdml0eS48L3A+CiAgPHA+RWFjaCA8ZW0+bm9kZTwvZW0+IChpY29uIGFuZCBhIG5hbWUpLCByZXByZXNlbnRzIGFuIGlkZW50aXR5IHJlZmVyZW5jZWQgb24gYSB3ZWJzaXRlLiBFYWNoIDxlbT5lZGdlPC9lbT4gKGxpbmUgYmV0d2VlbiBub2RlcykgcmVwcmVzZW50cyBob3cgdHdvIGlkZW50aXRpZXMgYXJlIHJlbGF0ZWQgdG8gZWFjaG90aGVyLiBZb3UgY2FuIGRyYXcgYW4gZWRnZSBiZXR3ZWVuIHR3byBub2RlcyB3aGVuIG9uZSBub2RlIHJlZmVyZW5jZXMgYW5vdGhlci4gRm9yIGV4YW1wbGUsIG9uIFR3aXR0ZXIsIEkgcmV0d2VldCBhbmQgbWVudGlvbiB0aGUgPGEgaHJlZj0iaHR0cDovL2RlYnRjb2xsZWN0aXZlLm9yZyI+RGVidCBDb2xsZWN0aXZlPC9hPi4gU28sIHRob3NlIHR3byBnYWluIGFuIGVkZ2UgYmV0d2VlbiB0aGVtLjwvcD4KICA8cD5BbnlvbmUgY2FuIHRyYWNlIHRoZSBsaW5lcyBmcm9tIGEgc2luZ2xlIHBvaW50IHRvIHJlbGF0ZSBtdWx0aXBsZSBpZGVudGl0aWVzIHRvIGVhY2hvdGhlciwgYW5kIHVsdGltYXRlbHksIHRvIG15IHJlYWwtd29ybGQgaWRlbnRpdHkuIDwvcD4KICA8cD5GZWVsIGZyZWUgdG8gY2xpY2sgYW5kIGRyYWcgYSBub2RlIGluIHRoZSBncmFwaCB0byBleHBsb3JlIGFuZCB1bmNvdmVyIHRoZSBjb25uZWN0aW9ucy4gRG91YmxlIGNsaWNraW5nIGEgbm9kZSBsZWFkcyB0byB0aGUgcmVmZXJlbmNlZCB3ZWIgcGFnZS48L3A+CjwvZGl2Pgo=","base64").toString(),
     onrender: function () {
       force(350)
     }
@@ -107,39 +107,33 @@ var json = {
     {name: '@okdistribute', image: '/images/twitter.ico', url: 'http://twitter.com/okdistribute'},
     {name: 'karissamck', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
     {name: 'karissa.mckelvey', image: '/images/facebook.ico'},
-    {name: 'indiana', image: '/images/indiana.ico', url: 'http://indiana.edu'},
     {name: 'code for science', image: '/images/css-blank.png', url: 'http://codeforscience.org'},
     {name: 'dat', image: '/images/dat.png', url: 'http://dat-data.com'},
-    {name: 'taskforce.is', image: '/images/taskforce.ico', url: 'http://taskforce.is'},
     {name: 'brassliberation', image: '/images/blo.gif', url: 'http://brassliberation.org'},
     {name: 'debtcollective', image: '/images/dc.png', url: 'http://debtcollective.org'},
-    {name: 'karissa', image: '/images/keybase.ico', url: 'http://keybase.io/karissa'},
     {name: 'oakland', image: '/images/oaktree.png', url: 'https://en.wikipedia.org/wiki/Oakland,_California'},
     {name: 'you', image: '/images/laptop.png', cl: 'you'},
-    {name: 'thewyattact', image: '/images/hat-purple.png', url: 'http://thewyattact.com'}
+    {name: 'thewyattact', image: '/images/hat-purple.png', url: 'http://thewyattact.com'},
+    {name: 'digital democracy', image: '/images/ddem.ico', url: 'http://digital-democracy.org'}
   ],
   links: [
     {source: 1, target: 2, value: 1},
     {source: 2, target: 3, value: 1},
     {source: 3, target: 2, value: 1},
-    {source: 3, target: 4, value: 1},
-    {source: 4, target: 1, value: 1},
-    {source: 10, target: 0, value: 1},
+    {source: 8, target: 0, value: 1},
+    {source: 7, target: 2, value: 1},
 
-    {source: 7, target: 9, value: 1},
-    {source: 6, target: 0, value: 1},
-    {source: 6, target: 5, value: 10},
+    {source: 5, target: 0, value: 1},
+    {source: 5, target: 4, value: 10},
+    {source: 6, target: 8, value: 1},
 
-    {source: 8, target: 11, value: 1},
+    {source: 1, target: 8, value: 5},
+    {source: 2, target: 4, value: 2},
 
-    {source: 1, target: 9, value: 5},
-    {source: 2, target: 4, value: 1},
-    {source: 2, target: 5, value: 2},
-
-    {source: 3, target: 11, value: 2},
-    {source: 7, target: 11, value: 2},
-    {source: 12, target: 0, value: 1},
-    {source: 13, target: 11, value: 10},
+    {source: 3, target: 8, value: 2},
+    {source: 9, target: 0, value: 1},
+    {source: 10, target: 8, value: 10},
+    {source: 11, target: 5, value: 5}
 
   ]
 }
@@ -252,6 +246,13 @@ Handlebars.registerHelper('markdown', function (string) {
 
 // ids don't really matter, just don't change them!
 module.exports = [
+  {
+    id: 'web-of-commons',
+    title: 'The Web of Commons',
+    date: "2017-09-22 10:10",
+    categories: ["talk", "tech", "research", "science", "data", "dat"],
+    text: Buffer("SSBnYXZlIGEgS2V5bm90ZSB0YWxrIGF0IFtGdWxsIFN0YWNrIEZlc3RdKGh0dHBzOi8vZnVsbHN0YWNrZmVzdC5jb20pIHRoaXMgbW9udGggaW4gQmFyY2Vsb25hLiBJdCB3YXMgbXkgZmlyc3QgdGltZSBzcGVha2luZyB0byBzdWNoIGEgbGFyZ2UgZ3JvdXAgb2YgZGV2ZWxvcGVycyBhcyB0aGUgS2V5bm90ZSBzcGVha2VyIG9mIHRoZSBkYXkgLS0gdGhlIGZpcnN0IG9uZSBvZiB0aGUgd2VlaywgdG9vIQoKVGhpcyB0aW1lLCBJIHNwb2tlIGFib3V0IGEgY29uY2VwdCBJIGxpa2UgdG8gY2FsbCB0aGUgJ1dlYiBvZiBDb21tb25zJyAtLSBhIHdheSB0byBhcHBseSBjb21tb24gcG9vbCByZXNvdXJjZSBtYW5hZ2VtZW50IHRvIHdlYi1iYXNlZCBhcHBsaWNhdGlvbnMuIEluIHRoaXMgdGFsayBJIHBhcnRpY3VsYXJseSBmb2N1c2VkIGluIG9uIG91ciBhcHBsaWNhdGlvbiBvZiB0aGVzZSB0ZWNobmlxdWVzIHRvIHNjaWVudGlmaWMgZGF0YSBtYW5hZ2VtZW50LiBUaGlzIHdheSBvZiBtYW5hZ2luZyByZXNvdXJjZXMgKGRhdGEsIGluIHRoaXMgY2FzZSkgY291bGQgYWxzbyBiZSBhcHBsaWVkIHRvIHNvY2lhbCBuZXR3b3JrcywgY3JlYXRpdmUgY29tbW9ucywgb3BlbiBzb3VyY2UgY29kZSwgbGlicmFyaWVzLCB3aWtpcywgYW5kIG90aGVyIGtpbmRzIG9mIGZyZWUga25vd2xlZGdlLWJhc2VkIHJlc291cmNlcy4gCgpDaGVjayBvdXQgdGhlIGZ1bGwgd3JpdGV1cCB0aGF0IGludHJvZHVjZXMgdGhlIFdlYiBvZiBDb21tb25zIG9uIHRoZSBEYXQgUHJvamVjdCBibG9nOiBbaHR0cHM6Ly9ibG9nLmRhdHByb2plY3Qub3JnLzIwMTcvMDkvMjEvZGF0LWNvbW1vbnMvXShodHRwczovL2Jsb2cuZGF0cHJvamVjdC5vcmcvMjAxNy8wOS8yMS9kYXQtY29tbW9ucy8pLgo=","base64").toString()
+  },
   {
     id: 'called-out',
     title: "Picking yourself up after being called out",
