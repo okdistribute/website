@@ -1,19 +1,14 @@
 var Handlebars = require('handlebars')
 var relativeDate = require('relative-date')
 var marked = require('marked')
-require('useful-date')
-require('useful-date/locale/en-GB.js')
-
-function newDate (date) {
-  return new Date(date.replace(/-g/, '/'))
-}
+var moment = require('moment')
 
 Handlebars.registerHelper('usefulDate', function (date) {
-  return newDate(date).format('n F Y')
+  return moment(date).format('MMM Do YY')
 })
 
 Handlebars.registerHelper('relativeDate', function (date) {
-  return relativeDate(newDate(date))
+  return relativeDate(moment(date))
 })
 
 Handlebars.registerHelper('overview', function (passedString) {
