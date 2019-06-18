@@ -25,16 +25,12 @@ h2, h3 {
 }
 
 a {
-  text-decoration: none;
-  color: #96d996;
-}
-
-a:visited {
-  color: #96d996;
+  color: #3A505C;
+  text-decoration: underline;
 }
 
 a:hover {
-  color: #123D26;
+  font-weight: bold;
 }
 
 .container {
@@ -79,8 +75,8 @@ body {
   font-weight: 300;
   font-family: Georgia,Cambria,"Times New Roman",Times,serif;
   font-size: 18px;
-  color: #b3b8b3;
-  background-color: #111;
+  color: #403B35;
+  background-color: #E6D5BE;
   font-family: monospace;
 }
 
@@ -91,7 +87,7 @@ textarea {
 .burnout textarea {
   width: 100%;
   height: 250px;
-  background-color: black;
+  background-color: #E6D5BE;
   display: block !important;
 }
 
@@ -112,7 +108,7 @@ textarea {
 }
 
 .link {
-  stroke: #999;
+  stroke: #3A505C;
 }
 
 #graph {
@@ -120,7 +116,7 @@ textarea {
   max-height: 500px;
   width: 100%;
   overflow: hidden;
-  fill: #ccc;
+  fill: #3A505C;
   font-size: 14px;
   font-family: monospace;
 }
@@ -149,7 +145,6 @@ code {
 .box {
   margin-bottom: 20px;
   text-transform: uppercase;
-  background-color: #111;
 }
 
 .post-list {
