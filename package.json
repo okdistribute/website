@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/karissa/karissamck.com.git"
+    "url": "https://github.com/okdistribute/website.git"
   },
-  "author": "Karissa McKelvey <karissa@karissamck.com> (http://karissamck.com/)",
+  "author": "Karissa McKelvey <karissa@karissamck.com> (https://okdistribute.xyz/)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/karissa/karissamck.com/issues"
+    "url": "https://github.com/okdistribute/website/issues"
   },
-  "homepage": "https://github.com/karissa/karissamck.com",
+  "homepage": "https://github.com/okdistribute/website",
   "devDependencies": {
     "page-router": "^1.0.1",
     "brfs": "^1.4.0",
