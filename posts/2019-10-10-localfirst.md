@@ -52,7 +52,7 @@ across the world.
 
 
 <div class="full-width">
-  <img src="/assets/world-ping-times.png" />
+  <img src="/images/world-ping-times.png" />
 </div>
 *Server-to-server round-trip times between AWS datacenters in various locations
 worldwide from [Highly Available Transactions: Virtues and Limitations](https://arxiv.org/pdf/1302.0309.pdf)*
