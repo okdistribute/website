@@ -1,6 +1,18 @@
 var fs = require('fs')
 // ids don't really matter, just don't change them!
 module.exports = [
+  { id: 'localfirst',
+    title: "Local-first software for frontline communities",
+    date: "2019-10-10 10:10",
+    categories: ["tech", "architecture", "localfirst"],
+    text: fs.readFileSync("posts/2019-10-10-localfirst.md").toString()
+  },
+  { id: 'aspen-tech',
+    title: "Aspen Institute's Tech Policy Hub: Results of my fellowship",
+    date: "2019-06-18 10:10",
+    categories: ["fellowship", "report", "career"],
+    text: fs.readFileSync("posts/2019-6-18-aspen-tech-hub.md").toString()
+  },
   { id: 'job-changes',
     title: "Now a Board Member of Code for Science and Society",
     date: "2018-04-05 10:10",
