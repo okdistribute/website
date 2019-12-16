@@ -1,6 +1,12 @@
 var fs = require('fs')
 // ids don't really matter, just don't change them!
 module.exports = [
+  { id: 'surveillance',
+    title: "Surveillance capitalism’s impact on social change efforts, with Allen Gunn",
+    date: "2019-12-11 10:10",
+    categories: ["tech", "interview", "surveillance", "non-profit", "data solidarity"],
+    text: fs.readFileSync("posts/2019-12-12-aspirationinterview.md").toString()
+  },
   { id: 'localfirst',
     title: "Local-first software for frontline communities",
     date: "2019-10-10 10:10",

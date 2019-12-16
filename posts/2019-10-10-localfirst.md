@@ -1,12 +1,6 @@
-This post is part of Digital Democracy's [Technology
-Solidarity](https://www.digital-democracy.org/blog/10-lessons/) series. It also
-appeared on
-[Medium](https://medium.com/technology-solidarity/local-first-software-for-frontline-communities-c643a34831f4)
-and the [Digital Democracy
-Blog](https://www.digital-democracy.org/blog/localfirst/).
-
 Cloud software simply doesn’t work where frontline communities live and where
 oil spills happen. 
+<!-- more -->
 
 For the past 2 years, I've been contributing to the development and deployment
 of [Mapeo](https://mapeo.world). We've built Mapeo differently, with a set of
@@ -15,6 +9,14 @@ principles called “local-first software,” a term coined by [Ink
 allow for both the collaboration and ownership of data entirely offline. This
 software works better, too -- no loading spinners, no broken links, and no data
 hostage. 
+
+This post is part of Digital Democracy's [Technology
+Solidarity](https://www.digital-democracy.org/blog/10-lessons/) series. It also
+appeared on
+[Medium](https://medium.com/technology-solidarity/local-first-software-for-frontline-communities-c643a34831f4)
+and the [Digital Democracy
+Blog](https://www.digital-democracy.org/blog/localfirst/).
+
 
 Local-first means that data is stored on the device (laptop or mobile) first.
 When people are ready to share the data to another device, Mapeo synchronizes

@@ -1,3 +1,7 @@
+This week, I sat down with Allen Gunn, the Executive Director of [Aspiration](www.aspirationtech.org) in San Francisco, USA. He works to help NGOs, activists, foundations and software developers make more effective use of technology for social change.
+
+The common thread that connects all facets of Gunner’s work is a focus on open approaches to capacity building and knowledge sharing in social change efforts. We wanted to speak with him as part of our new Technology Solidarity series, where we’re taking a moment to explore what we’ve learned in conversation with others working at the intersection of technology and human rights.
+
 This post is part of Digital Democracy's [Technology
 Solidarity](https://www.digital-democracy.org/blog/10-lessons/) series. It also
 appeared on
@@ -5,9 +9,6 @@ appeared on
 and the [Digital Democracy
 Blog](https://www.digital-democracy.org/blog/surveillance/)
 
-This week, I sat down with Allen Gunn, the Executive Director of [Aspiration](www.aspirationtech.org) in San Francisco, USA. He works to help NGOs, activists, foundations and software developers make more effective use of technology for social change.
-
-The common thread that connects all facets of Gunner’s work is a focus on open approaches to capacity building and knowledge sharing in social change efforts. We wanted to speak with him as part of our new Technology Solidarity series, where we’re taking a moment to explore what we’ve learned in conversation with others working at the intersection of technology and human rights.
 
 ### K: You have a 10,000-foot view of this space. What do you think are the most pressing issues regarding technology for social change?  
 

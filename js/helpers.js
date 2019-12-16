@@ -16,7 +16,7 @@ Handlebars.registerHelper('overview', function (passedString) {
   if (endIndex === -1) endIndex = 200
   var theString = passedString.substring(0, endIndex)
   theString += '...'
-  return new Handlebars.SafeString(theString)
+  return new Handlebars.SafeString(marked(theString))
 })
 
 Handlebars.registerHelper('markdown', function (string) {
