@@ -128,9 +128,6 @@ code {
   display: block;
 }
 
-.centered {
-  text-align: center;
-}
 
 /* Mobile first queries */
 
@@ -142,21 +139,18 @@ code {
 }
 
 .box {
-  text-align: center;
   margin-bottom: 20px;
-  text-transform: uppercase;
+  text-transform: lowercase;
   font-weight: bold;
   font-family: monospace;
+  color: lightblue;
 }
 
 .post-list {
   background-color: white;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 20px;
-  box-shadow: 3px 2px 2px gray;
-  margin: 20px 0px;
-  margin-bottom: 30px;
+  border-bottom: 1px solid lightblue;
+  box-shadow-bottom: 3px 2px 2px gray;
+  margin: 0px 0px 30px 0px;
 }
 
 .post-content {
