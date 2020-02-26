@@ -1,11 +1,19 @@
 var templater = require('page-router')
+var path = require('path')
 var fs = require('fs')
 var Handlebars = require('handlebars')
+var csvjson = require('csvjson')
+var Handlebars = require('handlebars')
+var relativeDate = require('relative-date')
+var marked = require('marked')
+var moment = require('moment')
 
-var disqus = require('./js/disqus.js')
+var talks = csvjson.toObject(
+  fs.readFileSync(path.join(__dirname, 'talks.csv')).toString(), { delimiter: ',', quote: '"' }
+)
+
 var force = require('./js/force.js')
 var posts = require('./js/posts.js')
-var helpers = require('./js/helpers') // magic :)
 
 var routes = [
   {
@@ -52,12 +60,20 @@ var routes = [
     }
   },
   {
+    url: '/talks',
+    template: fs.readFileSync('templates/talks.html').toString(),
+    data: function (params, cb) {
+      cb({ talks })
+    },
+    onrender: function (params, data) {
+      force(350)
+    }
+  },
+  {
     url: '/',
     template: fs.readFileSync('templates/blog.html').toString(),
     data: function (params, cb) {
-      cb({
-        posts: posts
-      })
+      cb({ posts })
     },
     onrender: function (params, data) {
       force(350)
@@ -67,9 +83,7 @@ var routes = [
     url: '/blog',
     template: fs.readFileSync('templates/blog.html').toString(),
     data: function (params, cb) {
-      cb({
-        posts: posts
-      })
+      cb({ posts })
     },
     onrender: function (params, data) {
       force(350)
@@ -77,9 +91,30 @@ var routes = [
   }
 ]
 
+Handlebars.registerHelper('usefulDate', function (date) {
+  return moment(date).format('MMM Do YY')
+})
+
+Handlebars.registerHelper('relativeDate', function (date) {
+  return relativeDate(moment(date))
+})
+
+Handlebars.registerHelper('overview', function (passedString) {
+  var endIndex = passedString.indexOf('<!-- more -->')
+  if (endIndex === -1) endIndex = 200
+  var theString = passedString.substring(0, endIndex)
+  theString += '...'
+  return new Handlebars.SafeString(marked(theString))
+})
+
+Handlebars.registerHelper('markdown', function (string) {
+  return new Handlebars.SafeString(marked(string))
+})
+
 console.log('if not us, who?')
 
 templater('#content', routes, function (source, data) {
   var template = Handlebars.compile(source)
   return template(data)
 })
+
