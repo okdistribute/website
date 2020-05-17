@@ -1,3 +1,12 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Ubuntu, Cantarell, "Oxygen Sans", "Helvetica Neue", sans-serif;
+  font-weight: 300;
+  font-size: 22px;
+  color: #403B35;
+  background-color: white;
+}
+
 #content img {
   width: 100%;
 }
@@ -12,7 +21,6 @@
 
 h1,h2,h3 a {
   text-decoration: none;
-  font-family: monospace !important;
 }
 
 h1 {
@@ -21,17 +29,18 @@ h1 {
 
 h2, h3 {
   font-size: 26px;
-  margin-top: 40px;
-  margin-bottom: 20px;
+  margin-top: px;
+  margin-bottom: 10px;
 }
 
 a {
-  color: #3A505C;
-  text-decoration: underline;
+  color: #3f52a0;
+  text-decoration: none;
 }
 
 a:hover {
-  font-weight: bold;
+  color: #3f52a0;
+  text-decoration: underline;
 }
 
 .container {
@@ -39,15 +48,16 @@ a:hover {
   margin-top: 40px;
 }
 
-.post-list h2 {
-  border-bottom: 1px solid;
+.post-list h3 {
+  color: red
 }
 
 .date {
   font-size: 14px;
-  color: #666;
+  color: #111;
   text-transform: uppercase;
 }
+
 
 .footer {
   margin-top: 20px;
@@ -70,14 +80,6 @@ blockquote p {
   font-size: .95em;
   border-left: 2px solid green;
   padding-left: 10px;
-}
-
-body {
-  font-weight: 300;
-  font-family: Georgia,Cambria,"Times New Roman",Times,serif;
-  font-size: 22px;
-  color: #403B35;
-  background-color: white;
 }
 
 textarea {
@@ -117,7 +119,6 @@ textarea {
   overflow: hidden;
   fill: #3A505C;
   font-size: 14px;
-  font-family: monospace;
 }
 
 code {
@@ -142,15 +143,48 @@ code {
   margin-bottom: 20px;
   text-transform: lowercase;
   font-weight: bold;
-  font-family: monospace;
-  color: lightblue;
+  color: #3f52a0;
 }
 
 .post-list {
   background-color: white;
-  border-bottom: 1px solid lightblue;
-  box-shadow-bottom: 3px 2px 2px gray;
-  margin: 0px 0px 30px 0px;
+  margin: 10px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.post-list-top {
+  border-style: solid;
+  color: #111;
+  border-width: 1px;
+  border-color: #3f52a0;
+  z-index: 2;
+  background-color: white;
+  padding: 10px;
+  transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg); 
+  transform-style: preserve-3d;
+
+  transition-property: all;
+  transition-property: transform;
+  transition-duration: .4s;
+}
+
+.post-list-bottom {
+  position: absolute;
+  left: 0%;
+  top: 0%;
+  right: 0%;
+  bottom: 0%;
+  background-color: #3f52a0;
+  -webkit-transform: translate(10px, 10px);
+  -ms-transform: translate(10px, 10px);
+  transform: translate(10px, 10px);
+}
+
+.post-list-top:hover {
+  cursor: pointer;
+  background-color: #eee;
+  transform: translate3d(10px, 10px, 10px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg); transform-style: preserve-3d;
 }
 
 .post-content {
@@ -164,10 +198,21 @@ code {
 
 /* Larger than mobile */
 @media (min-width: 400px) {
+
+  .projects .section {
+    display: block;
+  }
 }
 
 /* Larger than phablet */
 @media (min-width: 550px) {
+
+.projects .section {
+  row-gap: 10px;
+  display: grid;
+  grid-template-columns: 200px 300px ;
+}
+
 }
 
 /* Larger than tablet */

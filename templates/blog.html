@@ -1,13 +1,16 @@
 <div class="blog">
 {{#each posts}}
 <div class="row">
-    <div class="eleven column post-list">
+  <div class="eleven column post-list" id={{id}}>
+    <div class="post-list-top">
       <span class="date">{{usefulDate date}}</span>
-  <a href="/post/{{id}}">
-      <h1>{{title}}</a></h1>
-      <span>{{overview text}}</span>
-  </a>
+      <h2 class="label">{{title}}</a></h2>
+      <span class="text">{{overview text}}</span>
     </div>
+    <div class="post-list-bottom">
+    </div>
+  </div>
 </div>
 {{/each}}
 </div>
+

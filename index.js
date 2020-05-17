@@ -71,7 +71,7 @@ var routes = [
   },
   {
     url: '/',
-    template: fs.readFileSync('templates/blog.html').toString(),
+    template: fs.readFileSync('templates/about.html').toString(),
     data: function (params, cb) {
       cb({ posts })
     },
@@ -86,6 +86,7 @@ var routes = [
       cb({ posts })
     },
     onrender: function (params, data) {
+      blog()
       force(350)
     }
   }
@@ -118,3 +119,15 @@ templater('#content', routes, function (source, data) {
   return template(data)
 })
 
+
+function blog () {
+  var list = document.getElementsByClassName('post-list')
+  Array.from(list).forEach((el) => {
+    console.log('el', el)
+    var onclick = () => {
+      console.log('poop')
+      window.location.href = '/post/' + el.getAttribute('id')
+    }
+    el.addEventListener('click', onclick)
+  })
+}
