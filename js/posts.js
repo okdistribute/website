@@ -1,6 +1,30 @@
 var fs = require('fs')
 // ids don't really matter, just don't change them!
 module.exports = [
+  { id: 'dots-report',
+    title: "Introducing Decentralization Off The Shelf",
+    date: "2020-9-1 10:10",
+    categories: [],
+    text: fs.readFileSync("posts/2020-9-1-decentpatterns.md").toString()
+  },
+  { id: 'mapeo',
+    title: "One year of co-design",
+    date: "2020-7-29 10:10",
+    categories: [],
+    text: fs.readFileSync("posts/2020-7-29-codesign.md").toString()
+  },
+  { id: 'dinesh',
+    title: "Renarration and Accessiblity: T B Dinesh on Localized Knowledge in Rural India",
+    date: "2020-6-22 10:10",
+    categories: [],
+    text: fs.readFileSync("posts/2020-6-22-renarration.md").toString()
+  },
+  { id: 'cc',
+    title: "Color Coded: Building Technologies of Respect for Our Collective Liberation",
+    date: "2020-6-17 10:10",
+    categories: [],
+    text: fs.readFileSync("posts/2020-6-17-color-coded.md").toString()
+  },
   { id: 'andoas',
     title: "Reflecting on Bringing MAPEO to Northern Peru",
     date: "2020-2-26 10:10",
