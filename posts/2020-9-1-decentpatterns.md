@@ -1,6 +1,6 @@
 The potential of decentralization to contribute to a more equal society is huge. Where government and corporate control of information are causing harm, decentralized technologies can give power back through new data ownership and governance models. So why are these technologies not more widely adopted? What are the main obstacles to decentralization, and how can we solve them? 
 
-[Read the full report](https://decentpaterns.xyz/report)
+[Read the full report](https://decentpatterns.xyz/report)
 
 In our latest research report, Decentralization Off the Shelf: 7 Maxims, we interviewed 53 practitioners and led workshops with a total of 85 participants to find out. Here are the 7 key changes we need.
 
