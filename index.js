@@ -71,11 +71,12 @@ var routes = [
   },
   {
     url: '/',
-    template: fs.readFileSync('templates/about.html').toString(),
+    template: fs.readFileSync('templates/blog.html').toString(),
     data: function (params, cb) {
       cb({ posts })
     },
     onrender: function (params, data) {
+	  blog()
       force(350)
     }
   },

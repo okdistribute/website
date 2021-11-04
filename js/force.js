@@ -2,37 +2,24 @@ var d3 = require('d3')
 
 var json = {
   nodes: [
-    {name: 'okdistribute', image: '/images/github.ico', url: 'http://github.com/okdistribute'},
     {name: '@okdistribute', image: '/images/twitter.ico', url: 'http://twitter.com/okdistribute'},
+    {name: 'okdistribute', image: '/images/github.ico', url: 'http://github.com/okdistribute'},
     {name: 'karissamck', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
     {name: 'karissa.mckelvey', image: '/images/facebook.ico'},
-    {name: 'code for science', image: '/images/css-blank.png', url: 'http://codeforscience.org'},
-    {name: 'dat', image: '/images/dat.png', url: 'http://dat-data.com'},
-    {name: 'brassliberation', image: '/images/blo.gif', url: 'http://brassliberation.org'},
-    {name: 'debtcollective', image: '/images/dc.png', url: 'http://debtcollective.org'},
     {name: 'oakland', image: '/images/oaktree.png', url: 'https://en.wikipedia.org/wiki/Oakland,_California'},
     {name: 'you', image: '/images/laptop.png', cl: 'you'},
-    {name: 'thewyattact', image: '/images/hat-purple.png', url: 'http://thewyattact.com'},
-    {name: 'digital democracy', image: '/images/ddem.ico', url: 'http://digital-democracy.org'}
+    {name: 'debt collective', image: '/images/dc.png'},
+    {name: 'ink & switch', image: '/images/is.png'}
   ],
   links: [
-    {source: 1, target: 2, value: 1},
+    {source: 1, target: 5, value: 1},
     {source: 2, target: 3, value: 1},
-    {source: 3, target: 2, value: 1},
-    {source: 8, target: 0, value: 1},
-    {source: 7, target: 2, value: 1},
-
-    {source: 5, target: 0, value: 1},
-    {source: 5, target: 4, value: 10},
-    {source: 6, target: 8, value: 1},
-
-    {source: 1, target: 8, value: 5},
+    {source: 3, target: 2, value: 6},
+    {source: 1, target: 0, value: 4},
     {source: 2, target: 4, value: 2},
-
-    {source: 3, target: 8, value: 2},
-    {source: 9, target: 0, value: 1},
-    {source: 10, target: 8, value: 10},
-    {source: 11, target: 0, value: 5}
+    {source: 2, target: 1, value: 2},
+	{source: 0, target: 6, value: 5},
+	{source: 1, target: 7, value: 5}
 
   ]
 }

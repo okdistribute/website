@@ -1,6 +1,18 @@
 var fs = require('fs')
 // ids don't really matter, just don't change them!
 module.exports = [
+  { id: 'backchannel',
+    title: "Backchannel: A relationship-based identity system",
+    date: "2021-9-1 10:10",
+    categories: [],
+    text: fs.readFileSync("posts/2021-9-1-backchannel.md").toString()
+  },
+  { id: 'platforms',
+    title: "Why Social Platforms Should Work More Like Email",
+    date: "2021-2-1 10:10",
+    categories: [],
+    text: fs.readFileSync("posts/2021-2-1-platforms.md").toString()
+  },
   { id: 'dots-report',
     title: "Introducing Decentralization Off The Shelf",
     date: "2020-9-1 10:10",
