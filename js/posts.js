@@ -1,6 +1,12 @@
 var fs = require('fs')
 // ids don't really matter, just don't change them!
 module.exports = [
+  { id: 'upwelling',
+    title: "Upwelling: Combining real-time collaboration with version control for writers.",
+    date: "2023-3-1 10:10",
+    categories: [],
+    text: fs.readFileSync("posts/2023-3-1-upwelling.md").toString()
+  },
   { id: 'backchannel',
     title: "Backchannel: A relationship-based identity system",
     date: "2021-9-1 10:10",
