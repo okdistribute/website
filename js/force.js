@@ -9,7 +9,8 @@ var json = {
     {name: 'oakland', image: '/images/oaktree.png', url: 'https://en.wikipedia.org/wiki/Oakland,_California'},
     {name: 'you', image: '/images/laptop.png', cl: 'you'},
     {name: 'debt collective', image: '/images/dc.png'},
-    {name: 'ink & switch', image: '/images/is.png'}
+    {name: 'ink & switch', image: '/images/is.png'},
+    {name: 'iroh.computer', image: '/images/laptop.png', url: 'https://iroh.computer'}
   ],
   links: [
     {source: 1, target: 5, value: 1},
@@ -19,7 +20,8 @@ var json = {
     {source: 2, target: 4, value: 2},
     {source: 2, target: 1, value: 2},
 	{source: 0, target: 6, value: 5},
-	{source: 1, target: 7, value: 5}
+	{source: 1, target: 7, value: 5},
+	{source: 1, target: 8, value: 5}
 
   ]
 }
