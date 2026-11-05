@@ -2,7 +2,7 @@ var d3 = require('d3')
 
 var json = {
   nodes: [
-    {name: '@okdistribute', image: '/images/twitter.ico', url: 'http://twitter.com/okdistribute'},
+    {name: '@okdistribute.bsky.social', image: '/images/bluesky.svg', url: 'https://bsky.app/profile/okdistribute.bsky.social'},
     {name: 'okdistribute', image: '/images/github.ico', url: 'http://github.com/okdistribute'},
     {name: 'Rae McKelvey', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
     {name: 'Rae McKelvey', image: '/images/facebook.ico'},
