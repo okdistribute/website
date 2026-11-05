@@ -17,7 +17,7 @@ The truth: only 1 of the 9 above disciplines are taught in primary and secondary
 
 Thus, we are hitting an impasse, wherein the computational abilities required to handle our data output are far outpacing our abilities or workforce size. I argue that Data Science has simply emerged from the inability to teach a generation — my generation — about software engineering.
 
-### Why do we trust you, Karissa?
+### Why do we trust you, Rae?
 I have been a research assistant at Indiana University for the past year. By using my computer science skills in conjunction with some social science collaborators with good questions, I’ve been able to put myself in a position that most people don’t find themselves so early in their academic career. The social sciences are loving studies that use these “Big Data”-sets, as we are able to compute things about humans on a larger scale than ever possible before in human history. The field is wide open. You can easily become a wizard … or at least make them think you are.
 
 Run through 400 million social media posts? Get access to a big enough computer and know the library to use, and everything is practically done for you. Nowadays, something that used to take a couple hundred lines of code just a few years ago can now be done like this:

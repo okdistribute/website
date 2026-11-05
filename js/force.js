@@ -4,8 +4,8 @@ var json = {
   nodes: [
     {name: '@okdistribute', image: '/images/twitter.ico', url: 'http://twitter.com/okdistribute'},
     {name: 'okdistribute', image: '/images/github.ico', url: 'http://github.com/okdistribute'},
-    {name: 'karissamck', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
-    {name: 'karissa.mckelvey', image: '/images/facebook.ico'},
+    {name: 'Rae McKelvey', image: '/images/linkedin.ico', url: 'https://www.linkedin.com/in/krmckelv'},
+    {name: 'Rae McKelvey', image: '/images/facebook.ico'},
     {name: 'oakland', image: '/images/oaktree.png', url: 'https://en.wikipedia.org/wiki/Oakland,_California'},
     {name: 'you', image: '/images/laptop.png', cl: 'you'},
     {name: 'debt collective', image: '/images/dc.png'},

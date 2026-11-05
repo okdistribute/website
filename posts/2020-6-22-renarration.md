@@ -2,7 +2,7 @@
 
 *The following is a shortened transcript of a conversation we had in the spring.*
 
-**Karissa: What are you working on these days?**
+**Rae: What are you working on these days?**
 
 **Dinesh:** Our big slow-moving project is focused on local knowledge and local Wi-Fi mesh networks in rural and remote areas in India. 60-70% of India is illiterate -- for all practical purposes, they cannot read or write -- which describes most of the population.
 
@@ -24,7 +24,7 @@ When you look at the axis at any rural school, of 100 children studying, only 5-
 
 They want a way to validate themselves by just talking rather than feeling like they are lesser beings by not knowing how to read and write. I’m not saying they shouldn’t be taught, but to require it invalidates a person, and it’s time to change that.
 
-**Karissa: In typical software development practice based in Europe/US, literacy isn’t really thought of as a key component of accessibility. Cell phones are designed for people who are literate.**
+**Rae: In typical software development practice based in Europe/US, literacy isn’t really thought of as a key component of accessibility. Cell phones are designed for people who are literate.**
 
 **Dinesh:** We looked at the web accessibility guidelines, and all of them expect you to be similarly educated--even if you are blind. If you have eyes but cannot read, there is no web accessibility standard that can be used as a guide. Now if 70-80% of your country is illiterate, this is a problem. Most of these guidelines are made by Western people. Most of the research is coming from the west. They focus on localization (translation), but accessibility needs to go beyond that.
 
@@ -38,7 +38,7 @@ So we work with a web annotation framework. Annotations are another layer over t
 
 For example, the [minimum wage act](http://wiki.janastu.org/wiki/ReNarrationAct) that we've worked on -- many people who need it probably can't read it. A simplified English version of the act was published 30 years later, but otherwise,  it's in legal language. The easy to read version helps the local Indian NGOs understand it. They need a simplified version in order to explain it to their stakeholders - ie., what the act is about, and to provide a general understanding of what minimum wages mean.
 
-**Karissa: What led you to start working on local knowledge?**
+**Rae: What led you to start working on local knowledge?**
 
 **Dinesh:** We started trying to make it easy for NGOs to manage the community knowledge they assimilate when we worked on a platform called Pantoto - communities managing community knowledge. Most of the NGOs we were working with were afraid that their work would get stolen. We tried to explain that if they put their work out on the Web, a reader would be able to look it up and know that it was originally published by them and thus realise if someone was misappropriating their content. For original content, it matters that you put it out there, publish it.
 
@@ -50,7 +50,7 @@ Now, after almost a decade, our work is an attempt to address aspects of accessi
 
 *[Craft Cluster](https://crafts.janastu.org/), Durgadahalli, Tumkur Dist. 2018*
 
-**Karissa: What are some key challenges that you’ve had to overcome while building out this project?**
+**Rae: What are some key challenges that you’ve had to overcome while building out this project?**
 
 **Dinesh:** One challenge we have is how to store all of the information. Everyone has something to say, sing, recipes, stories, lessons … the many ways we learn. But how do we store it? We have created a Wi-Fi mesh network of archives that are locally available on the mesh. Then, all of our tools help people annotate their content so that it's discoverable and navigable.
 
@@ -72,7 +72,7 @@ In the radio studios under lock and key, we don't depend on the internet. We are
 
 *A solar panel with an omni antenna serves as a 24/7 online media server for the WiFi-mesh based community radio activity in a rural and remote context.*
 
-**Karissa: What is a concrete example of local knowledge gathering and its impact?**
+**Rae: What is a concrete example of local knowledge gathering and its impact?**
 
 **Dinesh:** We helped create a document about the Raika bio-cultural protocol (BCP). This village is tending to their camels with an 1000-year-old protocol for living with animals and taking care of them. When there is a top-down law, someone will say, “they don’t know what they're doing.. we need to tell them.” To those at the top, if it's not written down, it doesn't exist. They think that the local community is destroying the environment.
 
@@ -82,7 +82,7 @@ Different people contribute to the whole document. You can also add audio per pa
 
 We are trying to use it as the new standard to do all the annotations. Every edit and re-narration is authored and attributed to the people who contributed.
 
-**Karissa: What is the tension between the global Internet and what's accessible locally?**
+**Rae: What is the tension between the global Internet and what's accessible locally?**
 
 **Dinesh:** People want to use WhatsApp, it's a natural ambient technology. We are not competing with WhatsApp. What we are doing is likely not going to be taken over by any of these big companies. Publishing locally, to the people next to you, is not what these companies are interested in doing. If you talk to a neighbor, the whole narrative is so different.
 
@@ -94,7 +94,7 @@ This is why logging in and authentication becomes so important for these larger 
 
 *Students at rural public school working together and listening to a podcast on the mesh.*
 
-**Karissa: Yes, the concept of ‘authentication’ and ‘anonymity’ does change so drastically when you’re from a small community where everyone knows everyone else. It also seems like you’re engaging in educational practice, teaching journalism and technology.**
+**Rae: Yes, the concept of ‘authentication’ and ‘anonymity’ does change so drastically when you’re from a small community where everyone knows everyone else. It also seems like you’re engaging in educational practice, teaching journalism and technology.**
 
 **Dinesh:** To be honest, it's more educational than their experience at school and very validating. The syllabi for their typical education is set in the capital of the state and pushed down to every village without any contextual knowledge, so that the state has a common metric for who knows addition, multiplication, etc.
 
@@ -102,7 +102,7 @@ They want to know that people have actually learned this.  If the schools teach 
 
 What we’re doing is not about limiting them to a set standard, it's about giving them access and opening them up.
 
-**Karissa: Do they share their stories between communities?**
+**Rae: Do they share their stories between communities?**
 
 **Dinesh:** Our collective has a community radio van, with a solar roof and WiFi, it can go everywhere. This van has a studio in it where people can cut, edit, and publish the stories. When the van comes back to the community, it synchronizes. These are initially in a “raw” bucket and then moved to curated buckets to be picked up by anyone. If you record something in your Pi, it syncs whenever it connects to the network.
 

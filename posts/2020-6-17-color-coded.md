@@ -2,7 +2,7 @@
 
 *To learn more about their work, visit: <https://colorcoded.la/>*
 
-**Karissa: What sparked you to start Color Coded?**
+**Rae: What sparked you to start Color Coded?**
 
 **Cesia:** Color Coded started while we were doing anti-displacement work in Los Angeles before the term “gentrification” and much less “displacement” was part of the narrative.
 
@@ -16,7 +16,7 @@ I left college feeling very angry and resentful. Growing up, I knew about interl
 
 Fast forward to our Color Coded space -- we didn't want to have to do that labor or slow down to explain these topics to privileged folks.
 
-**Karissa: What did it look like when it first started and how did it evolve?**
+**Rae: What did it look like when it first started and how did it evolve?**
 
 **Cesia:** I was working in the NGO industrial complex, some of us were working in the tech industry as well, touching the corporate world a little bit. During the first couple of years, we started meeting around my kitchen table and took up space wherever we could. When my kitchen table wasn't big enough, we took over my job’s office space and would meet there after hours.
 
@@ -30,17 +30,17 @@ To offer our skill-sharing at no cost to our community members, we have blended 
 
 We're 5 years in and we want to celebrate that.
 
-**Karissa: What does “uplifting technologies” look like?**
+**Rae: What does “uplifting technologies” look like?**
 
 **Cesia:** We want to uplift technologies that fall outside of the Western definition. Through our #CommunityTech workshops, we invited community members who are using tech in different ways to share their work. Technology is defined as “applying knowledge or a set of practices towards a practical process.” Our work is about intentionality, it's about rigor, it's about discipline, and really studying what problem you're trying to solve. We know that communities of color have been doing this for decades but lots of these technologies haven’t been recognized or celebrated.
 
 For example, we’ve invited herbalists who are thinking about plant medicine/plant technology. We’ve also worked with a lot of artists who are creating propaganda and other Resistance technologies. Like youth on the street using graffiti as a way to make sure their voices are heard. Maybe they aren't building a website, but they're using a platform to communicate. There is a whole intentionality of processes built-in to that specific way of art-making.
 
-**Karissa: I'm happy you brought in art because most technology today is made for profit. Can you talk about the corporate domination of technologies and how Color Coded relates to it?**
+**Rae: I'm happy you brought in art because most technology today is made for profit. Can you talk about the corporate domination of technologies and how Color Coded relates to it?**
 
 **Cesia:** We don't engage in the corporate tech world, which has been interesting to navigate. We have prioritized building relationships with organizations outside of the tech world but we have also been a bit out of place in traditional movement spaces. We’ve had to do some of that bridge-building. We were excited when there was a whole conference targeting movements, and how technology relates. When Mijente launched their [\#NoTechforICE](https://notechforice.com/) campaign, a lot of organizers began to realize the importance of thinking through how and which digital technologies were present in their work. This is happening at an even larger scale now that the pandemic is pushing us further into the digital realm.
 
-Karissa: Can you talk more about how technology fits into this moment of mass organizing and mobilization?
+Rae: Can you talk more about how technology fits into this moment of mass organizing and mobilization?
 
 **Cesia:** We have been exploring art as an abolition technology. In partnership with [Stop LAPD Spying Coalition,](https://stoplapdspying.org/) we have an art and practice space for abolition called [\#EmbodyAbolition #BuildManyWorlds](https://embodyabolition.us/). Those of us who are targeted by surveillance know what the threats are and we know which carceral technologies are causing harm; we don’t want cops, we don’t want prisons; we don’t want body cams.
 
@@ -52,13 +52,13 @@ The #BuildManyWorlds part is a shout out to Los Zapatistas -- *a world where man
 
 As soon as you start defining what utopia looks like, you start excluding folks. It's part of the technology process -- if you're not constantly maintaining and keeping track of your tech, it's got a bug, and it's going to break. We have to do that kind of maintenance within our systems, our bodies too.
 
-**Karissa: I love that analogy between tech maintenance and maintenance inside ourselves! What other ideas do you have about movements in relation to corporate tech?**
+**Rae: I love that analogy between tech maintenance and maintenance inside ourselves! What other ideas do you have about movements in relation to corporate tech?**
 
 **Cesia:** We know that we can't rely on most tech companies or their products to keep us safe. Amazon and a lot of these Big Tech companies are connected to ICE, DHS, local police departments, and other social services databases. We know that most of the tech we use harms Black, Brown, and Indigenous communities. Lithium and car batteries are contaminating land and people. How do we take this into account for all bodies? Not just humans, but bodies of land, bodies of people, bodies of plants, bodies of animals. How do we have healthy relationships with technology? How do we cultivate healthy tech environments? It's one thing to do interpersonal analysis, but how about the infrastructure it is built upon?
 
 Autonomy is also important to highlight. It's not enough to create our own apps if we don’t have control over the infrastructure. We want an Internet owned by the people and for the people. This can apply to all sorts of technologies that come to us in the form of utilities like electricity and water. Not every community has the capacity to build its own Internet, to build a P2P secure network. But for people to have the autonomy they need to have ownership of these utilities.
 
-**Karissa: What would you tell a funder that agrees with everything you’ve just said and wants to contribute to this kind of work?**
+**Rae: What would you tell a funder that agrees with everything you’ve just said and wants to contribute to this kind of work?**
 
 **Cesia:** Focus on sustaining the folks who are most impacted and who are already doing the work.
 
@@ -70,7 +70,7 @@ Groups like [Trans Queer Pueblo](https://www.tqpueblo.org/), have shifted the wa
 
 At Color Coded, we like to say we don't build for people, we build with people. We want to make sure folks have the skills to make it sustainable once the designers or coders are gone.
 
-**Karissa: Can you say more about co-design and how that plays into your process of ‘getting the work done’?**
+**Rae: Can you say more about co-design and how that plays into your process of ‘getting the work done’?**
 
 **Cesia:** We have been exploring “technologies of respect” for the health and dignity of Black and Indigenous communities. [Dori Tunstall’s](https://news.berkeley.edu/2019/01/25/berkeley-talks-dori-tunstall/#:~:text=Elizabeth%20(Dori)%20Tunstall%20is%20a,of%20a%20faculty%20of%20design.) work explores Decolonizing Design at Ontario College of Art and Design. In Canada, she is able to more deeply do this work because they have legal “reverse racism,” so she was able to hire professors that represented communities from the local nations and actually start handing over decision-making power of the institution to these folks.
 
